@@ -132,7 +132,6 @@ def Count(C, R):
 
 def Colored(LR):
     """Crée les objets dans le canvas"""
-    #A CHANGER
     global screen, RAPORT_CASE_C, RAPORT_CASE_R, NOMBRE_CASE_R, NOMBRE_CASE_C, COULEUR
     if LR == {0, 1}:
         for C in range(NOMBRE_CASE_C):
