@@ -1,3 +1,14 @@
+#########################################
+# groupe DLBI
+# Nabil HAMOUDI
+# Essmay TOUANI
+# Lauren EDOH COFFI
+# Julie VALBERT
+# Chloé GODET
+# https://github.com/Nabil-hamoudi/Projet_generation-de-terrain
+#########################################
+
+
 ########################
 # import des librairies
 

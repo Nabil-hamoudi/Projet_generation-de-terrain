@@ -1,2 +1,2 @@
 # Projet_generation-de-terrain
-Projet genration de tarrain
+Projet generation de terrain
