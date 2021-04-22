@@ -36,7 +36,7 @@ def quadrillage(LR=1):
     #LR = 0,1 ou 3
     #0 => gauche, 1 => Debut, 3 => Droite
     global Chunk, Proba_eau
-    LR = [LR//2, LR%2]
+    LR = [LR//2, LR % 2]
     LR = set(LR)
     for i in LR:
         Chunk[i].append([[-1 for i in range(NOMBRE_CASE_R)]for u in range(NOMBRE_CASE_C)])
@@ -115,7 +115,6 @@ def CompteK(C, R):
         if i not in RES:
             RES.append(i)
     return RES
-    
 
 
 def Count(C, R):
@@ -123,7 +122,6 @@ def Count(C, R):
     global NOMBRE_CASE_R, NOMBRE_CASE_C, Chunk
     count = []
     C_max = NOMBRE_CASE_C - 1
-    R_max = NOMBRE_CASE_R - 1
     for o in [x for x in range(9) if x != 4]:
         C_temp = C - 1 + (o // 3)
         R_temp = R - 1 + (o % 3)
@@ -149,7 +147,6 @@ def Colored(LR):
 def deplacement(LR):
     """genere un terrain a gauche ou droite"""
     quadrillage(LR)
-    
 
 
 ########################
@@ -159,10 +156,7 @@ racine.title("GAME")
 # création des widgets
 canvas = tk.Canvas(racine, bg=COULEUR_FOND, width=LARGEUR, height=HAUTEUR)
 quadrillage()
-quadrillage(1)
-
 # placement des widgets
 canvas.grid(row=1, columnspan=3)
 # boucle principale
 racine.mainloop()
-
