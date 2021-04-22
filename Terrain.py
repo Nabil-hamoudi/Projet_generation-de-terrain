@@ -18,7 +18,7 @@ COULEUR_FOND = "black"
 COULEUR = ["green", "blue"]
 
 Proba_eau = 0.5
-n = 4
+n = 5
 Voisin_Max = 5
 K = 1
 Chunk = [[], []]
@@ -135,13 +135,13 @@ def Colored(LR):
     #A CHANGER
     global screen, RAPORT_CASE_C, RAPORT_CASE_R, NOMBRE_CASE_R, NOMBRE_CASE_C, COULEUR
     if LR == {0, 1}:
-        for C in range(NOMBRE_CASE_C // 2):
-            for R in range(NOMBRE_CASE_R):
-                screen[C][R] = canvas.create_rectangle(C * RAPORT_CASE_C, R * RAPORT_CASE_R, (C + 1) * RAPORT_CASE_C, (R + 1) * RAPORT_CASE_R, fill=COULEUR[Chunk[0][-1][C][R]])
-                temp = C
-                C += NOMBRE_CASE_C // 2
+        for C in range(NOMBRE_CASE_C):
+            for R in range(NOMBRE_CASE_R // 2):
                 screen[C][R] = canvas.create_rectangle(C * RAPORT_CASE_C, R * RAPORT_CASE_R, (C + 1) * RAPORT_CASE_C, (R + 1) * RAPORT_CASE_R, fill=COULEUR[Chunk[1][-1][C][R]])
-                C = temp
+                temp = R
+                R += NOMBRE_CASE_R // 2
+                screen[C][R] = canvas.create_rectangle(C * RAPORT_CASE_C, R * RAPORT_CASE_R, (C + 1) * RAPORT_CASE_C, (R + 1) * RAPORT_CASE_R, fill=COULEUR[Chunk[0][-1][C][R]])
+                R = temp
 
 
 def deplacement(LR):
