@@ -147,10 +147,10 @@ def Colored(LR):
     if LR == {0, 1}:
         for C in range(NOMBRE_CASE_C):
             for R in range(NOMBRE_CASE_R // 2):
-                screen[C][R] = canvas.create_rectangle(C * RAPORT_CASE_C, R * RAPORT_CASE_R, (C + 1) * RAPORT_CASE_C, (R + 1) * RAPORT_CASE_R, fill=COULEUR[Chunk[1][-1][C][R]])
+                screen[C][R] = canvas.create_rectangle(C * RAPORT_CASE_C, R * RAPORT_CASE_R, (C + 1) * RAPORT_CASE_C, (R + 1) * RAPORT_CASE_R, fill=COULEUR[Chunk[1][-1][C][R]], outline=COULEUR[Chunk[1][-1][C][R]])
                 temp = R
                 R += NOMBRE_CASE_R // 2
-                screen[C][R] = canvas.create_rectangle(C * RAPORT_CASE_C, R * RAPORT_CASE_R, (C + 1) * RAPORT_CASE_C, (R + 1) * RAPORT_CASE_R, fill=COULEUR[Chunk[0][-1][C][R]])
+                screen[C][R] = canvas.create_rectangle(C * RAPORT_CASE_C, R * RAPORT_CASE_R, (C + 1) * RAPORT_CASE_C, (R + 1) * RAPORT_CASE_R, fill=COULEUR[Chunk[0][-1][C][R]], outline=COULEUR[Chunk[0][-1][C][R]])
                 R = temp
 
 
