@@ -160,7 +160,7 @@ racine.title("GAME")
 canvas = tk.Canvas(racine, bg=COULEUR_FOND, width=LARGEUR, height=HAUTEUR)
 quadrillage()
 quadrillage(1)
-print(Chunk)
+
 # placement des widgets
 canvas.grid(row=1, columnspan=3)
 # boucle principale
