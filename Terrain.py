@@ -10,8 +10,8 @@ import copy
 
 HAUTEUR = 800
 LARGEUR = 1000
-NOMBRE_CASE_R = 50
-NOMBRE_CASE_C = 50
+NOMBRE_CASE_R = 2
+NOMBRE_CASE_C = 2
 RAPORT_CASE_R = HAUTEUR / NOMBRE_CASE_R
 RAPORT_CASE_C = LARGEUR / NOMBRE_CASE_C
 COULEUR_FOND = "black"
@@ -21,7 +21,7 @@ Proba_eau = 0.5
 n = 4
 Voisin_Max = 5
 K = 1
-Chunk = [[[[-1 for i in range(NOMBRE_CASE_R)]for u in range(NOMBRE_CASE_C)]], [[[-1 for i in range(NOMBRE_CASE_R)]for u in range(NOMBRE_CASE_C)]]]
+Chunk = [[], []]
 #1(0(gauche)/1(droite)) #2(0->(nombre de chunk)) #3(0->(Nombre Case C)) #4(0->(Nombre case R))
 #0 => Terre , 1 => Eau
 TempChunk = []
@@ -39,13 +39,14 @@ def quadrillage(LR=1):
     LR = [LR//2, LR%2]
     LR = set(LR)
     for i in LR:
-        for C, Ch in enumerate(Chunk[i][-1]):
-            for R in range(len(Ch)):
+        Chunk[i].append([[-1 for i in range(NOMBRE_CASE_R)]for u in range(NOMBRE_CASE_C)])
+        for C in range(NOMBRE_CASE_C):
+            for R in range(NOMBRE_CASE_R):
                 Ran = random.random()
                 if Ran <= Proba_eau:
-                    Ch[R] = 1
+                    Chunk[i][-1][C][R] = 1
                 else:
-                    Ch[R] = 0
+                    Chunk[i][-1][C][R] = 0
     Correction(LR)
 
 
@@ -158,6 +159,8 @@ racine.title("GAME")
 # création des widgets
 canvas = tk.Canvas(racine, bg=COULEUR_FOND, width=LARGEUR, height=HAUTEUR)
 quadrillage()
+quadrillage(1)
+print(Chunk)
 # placement des widgets
 canvas.grid(row=1, columnspan=3)
 # boucle principale
