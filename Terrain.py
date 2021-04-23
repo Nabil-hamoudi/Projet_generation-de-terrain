@@ -155,7 +155,7 @@ def Colored(LR):
                 R = temp
 
 
-def deplacement(i, C, R):
+def deplacement(LR):
     """genere un terrain a gauche ou droite"""
     quadrillage(LR)
 
