@@ -29,9 +29,9 @@ COULEUR_FOND = "black"
 COULEUR = ["green", "blue"]
 
 Proba_eau = 0.5
-n = 5
-Voisin_Max = 5
-K = 1
+n = 3
+Voisin_Max = 13
+K = 2
 Chunk = [[], []]
 #1(0(gauche)/1(droite)) #2(0->(nombre de chunk)) #3(0->(Nombre Case C)) #4(0->(Nombre case R))
 #0 => Terre , 1 => Eau
@@ -147,17 +147,17 @@ def Colored(LR):
     if LR == {0, 1}:
         for C in range(NOMBRE_CASE_C):
             for R in range(NOMBRE_CASE_R // 2):
-                screen[C][R] = canvas.create_rectangle(C * RAPORT_CASE_C, R * RAPORT_CASE_R, (C + 1) * RAPORT_CASE_C, (R + 1) * RAPORT_CASE_R, fill=COULEUR[Chunk[1][-1][C][R]], outline=COULEUR[Chunk[1][-1][C][R]])
+                screen[C][R] = canvas.create_rectangle(R * RAPORT_CASE_C, C * RAPORT_CASE_R, (R + 1) * RAPORT_CASE_C, (C + 1) * RAPORT_CASE_R, fill=COULEUR[Chunk[0][-1][C][R+NOMBRE_CASE_R // 2]], outline=COULEUR[Chunk[0][-1][C][R+NOMBRE_CASE_R // 2]])
+                #C * RAPORT_CASE_C, R * RAPORT_CASE_R, (C + 1) * RAPORT_CASE_C, (R + 1) * RAPORT_CASE_R,
                 temp = R
                 R += NOMBRE_CASE_R // 2
-                screen[C][R] = canvas.create_rectangle(C * RAPORT_CASE_C, R * RAPORT_CASE_R, (C + 1) * RAPORT_CASE_C, (R + 1) * RAPORT_CASE_R, fill=COULEUR[Chunk[0][-1][C][R]], outline=COULEUR[Chunk[0][-1][C][R]])
+                screen[C][R] = canvas.create_rectangle(R * RAPORT_CASE_C, C * RAPORT_CASE_R, (R + 1) * RAPORT_CASE_C, (C + 1) * RAPORT_CASE_R, fill=COULEUR[Chunk[1][-1][C][R-NOMBRE_CASE_R // 2]], outline=COULEUR[Chunk[1][-1][C][R-NOMBRE_CASE_R // 2]])
                 R = temp
 
 
-def deplacement(LR):
+def deplacement(i, C, R):
     """genere un terrain a gauche ou droite"""
     quadrillage(LR)
-
 
 ########################
 # programme principal
