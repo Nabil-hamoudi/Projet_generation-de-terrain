@@ -21,8 +21,8 @@ import copy
 
 HAUTEUR = 800
 LARGEUR = 1000
-NOMBRE_CASE_R = 50
-NOMBRE_CASE_C = 50
+NOMBRE_CASE_R = 100
+NOMBRE_CASE_C = 100
 RAPORT_CASE_R = HAUTEUR / NOMBRE_CASE_R
 RAPORT_CASE_C = LARGEUR / NOMBRE_CASE_C
 COULEUR_FOND = "black"
@@ -43,7 +43,7 @@ screen = [[-1 for i in range(NOMBRE_CASE_R)]for u in range(NOMBRE_CASE_C)]
 
 
 def quadrillage(LR=1):
-    """Crée un carré de taille C et R"""
+    """Génére un terrain de base, un terrain a droite ou un terrain a gauche"""
     #LR = 0,1 ou 3
     #0 => gauche, 1 => Debut, 3 => Droite
     global Chunk, Proba_eau
@@ -76,11 +76,10 @@ def Correction(LR):
                         TempChunk.append([C, R, 1])
             for r in TempChunk:
                 Chunk[i][-1][r[0]][r[1]] = r[2]
-    Colored(LR)
 
 
 def Comptage(C, R, i, LR):
-    """Compte les voisin"""
+    """Compte les valeurs des voisin (0 pour terre 1 pour eau)"""
     global NOMBRE_CASE_R, Chunk
     FinalCount = []
     count = CompteK(C, R)
@@ -90,17 +89,13 @@ def Comptage(C, R, i, LR):
             if LR == {0, 1} and i == 0:
                 FinalCount.append([i + 1, 0, n[0], n[1] - NOMBRE_CASE_R])
                 #[i, chunk, C, R]
-            elif i != 1 and LR != {0, 1}:
+            elif LR != {0, 1}:
                 FinalCount.append([i, -1, n[0], n[1] - NOMBRE_CASE_R])
-            else:
-                None
         elif n[1] < 0:
             if LR == {0, 1} and i == 1:
                 FinalCount.append([i - 1, 0, n[0], n[1]])
-            elif i != 0 and LR != {0, 1}:
+            elif LR != {0, 1}:
                 FinalCount.append([i, -1, n[0], n[1]])
-            else:
-                None
         else:
             FinalCount.append([i, 0, n[0], n[1]])
     Nb = 0
@@ -141,23 +136,19 @@ def Count(C, R):
     return count
 
 
-def Colored(LR):
-    """Crée les objets dans le canvas"""
+def Colored(LR=1):
+    """Crée et modifie les objets dans le canvas"""
     global screen, RAPORT_CASE_C, RAPORT_CASE_R, NOMBRE_CASE_R, NOMBRE_CASE_C, COULEUR
-    if LR == {0, 1}:
+    if LR == 1:
         for C in range(NOMBRE_CASE_C):
             for R in range(NOMBRE_CASE_R // 2):
-                screen[C][R] = canvas.create_rectangle(R * RAPORT_CASE_C, C * RAPORT_CASE_R, (R + 1) * RAPORT_CASE_C, (C + 1) * RAPORT_CASE_R, fill=COULEUR[Chunk[0][-1][C][R+NOMBRE_CASE_R // 2]], outline=COULEUR[Chunk[0][-1][C][R+NOMBRE_CASE_R // 2]])
+                temp = R + NOMBRE_CASE_R // 2
+                screen[C][R] = canvas.create_rectangle(R * RAPORT_CASE_C, C * RAPORT_CASE_R, (R + 1) * RAPORT_CASE_C, (C + 1) * RAPORT_CASE_R, fill=COULEUR[Chunk[0][-1][C][temp]], outline=COULEUR[Chunk[0][-1][C][temp]])
                 #C * RAPORT_CASE_C, R * RAPORT_CASE_R, (C + 1) * RAPORT_CASE_C, (R + 1) * RAPORT_CASE_R,
-                temp = R
-                R += NOMBRE_CASE_R // 2
-                screen[C][R] = canvas.create_rectangle(R * RAPORT_CASE_C, C * RAPORT_CASE_R, (R + 1) * RAPORT_CASE_C, (C + 1) * RAPORT_CASE_R, fill=COULEUR[Chunk[1][-1][C][R-NOMBRE_CASE_R // 2]], outline=COULEUR[Chunk[1][-1][C][R-NOMBRE_CASE_R // 2]])
+                temp1 = R
                 R = temp
+                screen[C][R] = canvas.create_rectangle(R * RAPORT_CASE_C, C * RAPORT_CASE_R, (R + 1) * RAPORT_CASE_C, (C + 1) * RAPORT_CASE_R, fill=COULEUR[Chunk[1][-1][C][temp1]], outline=COULEUR[Chunk[1][-1][C][temp1]])
 
-
-def deplacement(LR):
-    """genere un terrain a gauche ou droite"""
-    quadrillage(LR)
 
 ########################
 # programme principal
@@ -166,6 +157,7 @@ racine.title("GAME")
 # création des widgets
 canvas = tk.Canvas(racine, bg=COULEUR_FOND, width=LARGEUR, height=HAUTEUR)
 quadrillage()
+Colored()
 # placement des widgets
 canvas.grid(row=1, columnspan=3)
 # boucle principale
