@@ -21,17 +21,17 @@ import copy
 
 HAUTEUR = 800
 LARGEUR = 1000
-NOMBRE_CASE_R = 100
-NOMBRE_CASE_C = 100
+NOMBRE_CASE_R = 50
+NOMBRE_CASE_C = 50
 RAPORT_CASE_R = HAUTEUR / NOMBRE_CASE_R
 RAPORT_CASE_C = LARGEUR / NOMBRE_CASE_C
 COULEUR_FOND = "black"
 COULEUR = ["green", "blue"]
 
 Proba_eau = 0.5
-n = 3
-Voisin_Max = 13
-K = 2
+n = 4
+Voisin_Max = 5
+K = 1
 Chunk = [[], []]
 #1(0(gauche)/1(droite)) #2(0->(nombre de chunk)) #3(0->(Nombre Case C)) #4(0->(Nombre case R))
 #0 => Terre , 1 => Eau
