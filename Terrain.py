@@ -21,8 +21,8 @@ import copy
 
 HAUTEUR = 800
 LARGEUR = 1000
-NOMBRE_CASE_R = 50
-NOMBRE_CASE_C = 50
+NOMBRE_CASE_R = 8
+NOMBRE_CASE_C = 8
 RAPORT_CASE_R = HAUTEUR / NOMBRE_CASE_R
 RAPORT_CASE_C = LARGEUR / NOMBRE_CASE_C
 COULEUR_FOND = "black"
@@ -142,12 +142,10 @@ def Colored(LR=1):
     if LR == 1:
         for C in range(NOMBRE_CASE_C):
             for R in range(NOMBRE_CASE_R // 2):
-                temp = R + NOMBRE_CASE_R // 2
-                screen[C][R] = canvas.create_rectangle(R * RAPORT_CASE_C, C * RAPORT_CASE_R, (R + 1) * RAPORT_CASE_C, (C + 1) * RAPORT_CASE_R, fill=COULEUR[Chunk[0][-1][C][temp]], outline=COULEUR[Chunk[0][-1][C][temp]])
-                #C * RAPORT_CASE_C, R * RAPORT_CASE_R, (C + 1) * RAPORT_CASE_C, (R + 1) * RAPORT_CASE_R,
-                temp1 = R
-                R = temp
-                screen[C][R] = canvas.create_rectangle(R * RAPORT_CASE_C, C * RAPORT_CASE_R, (R + 1) * RAPORT_CASE_C, (C + 1) * RAPORT_CASE_R, fill=COULEUR[Chunk[1][-1][C][temp1]], outline=COULEUR[Chunk[1][-1][C][temp1]])
+                screen[C][R] = canvas.create_rectangle(R * RAPORT_CASE_C, C * RAPORT_CASE_R, (R + 1) * RAPORT_CASE_C, (C + 1) * RAPORT_CASE_R, fill=COULEUR[Chunk[0][-1][C][R + NOMBRE_CASE_R // 2]], outline=COULEUR[Chunk[0][-1][C][R + NOMBRE_CASE_R // 2]])
+                RChu = R
+                R += NOMBRE_CASE_R // 2
+                screen[C][R] = canvas.create_rectangle(R * RAPORT_CASE_C, C * RAPORT_CASE_R, (R + 1) * RAPORT_CASE_C, (C + 1) * RAPORT_CASE_R, fill=COULEUR[Chunk[1][-1][C][RChu]], outline=COULEUR[Chunk[1][-1][C][RChu]])
 
 
 ########################
@@ -158,6 +156,9 @@ racine.title("GAME")
 canvas = tk.Canvas(racine, bg=COULEUR_FOND, width=LARGEUR, height=HAUTEUR)
 quadrillage()
 Colored()
+print(Chunk)
+quadrillage(0)
+print(Chunk)
 # placement des widgets
 canvas.grid(row=1, columnspan=3)
 # boucle principale
