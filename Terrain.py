@@ -21,8 +21,8 @@ import copy
 
 HAUTEUR = 800
 LARGEUR = 1000
-NOMBRE_CASE_R = 8
-NOMBRE_CASE_C = 8
+NOMBRE_CASE_R = 50
+NOMBRE_CASE_C = 50
 RAPORT_CASE_R = HAUTEUR / NOMBRE_CASE_R
 RAPORT_CASE_C = LARGEUR / NOMBRE_CASE_C
 COULEUR_FOND = "black"
@@ -156,9 +156,6 @@ racine.title("GAME")
 canvas = tk.Canvas(racine, bg=COULEUR_FOND, width=LARGEUR, height=HAUTEUR)
 quadrillage()
 Colored()
-print(Chunk)
-quadrillage(0)
-print(Chunk)
 # placement des widgets
 canvas.grid(row=1, columnspan=3)
 # boucle principale
