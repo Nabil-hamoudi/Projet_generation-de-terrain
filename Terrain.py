@@ -154,12 +154,6 @@ def Count(C, R):
     if LR == 1:
         for C in range(NOMBRE_CASE_C):
             for R in range(NOMBRE_CASE_R // 2):
-<<<<<<< HEAD
-                screen[C][R] = canvas.create_rectangle(R * RAPORT_CASE_C, C * RAPORT_CASE_R, (R + 1) * RAPORT_CASE_C, (C + 1) * RAPORT_CASE_R, fill=COULEUR[Chunk[0][-1][C][R + NOMBRE_CASE_R // 2]], outline=COULEUR[Chunk[0][-1][C][R + NOMBRE_CASE_R // 2]])
-                RChu = R
-                R += NOMBRE_CASE_R // 2
-                screen[C][R] = canvas.create_rectangle(R * RAPORT_CASE_C, C * RAPORT_CASE_R, (R + 1) * RAPORT_CASE_C, (C + 1) * RAPORT_CASE_R, fill=COULEUR[Chunk[1][-1][C][RChu]], outline=COULEUR[Chunk[1][-1][C][RChu]])
-=======
                 temp = R + NOMBRE_CASE_R // 2
                 screen[C][R] = canvas.create_rectangle(R * RAPORT_CASE_C, C * RAPORT_CASE_R, (R + 1) * RAPORT_CASE_C, (C + 1) * RAPORT_CASE_R, fill=COULEUR[Chunk[0][-1][C][temp]], outline=COULEUR[Chunk[0][-1][C][temp]])
                 #C * RAPORT_CASE_C, R * RAPORT_CASE_R, (C + 1) * RAPORT_CASE_C, (R + 1) * RAPORT_CASE_R,
@@ -254,7 +248,6 @@ def deplacement_droite(event):
                 C_perso+=1
                 deplacements.append("d")
 
->>>>>>> 50d2649a5ffb5a6d070863075171145c27fc3fe3
 
 def annule_deplacement(event):
     """Annule le dernier déplacement effectué si on appuie sur Ctrl-z"""
