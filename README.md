@@ -1,4 +1,4 @@
-# Projet Génération de terrain
+# Projet Génération d'un terrain de jeu vidéo
 
 Fonctionnement du jeu :
 
