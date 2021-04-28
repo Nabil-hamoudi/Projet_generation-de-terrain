@@ -1,5 +1,4 @@
-# Projet_génération-de-terrain
-Projet Génération de terrain
+# Projet Génération de terrain
 
 Fonctionnement du jeu :
 
