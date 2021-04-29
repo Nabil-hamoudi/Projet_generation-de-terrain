@@ -176,7 +176,6 @@ def etat_terrain(C, R):
             except:
                 quadrillage(0)
                 etat = Chunk[0][P][C][R]
-                print(P, C, R)
     else:
         R -= NOMBRE_CASE_R//2
         while R >= NOMBRE_CASE_R:
@@ -189,7 +188,6 @@ def etat_terrain(C, R):
             except:
                 quadrillage(3)
                 etat = Chunk[1][P][C][R]
-                print(P, C, R)
     return(etat)
 
 
