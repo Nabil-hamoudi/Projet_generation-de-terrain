@@ -302,7 +302,7 @@ def annule_deplacement(event):
 
 
 def jouer(evt):
-    """lance le jeu lorsque l'on appuie sur play"""
+    """Lance le jeu lorsque l'on appuie sur jouer"""
     global RAPORT_CASE_C, RAPORT_CASE_R, screen
     canvas.delete('all')
     RAPORT_CASE_R = HAUTEUR / NOMBRE_CASE_R
@@ -320,7 +320,7 @@ def jouer(evt):
 
 
 def parametres(evt):
-    """ouvre la fenetre des paramétre"""
+    """Ouvre la fenêtre des paramétres"""
     canvas.delete('all')
 
     canvas.create_text(LARGEUR//2, HAUTEUR//5, text="Paramètres", fill="white", font=('system', '45'))
@@ -330,7 +330,7 @@ def parametres(evt):
 
 
 def taille(evt):
-    """ouvre la fenetre de modification de la taille en nombre de case"""
+    """Ouvre la fenêtre de modification de la taille en nombre de case"""
     global cursor_taille
     canvas.delete('all')
     canvas.create_text(LARGEUR//2, HAUTEUR//5, text="Choix de la taille", fill="white", font=('system', '45'))
@@ -344,7 +344,7 @@ def taille(evt):
 
 
 def option(evt):
-    """ouvre la fenetre des options où on peut changet T, n, p et K"""
+    """Ouvre la fenêtre des options dans laquelle on peut changer T, n, p et K"""
     global cursor_p, cursor_n, cursor_T, cursor_k, label_p, label_n, label_T, label_k
     canvas.delete('all')
     canvas.create_text(LARGEUR//2, HAUTEUR//6, text="Choix des options", fill="white", font=('system', '45'))
@@ -440,7 +440,7 @@ def valider_option(evt):
 
 
 def main_menu(evt=None):
-    """place les objet du menu"""
+    """place les objets du menu"""
     canvas.delete('all')
     canvas.create_text(LARGEUR//2, HAUTEUR//5, text="MINECERAFT", fill="white", font=('system', '40'), tags='sebastien')
     canvas.create_text(LARGEUR//2, 2*HAUTEUR//5, text="Jouer", fill="green", activefill="white", font="Rockwell, 30", tags='jouer')
@@ -449,7 +449,7 @@ def main_menu(evt=None):
 
 
 def main():
-    """ouvre la fenetre et met le menu"""
+    """ouvre la fenêtre et affiche le menu"""
     global fen, canvas, HAUTEUR, LARGEUR, COULEUR_FOND
     fen = tk.Tk()
     fen.title("Génération de terrain de jeu")
