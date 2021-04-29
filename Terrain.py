@@ -274,6 +274,7 @@ def deplacement_droite(event):
             else:
                 Decale(3)
                 deplacements.append("dE")
+                print(deplacements)
 
 
 def annule_deplacement(event):
@@ -282,17 +283,21 @@ def annule_deplacement(event):
     if len(deplacements) > 0:
         if deplacements[len(deplacements)-1] == "h":
             deplacement_bas(event)
+            deplacements.pop()  #suppression du déplacement ajouté par la fonction deplacement appelée ci-dessus
         elif deplacements[len(deplacements)-1] == "b":
             deplacement_haut(event)
+            deplacements.pop()  #suppression du déplacement ajouté par la fonction deplacement appelée ci-dessus
         elif deplacements[len(deplacements)-1] == "g":
             deplacement_droite(event)
+            deplacements.pop()  #suppression du déplacement ajouté par la fonction deplacement appelée ci-dessus
         elif deplacements[len(deplacements)-1] == "d":
             deplacement_gauche(event)
+            deplacements.pop()  #suppression du déplacement ajouté par la fonction deplacement appelée ci-dessus
         elif deplacements[len(deplacements)-1] == "dE":
             Decale(0)
+            print(deplacements)
         elif deplacements[len(deplacements)-1] == "gE":
             Decale(3)
-        deplacements.pop()  #suppression du déplacement ajouté par la fonction deplacement appelée ci-dessus
         deplacements.pop()  #suppression du déplacement annulé
 
 
