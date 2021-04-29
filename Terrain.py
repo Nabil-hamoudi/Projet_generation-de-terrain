@@ -1,7 +1,7 @@
 #########################################
 # groupe DLBI
 # Nabil HAMOUDI
-# Essmay TOUANI
+# Essmay TOUAMI
 # Lauren EDOH COFFI
 # Julie VALBERT
 # Chloé GODET
@@ -15,6 +15,7 @@
 import tkinter as tk
 import random
 import copy
+import tkinter.messagebox
 
 ########################
 # Constantes
@@ -37,6 +38,16 @@ Chunk = [[], []]
 #0 => Terre , 1 => Eau
 TempChunk = []
 screen = [[-1 for i in range(NOMBRE_CASE_R)]for u in range(NOMBRE_CASE_C)]
+
+########################
+# Variables globales
+
+personnage = -1 #cercle rouge représentant le personnage
+perso = False #indique si le personnage existe
+C_perso = -1 #colonne de la case du screen dans laquelle est placé le personnage
+R_perso = -1 #ligne de la case du screen dans laquelle est placé le personnage
+deplacements = [] #liste des déplacements effectués grâce aux flèches du clavier
+
 
 ########################
 # fonctions
@@ -283,8 +294,9 @@ def Count(C, R):
     return count
 
 
-def Colored(LR=1):
-    """Crée et modifie les objets dans le canvas"""
+#fonction Colored de Nabil
+""" def Colored(LR=1):
+    #Crée et modifie les objets dans le canvas
     global screen, RAPORT_CASE_C, RAPORT_CASE_R, NOMBRE_CASE_R, NOMBRE_CASE_C, COULEUR
     if LR == 1:
         for C in range(NOMBRE_CASE_C):
@@ -295,7 +307,110 @@ def Colored(LR=1):
                 temp1 = R
                 R = temp
                 screen[C][R] = canvas.create_rectangle(R * RAPORT_CASE_C, C * RAPORT_CASE_R, (R + 1) * RAPORT_CASE_C, (C + 1) * RAPORT_CASE_R, fill=COULEUR[Chunk[1][-1][C][temp1]], outline=COULEUR[Chunk[1][-1][C][temp1]])
+ """
 
+
+
+def etat_terrain(C,R):
+    """Retourne 0 si c'est une case de terre et 1 si c'est une case d'eau 
+    à partir de la colonne et de la ligne de la partie visible"""
+    if C < NOMBRE_CASE_C//2:
+        etat = Chunk[0][-1][C+NOMBRE_CASE_C//2][R]
+    else:
+        etat = Chunk[1][-1][C-NOMBRE_CASE_C//2][R]
+    return(etat)
+
+
+def Colored(LR=1):
+    """Crée les cases vertes (terre) et bleues (eau)"""
+    global screen, RAPORT_CASE_C, RAPORT_CASE_R, NOMBRE_CASE_R, NOMBRE_CASE_C, COULEUR
+    if LR == 1:
+        for C in range(NOMBRE_CASE_C):
+            for R in range(NOMBRE_CASE_R):
+                screen[C][R] = canvas.create_rectangle(C*RAPORT_CASE_C, R*RAPORT_CASE_R, (C + 1) * RAPORT_CASE_C, (R + 1) * RAPORT_CASE_R, fill=COULEUR[etat_terrain(C,R)])
+
+
+def personnage(event):
+    """Place le personnage sur la case cliquée et le retire si on clique sur la case dans laquelle il est déjà"""
+    global personnage, perso, C_perso, R_perso, deplacements
+    if perso == False:
+        C_perso = int(event.x // RAPORT_CASE_C)
+        R_perso = int(event.y // RAPORT_CASE_R)
+        if etat_terrain(C_perso, R_perso) == 0:
+            personnage = canvas.create_oval(C_perso*RAPORT_CASE_C+RAPORT_CASE_C/3, R_perso*RAPORT_CASE_R+RAPORT_CASE_R/3, C_perso*RAPORT_CASE_C+2*RAPORT_CASE_C/3, R_perso*RAPORT_CASE_R+2*RAPORT_CASE_R/3, fill="red")
+            perso = True
+        else:
+            tk.messagebox.showwarning(title="Attention !", message="Placez-vous sur une case de terre.", default="ok", icon="warning")
+    else:
+        if event.x // RAPORT_CASE_C == C_perso and event.y // RAPORT_CASE_R == R_perso:
+            canvas.delete(personnage)
+            perso = False
+            deplacements = []        
+
+            
+def deplacement_haut(event):
+    """Déplace le personnage d'une case vers le haut si on appuie sur la flèche vers le haut du clavier
+    et enregistre le déplacement"""
+    global personnage, perso, C_perso, R_perso
+    if perso:
+        if R_perso > 0:
+            if etat_terrain(C_perso, R_perso-1) == 0:
+                canvas.move(personnage, 0, -RAPORT_CASE_R)
+                R_perso-=1
+                deplacements.append("h")
+
+
+def deplacement_bas(event):
+    """Déplace le personnage d'une case vers le bas si on appuie sur la flèche vers le bas du clavier
+    et enregistre le déplacement"""
+    global personnage, perso, C_perso, R_perso
+    if perso:
+        if R_perso < NOMBRE_CASE_R - 1:
+            if etat_terrain(C_perso, R_perso+1) == 0:
+                canvas.move(personnage, 0, RAPORT_CASE_R)
+                R_perso+=1
+                deplacements.append("b")
+
+
+def deplacement_gauche(event):
+    """Déplace le personnage d'une case vers la gauche si on appuie sur la flèche vers la gauche du clavier
+    et enregistre le déplacement"""
+    global personnage, perso, C_perso, R_perso
+    if perso:
+        if C_perso > 0:
+            if etat_terrain(C_perso-1, R_perso) == 0:
+                canvas.move(personnage, -RAPORT_CASE_C, 0)
+                C_perso-=1
+                deplacements.append("g")
+
+
+def deplacement_droite(event):
+    """Déplace le personnage d'une case vers la droite si on appuie sur la flèche vers la droite du clavier
+    et enregistre le déplacement"""
+    global personnage, perso, C_perso, R_perso
+    if perso:
+        if C_perso < NOMBRE_CASE_C - 1:
+            if etat_terrain(C_perso+1, R_perso) == 0:
+                canvas.move(personnage, RAPORT_CASE_C, 0)
+                C_perso+=1
+                deplacements.append("d")
+
+
+def annule_deplacement(event):
+    """Annule le dernier déplacement effectué si on appuie sur Ctrl-z"""
+    global deplacements
+    if len(deplacements)>0:
+        if deplacements[len(deplacements)-1] == "h":
+            deplacement_bas(event)
+        elif deplacements[len(deplacements)-1] == "b":
+            deplacement_haut(event)
+        elif deplacements[len(deplacements)-1] == "g":
+            deplacement_droite(event)
+        elif deplacements[len(deplacements)-1] == "d":
+            deplacement_gauche(event)
+        deplacements.pop() #suppression du déplacement ajouté par la fonction deplacement appelée ci-dessus
+        deplacements.pop() #suppression du déplacement annulé
+            
 
 ########################
 # programme principal
@@ -307,4 +422,10 @@ canvas = tk.Canvas(racine, bg=COULEUR_FOND, width=LARGEUR, height=HAUTEUR)
 # placement des widgets
 canvas.grid(row=1, columnspan=3)
 # boucle principale
+canvas.bind('<Button-1>', personnage)
+canvas.bind_all("<Up>", deplacement_haut)
+canvas.bind_all("<Down>", deplacement_bas)
+canvas.bind_all("<Left>", deplacement_gauche)
+canvas.bind_all("<Right>", deplacement_droite)
+canvas.bind_all("<Control-KeyPress-z>", annule_deplacement)
 racine.mainloop()
