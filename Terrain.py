@@ -37,7 +37,6 @@ K = 1
 Chunk = [[], []]
 #1(0(gauche)/1(droite)) #2(0->(nombre de chunk)) #3(0->(Nombre Case C)) #4(0->(Nombre case R))
 #0 => Terre , 1 => Eau
-TempChunk = []
 screen = [[]]
 
 personnage = -1 #cercle rouge représentant le personnage
@@ -58,10 +57,9 @@ def quadrillage(LR=1):
     #LR = 0,1 ou 3
     #0 => gauche, 1 => Debut, 3 => Droite
     global Chunk, p
-    LR = [LR//2, LR % 2]
-    LR = set(LR)
+    LR = set([LR//2, LR % 2])
     for i in LR:
-        Chunk[i].append([[-1 for i in range(NOMBRE_CASE_R)]for u in range(NOMBRE_CASE_C)])
+        Chunk[i].append([[-1 for i in range(NOMBRE_CASE_R)]for u in range(NOMBRE_CASE_C)]) #Crée une Case de taille =>  (NOMBRE_CASE_R x NOMBRE_CASE_C)
         for C in range(NOMBRE_CASE_C):
             for R in range(NOMBRE_CASE_R):
                 Ran = random.random()
@@ -74,12 +72,12 @@ def quadrillage(LR=1):
 
 def Correction(LR):
     """Modifie les Case selon leur voisin"""
-    global n, T, Chunk
-    for k in range(n):
+    global n, T, Chunk, NOMBRE_CASE_R, NOMBRE_CASE_C
+    for _ in range(n):
         for i in LR:
             TempChunk = []
-            for C, Ch in enumerate(Chunk[i][-1]):
-                for R in range(len(Ch)):
+            for C in range(NOMBRE_CASE_C):
+                for R in range(NOMBRE_CASE_R):
                     count = Comptage(C, R, i, LR)
                     if count < T:
                         TempChunk.append([C, R, 0])
@@ -472,6 +470,6 @@ def main():
 
     fen.mainloop()
 
-# programme principal
 
+# programme principal
 main()
