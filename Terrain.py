@@ -176,9 +176,10 @@ def etat_terrain(C, R):
             except:
                 quadrillage(0)
                 etat = Chunk[0][P][C][R]
+                print(P, C, R)
     else:
         R -= NOMBRE_CASE_R//2
-        while R > NOMBRE_CASE_R//2:
+        while R >= NOMBRE_CASE_R:
             P += 1
             R -= NOMBRE_CASE_R
         while True:
@@ -188,6 +189,7 @@ def etat_terrain(C, R):
             except:
                 quadrillage(3)
                 etat = Chunk[1][P][C][R]
+                print(P, C, R)
     return(etat)
 
 
@@ -274,7 +276,6 @@ def deplacement_droite(event):
             else:
                 Decale(3)
                 deplacements.append("dE")
-                print(deplacements)
 
 
 def annule_deplacement(event):
@@ -295,7 +296,6 @@ def annule_deplacement(event):
             deplacements.pop()  #suppression du déplacement ajouté par la fonction deplacement appelée ci-dessus
         elif deplacements[len(deplacements)-1] == "dE":
             Decale(0)
-            print(deplacements)
         elif deplacements[len(deplacements)-1] == "gE":
             Decale(3)
         deplacements.pop()  #suppression du déplacement annulé
