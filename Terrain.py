@@ -47,9 +47,7 @@ R_perso = -1 #ligne de la case du screen dans laquelle est placé le personnage
 deplacements = [] #liste des déplacements effectués grâce aux flèches du clavier
 
 Decalage = 0
-tailleG = 1
-tailleD = 1
-tailleBlocage = 4
+tailleBlocage = 10
 
 ########################
 # fonctions
@@ -153,37 +151,43 @@ def Decale(LR):
     """Decale la map sur la gauche ou la droite"""
     global Decalage, NOMBRE_CASE_R, tailleD, tailleG, tailleBlocage, C_perso, R_perso
     if LR == 0:
-        if ((NOMBRE_CASE_R // tailleBlocage)*tailleG) == (Decalage*-1)%NOMBRE_CASE_R:
-            quadrillage(LR)
-            tailleG += 1
         Decalage -= 1
         Colored(LR)
     elif LR == 3:
-        if ((NOMBRE_CASE_R // tailleBlocage)*tailleD) == Decalage%NOMBRE_CASE_R:
-            quadrillage(LR)
-            tailleD += 1
         Decalage += 1
         Colored(LR)
 
 
-def etat_terrain(C,R):
-    """Retourne 0 si c'est une case de terre et 1 si c'est une case d'eau 
+def etat_terrain(C, R):
+    """Retourne 0 si c'est une case de terre et 1 si c'est une case d'eau
     à partir de la colonne et de la ligne de la partie visible"""
     global Decalage
-    p = 0
+    P = 0
     R += Decalage
     if R < NOMBRE_CASE_R//2:
         R += NOMBRE_CASE_R//2
-        while R < -NOMBRE_CASE_R:
-            p += 1
-            R += NOMBRE_CASE_R 
-        etat = Chunk[0][p][C][R]
+        while R < 0:
+            P += 1
+            R += NOMBRE_CASE_R
+        while True:
+            try:
+                etat = Chunk[0][P][C][R]
+                break
+            except:
+                quadrillage(0)
+                etat = Chunk[0][P][C][R]
     else:
         R -= NOMBRE_CASE_R//2
-        while R > NOMBRE_CASE_R:
-            p += 1
+        while R > NOMBRE_CASE_R//2:
+            P += 1
             R -= NOMBRE_CASE_R
-        etat = Chunk[1][p][C][R]
+        while True:
+            try:
+                etat = Chunk[1][P][C][R]
+                break
+            except:
+                quadrillage(3)
+                etat = Chunk[1][P][C][R]
     return(etat)
 
 
@@ -193,11 +197,11 @@ def Colored(LR=1):
     if LR == 1:
         for C in range(NOMBRE_CASE_C):
             for R in range(NOMBRE_CASE_R):
-                screen[C][R] = canvas.create_rectangle(R*RAPORT_CASE_C, C*RAPORT_CASE_R, (R + 1) * RAPORT_CASE_C, (C + 1) * RAPORT_CASE_R, fill=COULEUR[etat_terrain(C,R)])
+                screen[C][R] = canvas.create_rectangle(R*RAPORT_CASE_C, C*RAPORT_CASE_R, (R + 1) * RAPORT_CASE_C, (C + 1) * RAPORT_CASE_R, fill=COULEUR[etat_terrain(C, R)])
     else:
         for C in range(NOMBRE_CASE_C):
             for R in range(NOMBRE_CASE_R):
-                canvas.itemconfigure(screen[C][R], fill=COULEUR[etat_terrain(C,R)])
+                canvas.itemconfigure(screen[C][R], fill=COULEUR[etat_terrain(C, R)])
 
 
 def personnage(event):
@@ -226,7 +230,7 @@ def deplacement_haut(event):
         if R_perso > 0:
             if etat_terrain(R_perso-1, C_perso) == 0:
                 canvas.move(personnage, 0, -RAPORT_CASE_R)
-                R_perso-=1
+                R_perso -= 1
                 deplacements.append("h")
 
 
@@ -238,7 +242,7 @@ def deplacement_bas(event):
         if R_perso < NOMBRE_CASE_R - 1:
             if etat_terrain(R_perso+1, C_perso) == 0:
                 canvas.move(personnage, 0, RAPORT_CASE_R)
-                R_perso+=1
+                R_perso += 1
                 deplacements.append("b")
 
 
@@ -250,7 +254,7 @@ def deplacement_gauche(event):
         if etat_terrain(R_perso, C_perso-1) == 0:
             if C_perso > NOMBRE_CASE_R // tailleBlocage:
                 canvas.move(personnage, -RAPORT_CASE_C, 0)
-                C_perso-=1
+                C_perso -= 1
                 deplacements.append("g")
             else:
                 Decale(0)
@@ -264,9 +268,9 @@ def deplacement_droite(event):
     if perso:
         if etat_terrain(R_perso, C_perso+1) == 0:
             if C_perso < NOMBRE_CASE_R - (NOMBRE_CASE_R // tailleBlocage):
-                    canvas.move(personnage, RAPORT_CASE_C, 0)
-                    C_perso+=1
-                    deplacements.append("d")
+                canvas.move(personnage, RAPORT_CASE_C, 0)
+                C_perso += 1
+                deplacements.append("d")
             else:
                 Decale(3)
                 deplacements.append("dE")
@@ -275,7 +279,7 @@ def deplacement_droite(event):
 def annule_deplacement(event):
     """Annule le dernier déplacement effectué si on appuie sur Ctrl-z"""
     global deplacements, Decalage
-    if len(deplacements)>0:
+    if len(deplacements) > 0:
         if deplacements[len(deplacements)-1] == "h":
             deplacement_bas(event)
         elif deplacements[len(deplacements)-1] == "b":
@@ -288,8 +292,8 @@ def annule_deplacement(event):
             Decale(0)
         elif deplacements[len(deplacements)-1] == "gE":
             Decale(3)
-        deplacements.pop() #suppression du déplacement ajouté par la fonction deplacement appelée ci-dessus
-        deplacements.pop() #suppression du déplacement annulé
+        deplacements.pop()  #suppression du déplacement ajouté par la fonction deplacement appelée ci-dessus
+        deplacements.pop()  #suppression du déplacement annulé
 
 
 ########################
@@ -329,7 +333,7 @@ def taille(evt):
     global cursor_taille
     canvas.delete('all')
     canvas.create_text(LARGEUR//2, HAUTEUR//5, text="Choix de la taille", fill="white", font=('system', '45'))
-    canvas.create_text(LARGEUR//2, 2*HAUTEUR//5, text="Par défault la taille sera de 50x50 cases !", fill="white", font=('system', '15') )
+    canvas.create_text(LARGEUR//2, 2*HAUTEUR//5, text="Par défault la taille sera de 50x50 cases !", fill="white", font=('system', '15'))
 
     cursor_taille = tk.Scale(canvas, orient='horizontal', from_=2, to=100, tickinterval=98, relief="groove", troughcolor="black", font="system")
     cursor_taille.set(50)
@@ -348,57 +352,56 @@ def option(evt):
     cursor_p.set(0.5)
     cursor_p.place(x=150, y=200)
     cursor_p.bind('<B1-Motion>', scale)
-    label_p = tk.Label(canvas, text= "p = " + str(cursor_p.get()), font="system", bg=COULEUR_FOND, fg="white")
+    label_p = tk.Label(canvas, text="p = " + str(cursor_p.get()), font="system", bg=COULEUR_FOND, fg="white")
     label_p.place(x=158, y=480)
 
     cursor_n = tk.Scale(canvas, from_=0, to=10, tickinterval=10, length=250, bg=COULEUR_FOND, fg="white")
     cursor_n.set(4)
     cursor_n.place(x=300, y=200)
     cursor_n.bind('<B1-Motion>', scale2)
-    label_n = tk.Label(canvas, text= "n = " + str(cursor_n.get()), font="system", bg=COULEUR_FOND, fg="white")
+    label_n = tk.Label(canvas, text="n = " + str(cursor_n.get()), font="system", bg=COULEUR_FOND, fg="white")
     label_n.place(x=308, y=480)
 
-    cursor_T = tk.Scale(canvas, from_=0, to=100,tickinterval=100, length=250, bg=COULEUR_FOND, fg="white")
+    cursor_T = tk.Scale(canvas, from_=0, to=100, tickinterval=100, length=250, bg=COULEUR_FOND, fg="white")
     cursor_T.set(5)
     cursor_T.place(x=450, y=200)
     cursor_T.bind('<B1-Motion>', scale3)
-    label_T = tk.Label(canvas, text= "T = " + str(cursor_T.get()), font="system", bg=COULEUR_FOND, fg="white")
+    label_T = tk.Label(canvas, text="T = " + str(cursor_T.get()), font="system", bg=COULEUR_FOND, fg="white")
     label_T.place(x=458, y=480)
 
     cursor_k = tk.Scale(canvas, from_=0, to=5, tickinterval=5, length=250, bg=COULEUR_FOND, fg="white")
-    cursor_k.set(1) 
+    cursor_k.set(1)
     cursor_k.place(x=600, y=200)
     cursor_k.bind('<B1-Motion>', scale4)
-    label_k = tk.Label(canvas, text= "k = " + str(cursor_k.get()), font="system", bg=COULEUR_FOND, fg="white")
+    label_k = tk.Label(canvas, text="k = " + str(cursor_k.get()), font="system", bg=COULEUR_FOND, fg="white")
     label_k.place(x=608, y=480)
 
     canvas.create_text(LARGEUR//2, 7.2*HAUTEUR//8, text="Valider", fill="white", activefill="green", font="Rockwell, 25", tags='valider_2')
 
 
-
 def scale(evt):
     """affiche p ="""
-    label_p.config(text= "p = " + str(cursor_p.get()))
+    label_p.config(text="p = " + str(cursor_p.get()))
 
 
 def scale2(evt):
     """affiche n ="""
-    label_n.config(text= "n = " + str(cursor_n.get()))
+    label_n.config(text="n = " + str(cursor_n.get()))
 
 
 def scale3(evt):
     """affiche T ="""
-    label_T.config(text= "T = " + str(cursor_T.get()))
+    label_T.config(text="T = " + str(cursor_T.get()))
 
 
 def scale4(evt):
     """affiche K ="""
-    label_k.config(text= "k = " + str(cursor_k.get()))
+    label_k.config(text="k = " + str(cursor_k.get()))
 
 
 def valider_taille(evt):
     """Valide les options de taille du jeu"""
-    global taille, NOMBRE_CASE_C, NOMBRE_CASE_R, HAUTEUR, LARGEUR
+    global taille, NOMBRE_CASE_C, NOMBRE_CASE_R, HAUTEUR, LARGEUR, RAPORT_CASE_C, RAPORT_CASE_R
     taille = cursor_taille.get()
     NOMBRE_CASE_R = taille
     NOMBRE_CASE_C = taille
