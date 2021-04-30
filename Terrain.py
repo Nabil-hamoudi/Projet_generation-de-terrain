@@ -306,8 +306,8 @@ def jouer(evt):
     """Lance le jeu lorsque l'on appuie sur jouer"""
     global canvas, fen, RAPORT_CASE_C, RAPORT_CASE_R, screen, HAUTEUR, LARGEUR, fenetre
     canvas.destroy()
-    LARGEUR = 1920
-    HAUTEUR = 1080
+    LARGEUR = 800
+    HAUTEUR = 600
     canvas = tk.Canvas(fen, width=LARGEUR, height=HAUTEUR, bg=COULEUR_FOND)
     canvas.grid()
     fen.attributes("-fullscreen", fenetre)
