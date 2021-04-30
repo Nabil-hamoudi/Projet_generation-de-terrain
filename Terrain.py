@@ -26,6 +26,7 @@ NOMBRE_CASE_R = 50
 NOMBRE_CASE_C = 50
 COULEUR_FOND = "black"
 COULEUR = ["green", "blue"]
+fenetre = False
 
 ########################
 # Variables globales
@@ -303,8 +304,13 @@ def annule_deplacement(event):
 
 def jouer(evt):
     """Lance le jeu lorsque l'on appuie sur jouer"""
-    global RAPORT_CASE_C, RAPORT_CASE_R, screen
-    canvas.delete('all')
+    global canvas, fen, RAPORT_CASE_C, RAPORT_CASE_R, screen, HAUTEUR, LARGEUR, fenetre
+    canvas.destroy()
+    LARGEUR = 1920
+    HAUTEUR = 1080
+    canvas = tk.Canvas(fen, width=LARGEUR, height=HAUTEUR, bg=COULEUR_FOND)
+    canvas.grid()
+    fen.attributes("-fullscreen", fenetre)
     RAPORT_CASE_R = HAUTEUR / NOMBRE_CASE_R
     RAPORT_CASE_C = LARGEUR / NOMBRE_CASE_C
     screen = [[-1 for i in range(NOMBRE_CASE_R)]for u in range(NOMBRE_CASE_C)]
