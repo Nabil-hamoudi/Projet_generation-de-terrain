@@ -340,13 +340,13 @@ def parametres(evt):
 
 def taille(evt):
     """Ouvre la fenêtre de modification de la taille en nombre de case"""
-    global cursor_taille
+    global cursor_taille, NOMBRE_CASE_C
     canvas.delete('all')
     canvas.create_text(LARGEUR//2, HAUTEUR//5, text="Choix de la taille", fill="white", font=('system', '45'))
     canvas.create_text(LARGEUR//2, 2*HAUTEUR//5, text="Par défault la taille sera de 50x50 cases !", fill="white", font=('system', '15'))
 
     cursor_taille = tk.Scale(canvas, orient='horizontal', from_=2, to=100, tickinterval=98, relief="groove", troughcolor="black", font="system")
-    cursor_taille.set(50)
+    cursor_taille.set(NOMBRE_CASE_C)
     cursor_taille.place(x=200, y=330, width=400)
 
     canvas.create_text(LARGEUR//2, 4*HAUTEUR//5, text="Valider", fill="white", activefill="green", font="Rockwell, 25", tags='valider_1')
