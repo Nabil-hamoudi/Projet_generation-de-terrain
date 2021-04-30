@@ -266,7 +266,7 @@ def deplacement_droite(event):
     global personnage, perso, C_perso, R_perso, tailleBlocage
     if perso:
         if etat_terrain(R_perso, C_perso+1) == 0:
-            if C_perso < NOMBRE_CASE_R - (NOMBRE_CASE_R // tailleBlocage):
+            if C_perso < (NOMBRE_CASE_C - 1) - (NOMBRE_CASE_C // tailleBlocage) and C_perso != (NOMBRE_CASE_C - 1):
                 canvas.move(personnage, RAPORT_CASE_C, 0)
                 C_perso += 1
                 deplacements.append("d")
@@ -316,7 +316,10 @@ def jouer(evt):
     screen = [[-1 for i in range(NOMBRE_CASE_R)]for u in range(NOMBRE_CASE_C)]
     quadrillage()
     Colored()
+    Touchedirectionnel()
 
+def Touchedirectionnel():
+    """Bind les diférente touches directionel pour le jeux"""
     canvas.bind('<Button-1>', personnage)
     canvas.bind_all("<Up>", deplacement_haut)
     canvas.bind_all("<Down>", deplacement_bas)
@@ -351,33 +354,33 @@ def taille(evt):
 
 def option(evt):
     """Ouvre la fenêtre des options dans laquelle on peut changer T, n, p et K"""
-    global cursor_p, cursor_n, cursor_T, cursor_k, label_p, label_n, label_T, label_k
+    global cursor_p, cursor_n, cursor_T, cursor_k, label_p, label_n, label_T, label_k, p, n, T, K
     canvas.delete('all')
     canvas.create_text(LARGEUR//2, HAUTEUR//6, text="Choix des options", fill="white", font=('system', '45'))
 
     cursor_p = tk.Scale(canvas, from_=0, to=1, resolution=0.1, tickinterval=1, length=250, bg=COULEUR_FOND, fg="white")
-    cursor_p.set(0.5)
+    cursor_p.set(p)
     cursor_p.place(x=150, y=200)
     cursor_p.bind('<B1-Motion>', scale)
     label_p = tk.Label(canvas, text="p = " + str(cursor_p.get()), font="system", bg=COULEUR_FOND, fg="white")
     label_p.place(x=158, y=480)
 
     cursor_n = tk.Scale(canvas, from_=0, to=10, tickinterval=10, length=250, bg=COULEUR_FOND, fg="white")
-    cursor_n.set(4)
+    cursor_n.set(n)
     cursor_n.place(x=300, y=200)
     cursor_n.bind('<B1-Motion>', scale2)
     label_n = tk.Label(canvas, text="n = " + str(cursor_n.get()), font="system", bg=COULEUR_FOND, fg="white")
     label_n.place(x=308, y=480)
 
     cursor_T = tk.Scale(canvas, from_=0, to=100, tickinterval=100, length=250, bg=COULEUR_FOND, fg="white")
-    cursor_T.set(5)
+    cursor_T.set(T)
     cursor_T.place(x=450, y=200)
     cursor_T.bind('<B1-Motion>', scale3)
     label_T = tk.Label(canvas, text="T = " + str(cursor_T.get()), font="system", bg=COULEUR_FOND, fg="white")
     label_T.place(x=458, y=480)
 
     cursor_k = tk.Scale(canvas, from_=0, to=5, tickinterval=5, length=250, bg=COULEUR_FOND, fg="white")
-    cursor_k.set(1)
+    cursor_k.set(K)
     cursor_k.place(x=600, y=200)
     cursor_k.bind('<B1-Motion>', scale4)
     label_k = tk.Label(canvas, text="k = " + str(cursor_k.get()), font="system", bg=COULEUR_FOND, fg="white")
