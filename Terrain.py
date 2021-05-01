@@ -22,8 +22,9 @@ import tkinter.messagebox
 
 HAUTEUR = 600
 LARGEUR = 800
-NOMBRE_CASE_R = 50
-NOMBRE_CASE_C = 50
+NOMBRE_CASE = 50
+RAPORT_CASE_R = HAUTEUR / NOMBRE_CASE
+RAPORT_CASE_C = LARGEUR / NOMBRE_CASE
 COULEUR_FOND = "black"
 COULEUR = ["green", "blue"]
 fullscreen = False
@@ -72,11 +73,11 @@ def quadrillage(LR=1):
     LR = set([LR//2, LR % 2])
     for i in LR:
         Chunk[i].append(
-                        [[-1 for i in range(NOMBRE_CASE_R)]for u in range(NOMBRE_CASE_C)]
+                        [[-1 for i in range(NOMBRE_CASE)]for u in range(NOMBRE_CASE)]
                         )
-        # Crée une Case de taille => (NOMBRE_CASE_R x NOMBRE_CASE_C)
-        for C in range(NOMBRE_CASE_C):
-            for R in range(NOMBRE_CASE_R):
+        # Crée une Case de taille => (NOMBRE_CASE x NOMBRE_CASE)
+        for C in range(NOMBRE_CASE):
+            for R in range(NOMBRE_CASE):
                 Ran = random.random()
                 if Ran <= p:
                     Chunk[i][-1][C][R] = 1
@@ -87,12 +88,12 @@ def quadrillage(LR=1):
 
 def Correction(LR):
     """Modifie les Case selon leur voisin"""
-    global n, T, Chunk, NOMBRE_CASE_R, NOMBRE_CASE_C
+    global n, T, Chunk, NOMBRE_CASE
     for _ in range(n):
         for i in LR:
             TempChunk = []
-            for C in range(NOMBRE_CASE_C):
-                for R in range(NOMBRE_CASE_R):
+            for C in range(NOMBRE_CASE):
+                for R in range(NOMBRE_CASE):
                     count = Comptage(C, R, i, LR)
                     if count < T:
                         TempChunk.append([C, R, 0])
@@ -104,17 +105,17 @@ def Correction(LR):
 
 def Comptage(C, R, i, LR):
     """Compte les valeurs des voisin (0 pour terre 1 pour eau)"""
-    global NOMBRE_CASE_R, Chunk
+    global NOMBRE_CASE, Chunk
     FinalCount = []
     count = CompteK(C, R)
     for n in count:
         # R_temp <= R_max and R_temp >= 0:
-        if n[1] >= NOMBRE_CASE_R:
+        if n[1] >= NOMBRE_CASE:
             if LR == {0, 1} and i == 0:
-                FinalCount.append([i + 1, 0, n[0], n[1] - NOMBRE_CASE_R])
+                FinalCount.append([i + 1, 0, n[0], n[1] - NOMBRE_CASE])
                 # [i, chunk, C, R]
             elif LR != {0, 1}:
-                FinalCount.append([i, -1, n[0], n[1] - NOMBRE_CASE_R])
+                FinalCount.append([i, -1, n[0], n[1] - NOMBRE_CASE])
         elif n[1] < 0:
             if LR == {0, 1} and i == 1:
                 FinalCount.append([i - 1, 0, n[0], n[1]])
@@ -149,9 +150,9 @@ def CompteK(C, R):
 
 def Count(C, R):
     """Sort les coordonnées des voisins direct"""
-    global NOMBRE_CASE_R, NOMBRE_CASE_C, Chunk
+    global NOMBRE_CASE, Chunk
     count = []
-    C_max = NOMBRE_CASE_C - 1
+    C_max = NOMBRE_CASE - 1
     for o in [x for x in range(9) if x != 4]:
         C_temp = C - 1 + (o // 3)
         R_temp = R - 1 + (o % 3)
@@ -165,7 +166,7 @@ def Count(C, R):
 
 def Decale(LR):
     """Decale la map sur la gauche ou la droite"""
-    global Decalage, NOMBRE_CASE_R, tailleD
+    global Decalage, NOMBRE_CASE, tailleD
     global tailleG, tailleBlocage, C_perso, R_perso
     if LR == 0:
         Decalage -= 1
@@ -181,11 +182,11 @@ def etat_terrain(C, R):
     global Decalage
     P = 0
     R += Decalage
-    if R < NOMBRE_CASE_R//2:
-        R += NOMBRE_CASE_R//2
+    if R < NOMBRE_CASE//2:
+        R += NOMBRE_CASE//2
         while R < 0:
             P += 1
-            R += NOMBRE_CASE_R
+            R += NOMBRE_CASE
         while True:
             try:
                 etat = Chunk[0][P][C][R]
@@ -194,10 +195,10 @@ def etat_terrain(C, R):
                 quadrillage(0)
                 etat = Chunk[0][P][C][R]
     else:
-        R -= NOMBRE_CASE_R//2
-        while R >= NOMBRE_CASE_R:
+        R -= NOMBRE_CASE//2
+        while R >= NOMBRE_CASE:
             P += 1
-            R -= NOMBRE_CASE_R
+            R -= NOMBRE_CASE
         while True:
             try:
                 etat = Chunk[1][P][C][R]
@@ -212,10 +213,10 @@ def Colored(LR=1):
     """Crée les cases vertes (terre) et bleues (eau)
     ou modifie les case existante"""
     global screen, RAPORT_CASE_C, RAPORT_CASE_R
-    global NOMBRE_CASE_R, NOMBRE_CASE_C, COULEUR
+    global NOMBRE_CASE, COULEUR
     if LR == 1:
-        for C in range(NOMBRE_CASE_C):
-            for R in range(NOMBRE_CASE_R):
+        for C in range(NOMBRE_CASE):
+            for R in range(NOMBRE_CASE):
                 screen[C][R] = canvas.create_rectangle(
                                                        R*RAPORT_CASE_C,
                                                        C*RAPORT_CASE_R,
@@ -224,8 +225,8 @@ def Colored(LR=1):
                                                        fill=COULEUR[etat_terrain(C, R)]
                                                       )
     else:
-        for C in range(NOMBRE_CASE_C):
-            for R in range(NOMBRE_CASE_R):
+        for C in range(NOMBRE_CASE):
+            for R in range(NOMBRE_CASE):
                 canvas.itemconfigure(
                                     screen[C][R],
                                     fill=COULEUR[etat_terrain(C, R)]
@@ -280,7 +281,7 @@ def deplacement_bas(event):
     et enregistre le déplacement"""
     global personnage, perso, C_perso, R_perso
     if perso:
-        if R_perso < NOMBRE_CASE_R - 1:
+        if R_perso < NOMBRE_CASE - 1:
             if etat_terrain(R_perso+1, C_perso) == 0:
                 canvas.move(personnage, 0, RAPORT_CASE_R)
                 R_perso += 1
@@ -294,7 +295,7 @@ def deplacement_gauche(event):
     global personnage, perso, C_perso, R_perso, tailleBlocage
     if perso:
         if etat_terrain(R_perso, C_perso-1) == 0:
-            if C_perso > NOMBRE_CASE_R // tailleBlocage:
+            if C_perso > NOMBRE_CASE // tailleBlocage:
                 canvas.move(personnage, -RAPORT_CASE_C, 0)
                 C_perso -= 1
                 deplacements.append("g")
@@ -310,7 +311,7 @@ def deplacement_droite(event):
     global personnage, perso, C_perso, R_perso, tailleBlocage
     if perso:
         if etat_terrain(R_perso, C_perso+1) == 0:
-            if C_perso < (NOMBRE_CASE_C - 1)-(NOMBRE_CASE_C // tailleBlocage) and C_perso != (NOMBRE_CASE_C - 1):
+            if C_perso < (NOMBRE_CASE - 1)-(NOMBRE_CASE // tailleBlocage) and C_perso != (NOMBRE_CASE - 1):
                 canvas.move(personnage, RAPORT_CASE_C, 0)
                 C_perso += 1
                 deplacements.append("d")
@@ -357,9 +358,9 @@ def jouer(evt):
     canvas = tk.Canvas(fen, width=LARGEUR, height=HAUTEUR, bg=COULEUR_FOND)
     canvas.grid()
     fen.attributes("-fullscreen", fullscreen)
-    RAPORT_CASE_R = HAUTEUR / NOMBRE_CASE_R
-    RAPORT_CASE_C = LARGEUR / NOMBRE_CASE_C
-    screen = [[-1 for i in range(NOMBRE_CASE_R)]for u in range(NOMBRE_CASE_C)]
+    RAPORT_CASE_R = HAUTEUR / NOMBRE_CASE
+    RAPORT_CASE_C = LARGEUR / NOMBRE_CASE
+    screen = [[-1 for i in range(NOMBRE_CASE)]for u in range(NOMBRE_CASE)]
     quadrillage()
     Colored()
     Touchedirectionnel()
@@ -402,7 +403,7 @@ def parametres(evt):
 
 def taille(evt):
     """Ouvre la fenêtre de modification de la taille en nombre de case"""
-    global cursor_taille, NOMBRE_CASE_C
+    global cursor_taille, NOMBRE_CASE
     canvas.delete('all')
     canvas.create_text(
                        LARGEUR//2, HAUTEUR//5,
@@ -421,7 +422,7 @@ def taille(evt):
                              relief="groove", troughcolor="black",
                              font="system"
                              )
-    cursor_taille.set(NOMBRE_CASE_C)
+    cursor_taille.set(NOMBRE_CASE)
     cursor_taille.place(x=200, y=330, width=400)
 
     canvas.create_text(
@@ -533,13 +534,10 @@ def scale4(evt):
 
 def valider_taille(evt):
     """Valide les options de taille du jeu"""
-    global taille, NOMBRE_CASE_C, NOMBRE_CASE_R, HAUTEUR
+    global taille, NOMBRE_CASE, HAUTEUR
     global LARGEUR, RAPORT_CASE_C, RAPORT_CASE_R
     taille = cursor_taille.get()
-    NOMBRE_CASE_R = taille
-    NOMBRE_CASE_C = taille
-    RAPORT_CASE_R = HAUTEUR / NOMBRE_CASE_R
-    RAPORT_CASE_C = LARGEUR / NOMBRE_CASE_C
+    NOMBRE_CASE = taille
     canvas.delete('all')
     cursor_taille.destroy()
     cursor_taille.destroy()
