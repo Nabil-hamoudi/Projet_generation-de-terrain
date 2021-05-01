@@ -26,31 +26,34 @@ NOMBRE_CASE_R = 50
 NOMBRE_CASE_C = 50
 COULEUR_FOND = "black"
 COULEUR = ["green", "blue"]
-fenetre = False
-
-########################
-# Variables globales
-
+fullscreen = False
 p = 0.5
 n = 4
 T = 5
 K = 1
+
+########################
+# Variables globales
+
 Chunk = [[], []]
 #1(0(gauche)/1(droite)) #2(0->(nombre de chunk)) #3(0->(Nombre Case C)) #4(0->(Nombre case R))
 #0 => Terre , 1 => Eau
 screen = [[]]
 
-personnage = -1 #cercle rouge représentant le personnage
-perso = False #indique si le personnage existe
-C_perso = -1 #colonne de la case du screen dans laquelle est placé le personnage
-R_perso = -1 #ligne de la case du screen dans laquelle est placé le personnage
-deplacements = [] #liste des déplacements effectués grâce aux flèches du clavier
+personnage = -1  #cercle rouge représentant le personnage
+perso = False  #indique si le personnage existe
+C_perso = -1  #colonne de la case du screen dans laquelle est placé le personnage
+R_perso = -1  #ligne de la case du screen dans laquelle est placé le personnage
+deplacements = []  #liste des déplacements effectués grâce aux flèches du clavier
 
 Decalage = 0
 tailleBlocage = 10
 
 ########################
 # fonctions
+
+########################
+#Génération du terrain
 
 
 def quadrillage(LR=1):
@@ -60,7 +63,7 @@ def quadrillage(LR=1):
     global Chunk, p
     LR = set([LR//2, LR % 2])
     for i in LR:
-        Chunk[i].append([[-1 for i in range(NOMBRE_CASE_R)]for u in range(NOMBRE_CASE_C)]) #Crée une Case de taille =>  (NOMBRE_CASE_R x NOMBRE_CASE_C)
+        Chunk[i].append([[-1 for i in range(NOMBRE_CASE_R)]for u in range(NOMBRE_CASE_C)])  #Crée une Case de taille =>  (NOMBRE_CASE_R x NOMBRE_CASE_C)
         for C in range(NOMBRE_CASE_C):
             for R in range(NOMBRE_CASE_R):
                 Ran = random.random()
@@ -146,9 +149,13 @@ def Count(C, R):
     return count
 
 
+####################################
+#Déplacement du perssonage et création du terrain
+
 def Decale(LR):
     """Decale la map sur la gauche ou la droite"""
-    global Decalage, NOMBRE_CASE_R, tailleD, tailleG, tailleBlocage, C_perso, R_perso
+    global Decalage, NOMBRE_CASE_R, tailleD
+    global tailleG, tailleBlocage, C_perso, R_perso
     if LR == 0:
         Decalage -= 1
         Colored(LR)
@@ -191,29 +198,51 @@ def etat_terrain(C, R):
 
 
 def Colored(LR=1):
-    """Crée les cases vertes (terre) et bleues (eau) ou modifie les case existante"""
-    global screen, RAPORT_CASE_C, RAPORT_CASE_R, NOMBRE_CASE_R, NOMBRE_CASE_C, COULEUR
+    """Crée les cases vertes (terre) et bleues (eau)
+    ou modifie les case existante"""
+    global screen, RAPORT_CASE_C, RAPORT_CASE_R
+    global NOMBRE_CASE_R, NOMBRE_CASE_C, COULEUR
     if LR == 1:
         for C in range(NOMBRE_CASE_C):
             for R in range(NOMBRE_CASE_R):
-                screen[C][R] = canvas.create_rectangle(R*RAPORT_CASE_C, C*RAPORT_CASE_R, (R + 1) * RAPORT_CASE_C, (C + 1) * RAPORT_CASE_R, fill=COULEUR[etat_terrain(C, R)])
+                screen[C][R] = canvas.create_rectangle(
+                                                       R*RAPORT_CASE_C,
+                                                       C*RAPORT_CASE_R,
+                                                       (R + 1) * RAPORT_CASE_C,
+                                                       (C + 1) * RAPORT_CASE_R,
+                                                       fill=COULEUR[etat_terrain(C, R)]
+                                                      )
     else:
         for C in range(NOMBRE_CASE_C):
             for R in range(NOMBRE_CASE_R):
-                canvas.itemconfigure(screen[C][R], fill=COULEUR[etat_terrain(C, R)])
+                canvas.itemconfigure(
+                                    screen[C][R],
+                                    fill=COULEUR[etat_terrain(C, R)]
+                                    )
 
 
 def personnage(event):
-    """Place le personnage sur la case cliquée et le retire si on clique sur la case dans laquelle il est déjà"""
+    """Place le personnage sur la case cliquée
+    et le retire si on clique sur la case dans laquelle il est déjà"""
     global personnage, perso, C_perso, R_perso, i_perso, deplacements
     if not perso:
         C_perso = int(event.x // RAPORT_CASE_C)
         R_perso = int(event.y // RAPORT_CASE_R)
         if etat_terrain(R_perso, C_perso) == 0:
-            personnage = canvas.create_oval(C_perso*RAPORT_CASE_C+RAPORT_CASE_C/3, R_perso*RAPORT_CASE_R+RAPORT_CASE_R/3, C_perso*RAPORT_CASE_C+2*RAPORT_CASE_C/3, R_perso*RAPORT_CASE_R+2*RAPORT_CASE_R/3, fill="red")
+            personnage = canvas.create_oval(
+                                           C_perso*RAPORT_CASE_C+RAPORT_CASE_C/3,
+                                           R_perso*RAPORT_CASE_R+RAPORT_CASE_R/3,
+                                           C_perso*RAPORT_CASE_C+2*RAPORT_CASE_C/3,
+                                           R_perso*RAPORT_CASE_R+2*RAPORT_CASE_R/3,
+                                           fill="red"
+                                           )
             perso = True
         else:
-            tk.messagebox.showwarning(title="Attention !", message="Placez-vous sur une case de terre.", default="ok", icon="warning")
+            tk.messagebox.showwarning(
+                                      title="Attention !",
+                                      message="Placez-vous sur une case de terre.",
+                                      default="ok", icon="warning"
+                                      )
     else:
         if event.x // RAPORT_CASE_C == C_perso and event.y // RAPORT_CASE_R == R_perso:
             canvas.delete(personnage)
@@ -222,7 +251,8 @@ def personnage(event):
 
 
 def deplacement_haut(event):
-    """Déplace le personnage d'une case vers le haut si on appuie sur la flèche vers le haut du clavier
+    """Déplace le personnage d'une case
+    vers le haut si on appuie sur la flèche vers le haut du clavier
     et enregistre le déplacement"""
     global personnage, perso, C_perso, R_perso
     if perso:
@@ -234,7 +264,8 @@ def deplacement_haut(event):
 
 
 def deplacement_bas(event):
-    """Déplace le personnage d'une case vers le bas si on appuie sur la flèche vers le bas du clavier
+    """Déplace le personnage d'une case vers le bas
+    si on appuie sur la flèche du bas du clavier
     et enregistre le déplacement"""
     global personnage, perso, C_perso, R_perso
     if perso:
@@ -246,7 +277,8 @@ def deplacement_bas(event):
 
 
 def deplacement_gauche(event):
-    """Déplace le personnage d'une case vers la gauche si on appuie sur la flèche vers la gauche du clavier
+    """Déplace le personnage d'une case vers la gauche
+    si on appuie sur la flèche de gauche du clavier
     et enregistre le déplacement"""
     global personnage, perso, C_perso, R_perso, tailleBlocage
     if perso:
@@ -261,12 +293,13 @@ def deplacement_gauche(event):
 
 
 def deplacement_droite(event):
-    """Déplace le personnage d'une case vers la droite si on appuie sur la flèche vers la droite du clavier
+    """Déplace le personnage d'une case vers la droite
+    si on appuie sur la flèche de droite du clavier
     et enregistre le déplacement"""
     global personnage, perso, C_perso, R_perso, tailleBlocage
     if perso:
         if etat_terrain(R_perso, C_perso+1) == 0:
-            if C_perso < (NOMBRE_CASE_C - 1) - (NOMBRE_CASE_C // tailleBlocage) and C_perso != (NOMBRE_CASE_C - 1):
+            if C_perso < (NOMBRE_CASE_C - 1)-(NOMBRE_CASE_C // tailleBlocage) and C_perso != (NOMBRE_CASE_C - 1):
                 canvas.move(personnage, RAPORT_CASE_C, 0)
                 C_perso += 1
                 deplacements.append("d")
@@ -281,16 +314,17 @@ def annule_deplacement(event):
     if len(deplacements) > 0:
         if deplacements[len(deplacements)-1] == "h":
             deplacement_bas(event)
-            deplacements.pop()  #suppression du déplacement ajouté par la fonction deplacement appelée ci-dessus
+            deplacements.pop()
+            #suppression le déplacement ajouté par la fonction deplacement
         elif deplacements[len(deplacements)-1] == "b":
             deplacement_haut(event)
-            deplacements.pop()  #suppression du déplacement ajouté par la fonction deplacement appelée ci-dessus
+            deplacements.pop()
         elif deplacements[len(deplacements)-1] == "g":
             deplacement_droite(event)
-            deplacements.pop()  #suppression du déplacement ajouté par la fonction deplacement appelée ci-dessus
+            deplacements.pop()
         elif deplacements[len(deplacements)-1] == "d":
             deplacement_gauche(event)
-            deplacements.pop()  #suppression du déplacement ajouté par la fonction deplacement appelée ci-dessus
+            deplacements.pop()
         elif deplacements[len(deplacements)-1] == "dE":
             Decale(0)
         elif deplacements[len(deplacements)-1] == "gE":
@@ -299,24 +333,26 @@ def annule_deplacement(event):
 
 
 ########################
-# création des widgets
+# création des menus/paramétre
 
 
 def jouer(evt):
     """Lance le jeu lorsque l'on appuie sur jouer"""
-    global canvas, fen, RAPORT_CASE_C, RAPORT_CASE_R, screen, HAUTEUR, LARGEUR, fenetre
+    global canvas, fen, RAPORT_CASE_C, RAPORT_CASE_R
+    global screen, HAUTEUR, LARGEUR, fullscreen
     canvas.destroy()
     LARGEUR = 800
     HAUTEUR = 600
     canvas = tk.Canvas(fen, width=LARGEUR, height=HAUTEUR, bg=COULEUR_FOND)
     canvas.grid()
-    fen.attributes("-fullscreen", fenetre)
+    fen.attributes("-fullscreen", fullscreen)
     RAPORT_CASE_R = HAUTEUR / NOMBRE_CASE_R
     RAPORT_CASE_C = LARGEUR / NOMBRE_CASE_C
     screen = [[-1 for i in range(NOMBRE_CASE_R)]for u in range(NOMBRE_CASE_C)]
     quadrillage()
     Colored()
     Touchedirectionnel()
+
 
 def Touchedirectionnel():
     """Bind les diférente touches directionel pour le jeux"""
@@ -332,61 +368,134 @@ def parametres(evt):
     """Ouvre la fenêtre des paramétres"""
     canvas.delete('all')
 
-    canvas.create_text(LARGEUR//2, HAUTEUR//5, text="Paramètres", fill="white", font=('system', '45'))
-    canvas.create_text(LARGEUR//2, 2*HAUTEUR//4, text="Choix de la taille", fill="#3156E1", activefill="white", font='Rockwell, 30', tags='taille')
-    canvas.create_text(LARGEUR//2, 2.7*HAUTEUR//4, text="Choix des options", fill="#3156E1", activefill="white", font="Rockwell, 30", tags='option')
-    canvas.create_text(LARGEUR//2, 7.2*HAUTEUR//8, text="Valider", fill="white", activefill="green", font="Rockwell, 25", tags='menu')
+    canvas.create_text(
+                       LARGEUR//2, HAUTEUR//5,
+                       text="Paramètres", fill="white", font=('system', '45')
+                       )
+    canvas.create_text(
+                       LARGEUR//2, 2*HAUTEUR//4,
+                       text="Choix de la taille", fill="#3156E1",
+                       activefill="white", font='Rockwell, 30', tags='taille'
+                       )
+    canvas.create_text(
+                       LARGEUR//2, 2.7*HAUTEUR//4,
+                       text="Choix des options", fill="#3156E1",
+                       activefill="white", font="Rockwell, 30", tags='option'
+                       )
+    canvas.create_text(
+                       LARGEUR//2, 7.2*HAUTEUR//8,
+                       text="Valider", fill="white", activefill="green",
+                       font="Rockwell, 25", tags='menu'
+                       )
 
 
 def taille(evt):
     """Ouvre la fenêtre de modification de la taille en nombre de case"""
     global cursor_taille, NOMBRE_CASE_C
     canvas.delete('all')
-    canvas.create_text(LARGEUR//2, HAUTEUR//5, text="Choix de la taille", fill="white", font=('system', '45'))
-    canvas.create_text(LARGEUR//2, 2*HAUTEUR//5, text="Par défault la taille sera de 50x50 cases !", fill="white", font=('system', '15'))
+    canvas.create_text(
+                       LARGEUR//2, HAUTEUR//5,
+                       text="Choix de la taille", fill="white",
+                       font=('system', '45')
+                       )
+    canvas.create_text(
+                       LARGEUR//2, 2*HAUTEUR//5,
+                       text="Par défault la taille sera de 50x50 cases !",
+                       fill="white", font=('system', '15')
+                       )
 
-    cursor_taille = tk.Scale(canvas, orient='horizontal', from_=2, to=100, tickinterval=98, relief="groove", troughcolor="black", font="system")
+    cursor_taille = tk.Scale(
+                             canvas, orient='horizontal',
+                             from_=2, to=100, tickinterval=98,
+                             relief="groove", troughcolor="black", font="system"
+                             )
     cursor_taille.set(NOMBRE_CASE_C)
     cursor_taille.place(x=200, y=330, width=400)
 
-    canvas.create_text(LARGEUR//2, 4*HAUTEUR//5, text="Valider", fill="white", activefill="green", font="Rockwell, 25", tags='valider_1')
+    canvas.create_text(
+                       LARGEUR//2, 4*HAUTEUR//5,
+                       text="Valider", fill="white",
+                       activefill="green", font="Rockwell, 25", tags='valider_1'
+                       )
 
 
 def option(evt):
-    """Ouvre la fenêtre des options dans laquelle on peut changer T, n, p et K"""
-    global cursor_p, cursor_n, cursor_T, cursor_k, label_p, label_n, label_T, label_k, p, n, T, K
+    """Ouvre la fenêtre des options
+    dans laquelle on peut changer T, n, p et K"""
+    global cursor_p, cursor_n, cursor_T
+    global cursor_k, label_p, label_n, label_T, label_k
+    global p, n, T, K
     canvas.delete('all')
-    canvas.create_text(LARGEUR//2, HAUTEUR//6, text="Choix des options", fill="white", font=('system', '45'))
+    canvas.create_text(
+                       LARGEUR//2, HAUTEUR//6,
+                       text="Choix des options",
+                       fill="white", font=('system', '45')
+                       )
 
-    cursor_p = tk.Scale(canvas, from_=0, to=1, resolution=0.1, tickinterval=1, length=250, bg=COULEUR_FOND, fg="white")
+    cursor_p = tk.Scale(
+                        canvas, from_=0, to=1,
+                        resolution=0.1, tickinterval=1,
+                        length=250, bg=COULEUR_FOND, fg="white"
+                        )
     cursor_p.set(p)
     cursor_p.place(x=150, y=200)
     cursor_p.bind('<B1-Motion>', scale)
-    label_p = tk.Label(canvas, text="p = " + str(cursor_p.get()), font="system", bg=COULEUR_FOND, fg="white")
+    label_p = tk.Label(
+                       canvas, text="p = " + str(cursor_p.get()),
+                       font="system", bg=COULEUR_FOND, fg="white"
+                       )
     label_p.place(x=158, y=480)
 
-    cursor_n = tk.Scale(canvas, from_=0, to=10, tickinterval=10, length=250, bg=COULEUR_FOND, fg="white")
+    cursor_n = tk.Scale(
+                        canvas, from_=0, to=10,
+                        tickinterval=10, length=250,
+                        bg=COULEUR_FOND, fg="white"
+                        )
     cursor_n.set(n)
     cursor_n.place(x=300, y=200)
     cursor_n.bind('<B1-Motion>', scale2)
-    label_n = tk.Label(canvas, text="n = " + str(cursor_n.get()), font="system", bg=COULEUR_FOND, fg="white")
+    label_n = tk.Label(
+                       canvas, text="n = " + str(cursor_n.get()),
+                       font="system", bg=COULEUR_FOND, fg="white"
+                       )
     label_n.place(x=308, y=480)
 
-    cursor_T = tk.Scale(canvas, from_=0, to=100, tickinterval=100, length=250, bg=COULEUR_FOND, fg="white")
+    cursor_T = tk.Scale(
+                        canvas, from_=0, to=100,
+                        tickinterval=100, length=250,
+                        bg=COULEUR_FOND, fg="white"
+                        )
     cursor_T.set(T)
     cursor_T.place(x=450, y=200)
     cursor_T.bind('<B1-Motion>', scale3)
-    label_T = tk.Label(canvas, text="T = " + str(cursor_T.get()), font="system", bg=COULEUR_FOND, fg="white")
+    label_T = tk.Label(
+                       canvas,
+                       text="T = " + str(cursor_T.get()),
+                       font="system", bg=COULEUR_FOND, fg="white"
+                       )
     label_T.place(x=458, y=480)
 
-    cursor_k = tk.Scale(canvas, from_=0, to=5, tickinterval=5, length=250, bg=COULEUR_FOND, fg="white")
+    cursor_k = tk.Scale(
+                        canvas, from_=0, to=5,
+                        tickinterval=5, length=250,
+                        bg=COULEUR_FOND, fg="white"
+                        )
     cursor_k.set(K)
     cursor_k.place(x=600, y=200)
     cursor_k.bind('<B1-Motion>', scale4)
-    label_k = tk.Label(canvas, text="k = " + str(cursor_k.get()), font="system", bg=COULEUR_FOND, fg="white")
+    label_k = tk.Label(
+                       canvas,
+                       text="k = " + str(cursor_k.get()),
+                       font="system", bg=COULEUR_FOND, fg="white"
+                       )
     label_k.place(x=608, y=480)
 
-    canvas.create_text(LARGEUR//2, 7.2*HAUTEUR//8, text="Valider", fill="white", activefill="green", font="Rockwell, 25", tags='valider_2')
+    canvas.create_text(
+                       LARGEUR//2, 7.2*HAUTEUR//8,
+                       text="Valider", fill="white",
+                       activefill="green", font="Rockwell, 25",
+                       tags='valider_2'
+                       )
 
 
 def scale(evt):
@@ -411,7 +520,8 @@ def scale4(evt):
 
 def valider_taille(evt):
     """Valide les options de taille du jeu"""
-    global taille, NOMBRE_CASE_C, NOMBRE_CASE_R, HAUTEUR, LARGEUR, RAPORT_CASE_C, RAPORT_CASE_R
+    global taille, NOMBRE_CASE_C, NOMBRE_CASE_R, HAUTEUR
+    global LARGEUR, RAPORT_CASE_C, RAPORT_CASE_R
     taille = cursor_taille.get()
     NOMBRE_CASE_R = taille
     NOMBRE_CASE_C = taille
@@ -420,10 +530,29 @@ def valider_taille(evt):
     canvas.delete('all')
     cursor_taille.destroy()
     cursor_taille.destroy()
-    canvas.create_text(LARGEUR//2, HAUTEUR//5, text="Paramètres", fill="white", font=('system', '45'))
-    canvas.create_text(LARGEUR//2, 2*HAUTEUR//4, text="Choix de la taille", fill="#3156E1", activefill="white", font='Rockwell, 30', tags='taille')
-    canvas.create_text(LARGEUR//2, 2.7*HAUTEUR//4, text="Choix des options", fill="#3156E1", activefill="white", font="Rockwell, 30", tags='option')
-    canvas.create_text(LARGEUR//2, 7.2*HAUTEUR//8, text="Valider", fill="white", activefill="green", font="Rockwell, 25", tags='menu')
+    canvas.create_text(
+                       LARGEUR//2, HAUTEUR//5,
+                       text="Paramètres",
+                       fill="white", font=('system', '45')
+                       )
+    canvas.create_text(
+                       LARGEUR//2, 2*HAUTEUR//4,
+                       text="Choix de la taille", fill="#3156E1",
+                       activefill="white", font='Rockwell, 30',
+                       tags='taille'
+                       )
+    canvas.create_text(
+                       LARGEUR//2, 2.7*HAUTEUR//4,
+                       text="Choix des options", fill="#3156E1",
+                       activefill="white", font="Rockwell, 30",
+                       tags='option'
+                       )
+    canvas.create_text(
+                       LARGEUR//2, 7.2*HAUTEUR//8,
+                       text="Valider", fill="white",
+                       activefill="green", font="Rockwell, 25",
+                       tags='menu'
+                       )
 
 
 def valider_option(evt):
@@ -442,43 +571,77 @@ def valider_option(evt):
     label_n.destroy()
     label_T.destroy()
     label_k.destroy()
-    canvas.create_text(LARGEUR//2, HAUTEUR//5, text="Paramètres", fill="white", font=('system', '45'))
-    canvas.create_text(LARGEUR//2, 2*HAUTEUR//4, text="Choix de la taille", fill="#3156E1", activefill="white", font='Rockwell, 30', tags='taille')
-    canvas.create_text(LARGEUR//2, 2.7*HAUTEUR//4, text="Choix des options", fill="#3156E1", activefill="white", font="Rockwell, 30", tags='option')
-    canvas.create_text(LARGEUR//2, 7.2*HAUTEUR//8, text="Valider", fill="white", activefill="green", font="Rockwell, 25", tags='menu')
+    canvas.create_text(
+                       LARGEUR//2, HAUTEUR//5,
+                       text="Paramètres", fill="white",
+                       font=('system', '45')
+                       )
+    canvas.create_text(
+                       LARGEUR//2, 2*HAUTEUR//4,
+                       text="Choix de la taille",
+                       fill="#3156E1", activefill="white",
+                       font='Rockwell, 30', tags='taille'
+                       )
+    canvas.create_text(
+                       LARGEUR//2, 2.7*HAUTEUR//4,
+                       text="Choix des options", fill="#3156E1",
+                       activefill="white", font="Rockwell, 30",
+                       tags='option'
+                       )
+    canvas.create_text(
+                       LARGEUR//2, 7.2*HAUTEUR//8,
+                       text="Valider", fill="white",
+                       activefill="green", font="Rockwell, 25",
+                       tags='menu'
+                       )
 
 
 def main_menu(evt=None):
     """place les objets du menu"""
     canvas.delete('all')
-    canvas.create_text(LARGEUR//2, HAUTEUR//5, text="MINECERAFT", fill="white", font=('system', '40'), tags='sebastien')
-    canvas.create_text(LARGEUR//2, 2*HAUTEUR//5, text="Jouer", fill="green", activefill="white", font="Rockwell, 30", tags='jouer')
-    canvas.create_text(LARGEUR//2, 3*HAUTEUR//5, text="Paramètres", fill="white", activefill="#3156E1", font="Rockwell, 25", tags='para')
-    canvas.create_text(LARGEUR//2, 4*HAUTEUR//5, text="Quitter", fill="red", activefill="white", font="Rockwell, 30", tags='quitter')
-
-
-def main():
-    """ouvre la fenêtre et affiche le menu"""
-    global fen, canvas, HAUTEUR, LARGEUR, COULEUR_FOND
-    fen = tk.Tk()
-    fen.title("Génération de terrain de jeu")
-    fen.config(bg=COULEUR_FOND)
-
-    canvas = tk.Canvas(fen, width=LARGEUR, height=HAUTEUR, bg=COULEUR_FOND)
-    canvas.grid()
-    main_menu()
-
-    canvas.tag_bind('jouer', '<Button-1>', jouer)
-    canvas.tag_bind('para', '<Button-1>', parametres)
-    canvas.tag_bind('quitter', '<Button-1>', lambda evt: fen.quit())
-    canvas.tag_bind('taille', '<Button-1>', taille)
-    canvas.tag_bind('option', '<Button-1>', option)
-    canvas.tag_bind('menu', '<Button-1>', main_menu)
-    canvas.tag_bind('valider_1', '<Button-1>', valider_taille)
-    canvas.tag_bind('valider_2', '<Button-1>', valider_option)
-
-    fen.mainloop()
+    canvas.create_text(
+                       LARGEUR//2, HAUTEUR//5,
+                       text="MINECERAFT", fill="white",
+                       font=('system', '40'), tags='sebastien'
+                       )
+    canvas.create_text(
+                       LARGEUR//2, 2*HAUTEUR//5,
+                       text="Jouer", fill="green",
+                       activefill="white", font="Rockwell, 30",
+                       tags='jouer'
+                       )
+    canvas.create_text(
+                       LARGEUR//2, 3*HAUTEUR//5,
+                       text="Paramètres", fill="white",
+                       activefill="#3156E1", font="Rockwell, 25",
+                       tags='para'
+                       )
+    canvas.create_text(
+                       LARGEUR//2, 4*HAUTEUR//5,
+                       text="Quitter", fill="red",
+                       activefill="white", font="Rockwell, 30",
+                       tags='quitter'
+                       )
 
 
 # programme principal
-main()
+
+fen = tk.Tk()
+
+fen.title("Génération de terrain de jeu")
+fen.config(bg=COULEUR_FOND)
+
+canvas = tk.Canvas(fen, width=LARGEUR, height=HAUTEUR, bg=COULEUR_FOND)
+canvas.grid()
+main_menu()
+
+canvas.tag_bind('jouer', '<Button-1>', jouer)
+canvas.tag_bind('para', '<Button-1>', parametres)
+canvas.tag_bind('quitter', '<Button-1>', lambda evt: fen.quit())
+canvas.tag_bind('taille', '<Button-1>', taille)
+canvas.tag_bind('option', '<Button-1>', option)
+canvas.tag_bind('menu', '<Button-1>', main_menu)
+canvas.tag_bind('valider_1', '<Button-1>', valider_taille)
+canvas.tag_bind('valider_2', '<Button-1>', valider_option)
+
+fen.mainloop()
