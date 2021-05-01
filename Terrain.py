@@ -313,7 +313,7 @@ def deplacement_droite(event):
     """Déplace le personnage d'une case vers la droite
     si on appuie sur la flèche de droite du clavier
     et enregistre le déplacement"""
-    global personnage, perso, C_perso, R_perso, tailleBlocage
+    global personnage, perso, C_perso, R_perso, tailleBlocage, NOMBRE_CASE
     if perso:
         if etat_terrain(R_perso, C_perso+1) == 0:
             if C_perso < (NOMBRE_CASE - 1)-(NOMBRE_CASE // tailleBlocage) and C_perso != (NOMBRE_CASE - 1):
