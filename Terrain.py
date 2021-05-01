@@ -36,15 +36,20 @@ K = 1
 # Variables globales
 
 Chunk = [[], []]
-#1(0(gauche)/1(droite)) #2(0->(nombre de chunk)) #3(0->(Nombre Case C)) #4(0->(Nombre case R))
-#0 => Terre , 1 => Eau
+# 1(0(gauche)/1(droite)) #2(0->(nombre de chunk)) #3(0->(Nombre Case C)) #4(0->(Nombre case R))
+# 0 => Terre , 1 => Eau
 screen = [[]]
 
-personnage = -1  #cercle rouge représentant le personnage
-perso = False  #indique si le personnage existe
-C_perso = -1  #colonne de la case du screen dans laquelle est placé le personnage
-R_perso = -1  #ligne de la case du screen dans laquelle est placé le personnage
-deplacements = []  #liste des déplacements effectués grâce aux flèches du clavier
+personnage = -1
+# cercle rouge représentant le personnage
+perso = False
+# indique si le personnage existe
+C_perso = -1
+# colonne de la case du screen dans laquelle est placé le personnage
+R_perso = -1
+# ligne de la case du screen dans laquelle est placé le personnage
+deplacements = []
+# liste des déplacements effectués grâce aux flèches du clavier
 
 Decalage = 0
 tailleBlocage = 10
@@ -53,17 +58,18 @@ tailleBlocage = 10
 # fonctions
 
 ########################
-#Génération du terrain
+# Génération du terrain
 
 
 def quadrillage(LR=1):
     """Génére un terrain de base, un terrain a droite ou un terrain a gauche"""
-    #LR = 0,1 ou 3
-    #0 => gauche, 1 => Debut, 3 => Droite
+    # LR = 0,1 ou 3
+    # 0 => gauche, 1 => Debut, 3 => Droite
     global Chunk, p
     LR = set([LR//2, LR % 2])
     for i in LR:
-        Chunk[i].append([[-1 for i in range(NOMBRE_CASE_R)]for u in range(NOMBRE_CASE_C)])  #Crée une Case de taille =>  (NOMBRE_CASE_R x NOMBRE_CASE_C)
+        Chunk[i].append([[-1 for i in range(NOMBRE_CASE_R)]for u in range(NOMBRE_CASE_C)])
+        # Crée une Case de taille => (NOMBRE_CASE_R x NOMBRE_CASE_C)
         for C in range(NOMBRE_CASE_C):
             for R in range(NOMBRE_CASE_R):
                 Ran = random.random()
@@ -101,7 +107,7 @@ def Comptage(C, R, i, LR):
         if n[1] >= NOMBRE_CASE_R:
             if LR == {0, 1} and i == 0:
                 FinalCount.append([i + 1, 0, n[0], n[1] - NOMBRE_CASE_R])
-                #[i, chunk, C, R]
+                # [i, chunk, C, R]
             elif LR != {0, 1}:
                 FinalCount.append([i, -1, n[0], n[1] - NOMBRE_CASE_R])
         elif n[1] < 0:
@@ -150,7 +156,7 @@ def Count(C, R):
 
 
 ####################################
-#Déplacement du perssonage et création du terrain
+# Déplacement du perssonage et création du terrain
 
 def Decale(LR):
     """Decale la map sur la gauche ou la droite"""
@@ -315,7 +321,7 @@ def annule_deplacement(event):
         if deplacements[len(deplacements)-1] == "h":
             deplacement_bas(event)
             deplacements.pop()
-            #suppression le déplacement ajouté par la fonction deplacement
+            # suppression le déplacement ajouté par la fonction deplacement
         elif deplacements[len(deplacements)-1] == "b":
             deplacement_haut(event)
             deplacements.pop()
@@ -329,7 +335,7 @@ def annule_deplacement(event):
             Decale(0)
         elif deplacements[len(deplacements)-1] == "gE":
             Decale(3)
-        deplacements.pop()  #suppression du déplacement annulé
+        deplacements.pop()  # suppression du déplacement annulé
 
 
 ########################
@@ -407,7 +413,8 @@ def taille(evt):
     cursor_taille = tk.Scale(
                              canvas, orient='horizontal',
                              from_=2, to=100, tickinterval=98,
-                             relief="groove", troughcolor="black", font="system"
+                             relief="groove", troughcolor="black",
+                             font="system"
                              )
     cursor_taille.set(NOMBRE_CASE_C)
     cursor_taille.place(x=200, y=330, width=400)
@@ -415,7 +422,8 @@ def taille(evt):
     canvas.create_text(
                        LARGEUR//2, 4*HAUTEUR//5,
                        text="Valider", fill="white",
-                       activefill="green", font="Rockwell, 25", tags='valider_1'
+                       activefill="green", font="Rockwell, 25",
+                       tags='valider_1'
                        )
 
 
