@@ -26,7 +26,8 @@ NOMBRE_CASE = 50
 RAPORT_CASE_R = HAUTEUR / NOMBRE_CASE
 RAPORT_CASE_C = LARGEUR / NOMBRE_CASE
 COULEUR_FOND = "black"
-COULEUR = ["green", "blue"]
+COULEUR = ["#006600", "#0000b3"]
+# [0] terre, [1] eau
 fullscreen = False
 p = 0.5
 n = 4
@@ -217,19 +218,23 @@ def Colored(LR=1):
     if LR == 1:
         for C in range(NOMBRE_CASE):
             for R in range(NOMBRE_CASE):
+                color = COULEUR[etat_terrain(C, R)]
                 screen[C][R] = canvas.create_rectangle(
                                                        R*RAPORT_CASE_C,
                                                        C*RAPORT_CASE_R,
                                                        (R + 1) * RAPORT_CASE_C,
                                                        (C + 1) * RAPORT_CASE_R,
-                                                       fill=COULEUR[etat_terrain(C, R)]
+                                                       fill=color,
+                                                       outline=color
                                                       )
     else:
         for C in range(NOMBRE_CASE):
             for R in range(NOMBRE_CASE):
+                color = COULEUR[etat_terrain(C, R)]
                 canvas.itemconfigure(
                                     screen[C][R],
-                                    fill=COULEUR[etat_terrain(C, R)]
+                                    fill=color,
+                                    outline=color
                                     )
 
 
@@ -499,7 +504,7 @@ def option(evt):
     cursor_k.bind('<B1-Motion>', scale4)
     label_k = tk.Label(
                        canvas,
-                       text="k = " + str(cursor_k.get()),
+                       text="K = " + str(cursor_k.get()),
                        font="system", bg=COULEUR_FOND, fg="white"
                        )
     label_k.place(x=608, y=480)
