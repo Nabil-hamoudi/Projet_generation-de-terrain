@@ -36,7 +36,10 @@ K = 1
 # Variables globales
 
 Chunk = [[], []]
-# 1(0(gauche)/1(droite)) #2(0->(nombre de chunk)) #3(0->(Nombre Case C)) #4(0->(Nombre case R))
+# [1](0(gauche)/1(droite))
+# [2](0->(nombre de chunk))
+# [3](0->(Nombre Case C))
+# [4](0->(Nombre case R))
 # 0 => Terre , 1 => Eau
 screen = [[]]
 
@@ -68,7 +71,9 @@ def quadrillage(LR=1):
     global Chunk, p
     LR = set([LR//2, LR % 2])
     for i in LR:
-        Chunk[i].append([[-1 for i in range(NOMBRE_CASE_R)]for u in range(NOMBRE_CASE_C)])
+        Chunk[i].append(
+                        [[-1 for i in range(NOMBRE_CASE_R)]for u in range(NOMBRE_CASE_C)]
+                        )
         # Crée une Case de taille => (NOMBRE_CASE_R x NOMBRE_CASE_C)
         for C in range(NOMBRE_CASE_C):
             for R in range(NOMBRE_CASE_R):
@@ -185,7 +190,7 @@ def etat_terrain(C, R):
             try:
                 etat = Chunk[0][P][C][R]
                 break
-            except:
+            except IndexError:
                 quadrillage(0)
                 etat = Chunk[0][P][C][R]
     else:
@@ -197,10 +202,10 @@ def etat_terrain(C, R):
             try:
                 etat = Chunk[1][P][C][R]
                 break
-            except:
+            except IndexError:
                 quadrillage(3)
                 etat = Chunk[1][P][C][R]
-    return(etat)
+    return etat
 
 
 def Colored(LR=1):
