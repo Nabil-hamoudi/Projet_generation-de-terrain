@@ -20,24 +20,26 @@ import tkinter.messagebox
 ########################
 # Constantes
 
+COULEUR_FOND = "black"
+COULEUR = ["#006600", "#0000b3"]
+# [0] terre, [1] eau
+fullscreen = False
 HAUTEUR = 600
 LARGEUR = 800
 NOMBRE_CASE = 50
 RAPORT_CASE_R = HAUTEUR / NOMBRE_CASE
 RAPORT_CASE_C = LARGEUR / NOMBRE_CASE
-COULEUR_FOND = "black"
-COULEUR = ["#006600", "#0000b3"]
-# [0] terre, [1] eau
-fullscreen = False
 p = 0.5
 n = 4
 T = 5
 K = 1
+ValDefault = {"p": p, "n": n, "T": T, "K": K, "NOMBRE_CASE": NOMBRE_CASE, "HAUTEUR": HAUTEUR, "LARGEUR": LARGEUR}
 
 ########################
 # Variables globales
 
 default = -1
+# Contient le widget default
 Chunk = [[], []]
 # [1](0(gauche)/1(droite))
 # [2](0->(nombre de chunk))
@@ -359,8 +361,6 @@ def jouer(evt):
     global canvas, fen, RAPORT_CASE_C, RAPORT_CASE_R
     global screen, HAUTEUR, LARGEUR, fullscreen
     canvas.destroy()
-    LARGEUR = 800
-    HAUTEUR = 600
     canvas = tk.Canvas(fen, width=LARGEUR, height=HAUTEUR, bg=COULEUR_FOND)
     canvas.grid()
     fen.attributes("-fullscreen", fullscreen)
@@ -405,6 +405,12 @@ def parametres(evt):
                        text="Valider", fill="white", activefill="green",
                        font="Rockwell, 25", tags='menu'
                        )
+
+
+def TailleEcran(evt):
+    """Change la taille de l'écran du jeu"""
+    Options = ("360X240", "540X360", "600X800", "720X480", "1920X1080")
+    None
 
 
 def taille(evt):
@@ -540,7 +546,7 @@ def scale4(evt):
 
 def valider_taille(evt):
     """Valide les options de taille du jeu"""
-    global taille, NOMBRE_CASE, HAUTEUR, default
+    global taille, NOMBRE_CASE, HAUTEUR, default, ValDefault
     global LARGEUR, RAPORT_CASE_C, RAPORT_CASE_R
     taille = cursor_taille.get()
     NOMBRE_CASE = taille
@@ -564,28 +570,23 @@ def valider_taille(evt):
                        activefill="white", font="Rockwell, 30",
                        tags='option'
                        )
-    default = canvas.create_text(
-                                 LARGEUR//2, 7.2*HAUTEUR//8,
-                                 text="Valider", fill="white",
-                                 activefill="green", font="Rockwell, 25",
-                                 tags='menu'
-                                 )
+    if NOMBRE_CASE != ValDefault["NOMBRE_CASE"]:
+        default = canvas.create_text(
+                                     LARGEUR//2, 7.2*HAUTEUR//9,
+                                     text="Défault", fill="white", activefill="green",
+                                     font="Rockwell, 25", tags='default'
+                                     )
     canvas.create_text(
                        LARGEUR//2, 7.2*HAUTEUR//8,
                        text="Valider", fill="white",
                        activefill="green", font="Rockwell, 25",
                        tags='menu'
                        )
-    canvas.create_text(
-                       LARGEUR//2, 7.2*HAUTEUR//9,
-                       text="Défault", fill="white", activefill="green",
-                       font="Rockwell, 25", tags='default'
-                       )
 
 
 def valider_option(evt):
     """valide les paramétres p, n, T, k"""
-    global p, n, T, K, default
+    global p, n, T, K, default, ValDefault
     p = cursor_p.get()
     n = cursor_n.get()
     T = cursor_T.get()
@@ -616,16 +617,17 @@ def valider_option(evt):
                        activefill="white", font="Rockwell, 30",
                        tags='option'
                        )
-    default = canvas.create_text(
-                                 LARGEUR//2, 7.2*HAUTEUR//8,
-                                 text="Valider", fill="white",
-                                 activefill="green", font="Rockwell, 25",
-                                 tags='menu'
-                                 )
+    if p != ValDefault["p"] or n != ValDefault["n"] or T != ValDefault["T"] or K != ValDefault["K"]:
+        default = canvas.create_text(
+                                     LARGEUR//2, 7.2*HAUTEUR//9,
+                                     text="Défault", fill="white", activefill="green",
+                                     font="Rockwell, 25", tags='default'
+                                     )
     canvas.create_text(
-                       LARGEUR//2, 7.2*HAUTEUR//9,
-                       text="Défault", fill="white", activefill="green",
-                       font="Rockwell, 25", tags='default'
+                       LARGEUR//2, 7.2*HAUTEUR//8,
+                       text="Valider", fill="white",
+                       activefill="green", font="Rockwell, 25",
+                       tags='menu'
                        )
 
 
@@ -635,7 +637,7 @@ def default(evt):
     canvas.delete("default")
     HAUTEUR = 600
     LARGEUR = 800
-    p = 0.5 
+    p = 0.5
     n = 4
     T = 5
     K = 1
@@ -669,6 +671,7 @@ def main_menu(evt=None):
                        tags='quitter'
                        )
 
+
 ############################
 # programme principal
 
@@ -690,5 +693,6 @@ canvas.tag_bind('menu', '<Button-1>', main_menu)
 canvas.tag_bind('default', '<Button-1>', default)
 canvas.tag_bind('valider_1', '<Button-1>', valider_taille)
 canvas.tag_bind('valider_2', '<Button-1>', valider_option)
+canvas.tag_bind("ResoEcran", "<Button-1>", TailleEcran)
 
 fen.mainloop()
