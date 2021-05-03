@@ -407,12 +407,6 @@ def parametres(evt):
                        )
 
 
-def TailleEcran(evt):
-    """Change la taille de l'écran du jeu"""
-    Options = ("360X240", "540X360", "600X800", "720X480", "1920X1080")
-    None
-
-
 def taille(evt):
     """Ouvre la fenêtre de modification de la taille en nombre de case"""
     global cursor_taille, NOMBRE_CASE
@@ -693,6 +687,5 @@ canvas.tag_bind('menu', '<Button-1>', main_menu)
 canvas.tag_bind('default', '<Button-1>', default)
 canvas.tag_bind('valider_1', '<Button-1>', valider_taille)
 canvas.tag_bind('valider_2', '<Button-1>', valider_option)
-canvas.tag_bind("ResoEcran", "<Button-1>", TailleEcran)
 
 fen.mainloop()
