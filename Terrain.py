@@ -361,6 +361,8 @@ def jouer(evt):
     global canvas, fen, RAPORT_CASE_C, RAPORT_CASE_R
     global screen, HAUTEUR, LARGEUR, fullscreen
     canvas.destroy()
+    HAUTEUR = HAUTEUR
+    LARGEUR = LARGEUR
     canvas = tk.Canvas(fen, width=LARGEUR, height=HAUTEUR, bg=COULEUR_FOND)
     canvas.grid()
     fen.attributes("-fullscreen", fullscreen)
@@ -384,6 +386,7 @@ def Touchedirectionnel():
 
 def parametres(evt):
     """Ouvre la fenêtre des paramétres"""
+    global default
     canvas.delete('all')
 
     canvas.create_text(
@@ -405,6 +408,12 @@ def parametres(evt):
                        text="Valider", fill="white", activefill="green",
                        font="Rockwell, 25", tags='menu'
                        )
+    if p != ValDefault["p"] or n != ValDefault["n"] or T != ValDefault["T"] or K != ValDefault["K"]:
+        default = canvas.create_text(
+                                     LARGEUR//2, 7.2*HAUTEUR//9,
+                                     text="Défault", fill="white", activefill="green",
+                                     font="Rockwell, 25", tags='default'
+                                     )
 
 
 def taille(evt):
@@ -535,7 +544,7 @@ def scale3(evt):
 
 def scale4(evt):
     """affiche K ="""
-    label_k.config(text="k = " + str(cursor_k.get()))
+    label_k.config(text="K = " + str(cursor_k.get()))
 
 
 def valider_taille(evt):
