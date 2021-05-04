@@ -61,7 +61,7 @@ Chunk = [[], []]
 # 0 => Terre , 1 => Eau
 screen = [[]]
 
-personnage = -1
+personn = -1
 # cercle rouge représentant le personnage
 perso = False
 # indique si le personnage existe
@@ -254,15 +254,15 @@ def Colored(LR=1):
                                     )
 
 
-def personnage(event):
+def personnage(C, R):
     """Place le personnage sur la case cliquée
     et le retire si on clique sur la case dans laquelle il est déjà"""
-    global personnage, perso, C_perso, R_perso, i_perso, deplacements
+    global personn, perso, C_perso, R_perso, deplacements
     if not perso:
-        C_perso = int(event.x // RAPORT_CASE_C)
-        R_perso = int(event.y // RAPORT_CASE_R)
+        C_perso = C
+        R_perso = R
         if etat_terrain(R_perso, C_perso) == 0:
-            personnage = canvas.create_oval(
+            personn = canvas.create_oval(
                                            C_perso*RAPORT_CASE_C+RAPORT_CASE_C/3,
                                            R_perso*RAPORT_CASE_R+RAPORT_CASE_R/3,
                                            C_perso*RAPORT_CASE_C+2*RAPORT_CASE_C/3,
@@ -277,8 +277,8 @@ def personnage(event):
                                       default="ok", icon="warning"
                                       )
     else:
-        if event.x // RAPORT_CASE_C == C_perso and event.y // RAPORT_CASE_R == R_perso:
-            canvas.delete(personnage)
+        if C == C_perso and R == R_perso:
+            canvas.delete(personn)
             perso = False
             deplacements = []
 
@@ -287,11 +287,11 @@ def deplacement_haut(event):
     """Déplace le personnage d'une case
     vers le haut si on appuie sur la flèche vers le haut du clavier
     et enregistre le déplacement"""
-    global personnage, perso, C_perso, R_perso
+    global personn, perso, C_perso, R_perso
     if perso:
         if R_perso > 0:
             if etat_terrain(R_perso-1, C_perso) == 0:
-                canvas.move(personnage, 0, -RAPORT_CASE_R)
+                canvas.move(personn, 0, -RAPORT_CASE_R)
                 R_perso -= 1
                 deplacements.append("h")
 
@@ -300,11 +300,11 @@ def deplacement_bas(event):
     """Déplace le personnage d'une case vers le bas
     si on appuie sur la flèche du bas du clavier
     et enregistre le déplacement"""
-    global personnage, perso, C_perso, R_perso
+    global personn, perso, C_perso, R_perso
     if perso:
         if R_perso < NOMBRE_CASE - 1:
             if etat_terrain(R_perso+1, C_perso) == 0:
-                canvas.move(personnage, 0, RAPORT_CASE_R)
+                canvas.move(personn, 0, RAPORT_CASE_R)
                 R_perso += 1
                 deplacements.append("b")
 
@@ -313,11 +313,11 @@ def deplacement_gauche(event):
     """Déplace le personnage d'une case vers la gauche
     si on appuie sur la flèche de gauche du clavier
     et enregistre le déplacement"""
-    global personnage, perso, C_perso, R_perso, tailleBlocage
+    global personn, perso, C_perso, R_perso, tailleBlocage
     if perso:
         if etat_terrain(R_perso, C_perso-1) == 0:
             if C_perso > NOMBRE_CASE // tailleBlocage:
-                canvas.move(personnage, -RAPORT_CASE_C, 0)
+                canvas.move(personn, -RAPORT_CASE_C, 0)
                 C_perso -= 1
                 deplacements.append("g")
             else:
@@ -329,11 +329,11 @@ def deplacement_droite(event):
     """Déplace le personnage d'une case vers la droite
     si on appuie sur la flèche de droite du clavier
     et enregistre le déplacement"""
-    global personnage, perso, C_perso, R_perso, tailleBlocage, NOMBRE_CASE
+    global personn, perso, C_perso, R_perso, tailleBlocage, NOMBRE_CASE
     if perso:
         if etat_terrain(R_perso, C_perso+1) == 0:
             if C_perso < (NOMBRE_CASE - 1)-(NOMBRE_CASE // tailleBlocage) and C_perso != (NOMBRE_CASE - 1):
-                canvas.move(personnage, RAPORT_CASE_C, 0)
+                canvas.move(personn, RAPORT_CASE_C, 0)
                 C_perso += 1
                 deplacements.append("d")
             else:
@@ -372,8 +372,9 @@ def annule_deplacement(event):
 def jouer(evt):
     """Lance le jeu lorsque l'on appuie sur jouer"""
     global canvas, fen, RAPORT_CASE_C, RAPORT_CASE_R
-    global screen, HAUTEUR, LARGEUR, fullscreen
-    global HAUTEURTemp, LARGEURTemp
+    global screen, HAUTEUR, LARGEUR, fullscreen, Decale
+    global HAUTEURTemp, LARGEURTemp, COULEUR_FOND, Chunk
+    global C_perso, R_perso, perso
     canvas.destroy()
     HAUTEUR = HAUTEURTemp
     LARGEUR = LARGEURTemp
@@ -382,20 +383,64 @@ def jouer(evt):
     fen.attributes("-fullscreen", fullscreen)
     RAPORT_CASE_R = HAUTEUR / NOMBRE_CASE
     RAPORT_CASE_C = LARGEUR / NOMBRE_CASE
+    if Chunk == [[], []]:
+        quadrillage()
     screen = [[-1 for i in range(NOMBRE_CASE)]for u in range(NOMBRE_CASE)]
-    quadrillage()
-    Colored()
     Touchedirectionnel()
+    Colored()
+    if Decalage < 0:
+        Colored(0)
+    elif Decalage > 0:
+        Colored(0)
+    if perso:
+        C = C_perso
+        R = R_perso
+        perso = False
+        personnage(C, R)
 
 
 def Touchedirectionnel():
-    """Bind les diférentes touches directionel pour le jeu"""
-    canvas.bind('<Button-1>', personnage)
+    """Bind les diférentes touches directionel pour le jeu
+    et la touche echap pour revenir au menu"""
+    global RAPORT_CASE_C, RAPORT_CASE_R
+    canvas.bind(
+                '<Button-1>',
+                lambda evt: personnage(int(evt.x // RAPORT_CASE_C), int(evt.y // RAPORT_CASE_R))
+                )
     canvas.bind_all("<Up>", deplacement_haut)
     canvas.bind_all("<Down>", deplacement_bas)
     canvas.bind_all("<Left>", deplacement_gauche)
     canvas.bind_all("<Right>", deplacement_droite)
     canvas.bind_all("<Control-KeyPress-z>", annule_deplacement)
+    canvas.bind_all("<Escape>", RetourneMenu)
+
+
+def RetourneMenu(evt):
+    """Fais revenir au menu"""
+    global LARGEUR, HAUTEUR, fen, canvas
+    global ValDefault, fullscreen, COULEUR_FOND
+    global RAPORT_CASE_C, RAPORT_CASE_R
+    LARGEUR = ValDefault["LARGEUR"]
+    HAUTEUR = ValDefault["HAUTEUR"]
+    RAPORT_CASE_R = HAUTEUR / NOMBRE_CASE
+    RAPORT_CASE_C = LARGEUR / NOMBRE_CASE
+    fen.attributes("-fullscreen", False)
+    canvas.destroy()
+    canvas = tk.Canvas(fen, width=LARGEUR, height=HAUTEUR, bg=COULEUR_FOND)
+    canvas.grid()
+    main_menu()
+
+    canvas.tag_bind('jouer', '<Button-1>', jouer)
+    canvas.tag_bind('para', '<Button-1>', parametres)
+    canvas.tag_bind('quitter', '<Button-1>', lambda evt: fen.quit())
+    canvas.tag_bind('taille', '<Button-1>', taille)
+    canvas.tag_bind('option', '<Button-1>', option)
+    canvas.tag_bind('reso', '<Button-1>', resolution)
+    canvas.tag_bind('menu', '<Button-1>', main_menu)
+    canvas.tag_bind('default', '<Button-1>', default)
+    canvas.tag_bind('valider_1', '<Button-1>', valider_taille)
+    canvas.tag_bind('valider_2', '<Button-1>', valider_option)
+    canvas.tag_bind('valider_3', '<Button-1>', valider_reso)
 
 
 def parametres(evt):
@@ -596,7 +641,10 @@ def resolution(evt):
         FullScreenButton.select()
     FullScreenButton.place(x=300, y=400)
 
-    canvas.tag_bind("Choix_Resolution_1920X1080", '<Button-1>',lambda evt: ChangeRes("1920X1080"))
+    canvas.tag_bind(
+                    "Choix_Resolution_1920X1080", '<Button-1>',
+                    lambda evt: ChangeRes("1920X1080")
+                    )
     canvas.create_text(
                        LARGEUR//2, 2.5*HAUTEUR//8,
                        text="1920X1080", fill="white",
@@ -604,7 +652,10 @@ def resolution(evt):
                        font="Rockwell, 25",
                        tags="Choix_Resolution_1920X1080"
                        )
-    canvas.tag_bind("Choix_Resolution_800X600", '<Button-1>',lambda evt: ChangeRes("800X600"))
+    canvas.tag_bind(
+                    "Choix_Resolution_800X600", '<Button-1>',
+                    lambda evt: ChangeRes("800X600")
+                    )
     canvas.create_text(
                        LARGEUR//2, 3.1*HAUTEUR//8,
                        text="800X600", fill="white",
@@ -612,7 +663,10 @@ def resolution(evt):
                        font="Rockwell, 25",
                        tags="Choix_Resolution_800X600"
                        )
-    canvas.tag_bind("Choix_Resolution_720X480", '<Button-1>',lambda evt: ChangeRes("720X480"))
+    canvas.tag_bind(
+                    "Choix_Resolution_720X480", '<Button-1>',
+                    lambda evt: ChangeRes("720X480")
+                    )
     canvas.create_text(
                        LARGEUR//2, 3.7*HAUTEUR//8,
                        text="720X480", fill="white",
@@ -620,7 +674,10 @@ def resolution(evt):
                        font="Rockwell, 25",
                        tags="Choix_Resolution_720X480"
                        )
-    canvas.tag_bind("Choix_Resolution_540X360", '<Button-1>',lambda evt: ChangeRes("540X360"))
+    canvas.tag_bind(
+                    "Choix_Resolution_540X360",'<Button-1>',
+                    lambda evt: ChangeRes("540X360")
+                    )
     canvas.create_text(
                        LARGEUR//2, 4.3*HAUTEUR//8,
                        text="540X360", fill="white",
@@ -628,7 +685,10 @@ def resolution(evt):
                        font="Rockwell, 25",
                        tags="Choix_Resolution_540X360"
                        )
-    canvas.tag_bind("Choix_Resolution_360X240", '<Button-1>',lambda evt: ChangeRes("360X240"))
+    canvas.tag_bind(
+                    "Choix_Resolution_360X240", '<Button-1>', 
+                    lambda evt: ChangeRes("360X240")
+                    )
     canvas.create_text(
                        LARGEUR//2, 4.9*HAUTEUR//8,
                        text="360X240", fill="white",
@@ -794,7 +854,8 @@ def valider_option(evt):
 
 def default(evt):
     """Remet les options par défault"""
-    global HAUTEURTemp, LARGEURTemp, NOMBRE_CASE, p, n, T, K, default, fullscreen
+    global HAUTEURTemp, LARGEURTemp, NOMBRE_CASE
+    global p, n, T, K, default, fullscreen
     canvas.delete("default")
     HAUTEURTemp = 600
     LARGEURTemp = 800
