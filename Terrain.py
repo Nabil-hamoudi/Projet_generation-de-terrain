@@ -26,6 +26,8 @@ COULEUR = ["#006600", "#0000b3"]
 fullscreen = False
 HAUTEUR = 600
 LARGEUR = 800
+HAUTEURTemp = 600
+LARGEURTemp = 800
 NOMBRE_CASE = 50
 RAPORT_CASE_R = HAUTEUR / NOMBRE_CASE
 RAPORT_CASE_C = LARGEUR / NOMBRE_CASE
@@ -39,6 +41,12 @@ ValDefault = {
               "HAUTEUR": HAUTEUR, "LARGEUR": LARGEUR,
               "fullscreen": fullscreen
               }
+ValResolution = {"1920X1080": [1920, 1080],
+                 "720X480": [720, 480],
+                 "800X600": [800, 600],
+                 "540X360": [540, 360],
+                 "360X240": [360, 240]
+                 }
 
 ########################
 # Variables globales
@@ -365,9 +373,10 @@ def jouer(evt):
     """Lance le jeu lorsque l'on appuie sur jouer"""
     global canvas, fen, RAPORT_CASE_C, RAPORT_CASE_R
     global screen, HAUTEUR, LARGEUR, fullscreen
+    global HAUTEURTemp, LARGEURTemp
     canvas.destroy()
-    HAUTEUR = HAUTEUR
-    LARGEUR = LARGEUR
+    HAUTEUR = HAUTEURTemp
+    LARGEUR = LARGEURTemp
     canvas = tk.Canvas(fen, width=LARGEUR, height=HAUTEUR, bg=COULEUR_FOND)
     canvas.grid()
     fen.attributes("-fullscreen", fullscreen)
@@ -420,7 +429,7 @@ def parametres(evt):
                        text="Valider", fill="white", activefill="green",
                        font="Rockwell, 25", tags='menu'
                        )
-    if NOMBRE_CASE != ValDefault["NOMBRE_CASE"] or p != ValDefault["p"] or n != ValDefault["n"] or T != ValDefault["T"] or K != ValDefault["K"] or fullscreen != ValDefault["fullscreen"]:
+    if NOMBRE_CASE != ValDefault["NOMBRE_CASE"] or p != ValDefault["p"] or n != ValDefault["n"] or T != ValDefault["T"] or K != ValDefault["K"] or fullscreen != ValDefault["fullscreen"] or HAUTEURTemp != ValDefault["HAUTEUR"]:
         default = canvas.create_text(
                                      LARGEUR//2, 7.2*HAUTEUR//9,
                                      text="Défault", fill="white",
@@ -581,11 +590,59 @@ def resolution(evt):
                                       fen, text="FullScreen",
                                       font="Rockwell, 26",
                                       selectcolor="Black", bg="black",
-                                      fg="white", command=ValideFullScreen
+                                      fg="blue", command=ValideFullScreen
                                       )
     if fullscreen:
         FullScreenButton.select()
     FullScreenButton.place(x=300, y=400)
+
+    canvas.tag_bind("Choix_Resolution_1920X1080", '<Button-1>',lambda evt: ChangeRes("1920X1080"))
+    canvas.create_text(
+                       LARGEUR//2, 2.5*HAUTEUR//8,
+                       text="1920X1080", fill="white",
+                       activefill="yellow",
+                       font="Rockwell, 25",
+                       tags="Choix_Resolution_1920X1080"
+                       )
+    canvas.tag_bind("Choix_Resolution_800X600", '<Button-1>',lambda evt: ChangeRes("800X600"))
+    canvas.create_text(
+                       LARGEUR//2, 3.1*HAUTEUR//8,
+                       text="800X600", fill="white",
+                       activefill="yellow",
+                       font="Rockwell, 25",
+                       tags="Choix_Resolution_800X600"
+                       )
+    canvas.tag_bind("Choix_Resolution_720X480", '<Button-1>',lambda evt: ChangeRes("720X480"))
+    canvas.create_text(
+                       LARGEUR//2, 3.7*HAUTEUR//8,
+                       text="720X480", fill="white",
+                       activefill="yellow",
+                       font="Rockwell, 25",
+                       tags="Choix_Resolution_720X480"
+                       )
+    canvas.tag_bind("Choix_Resolution_540X360", '<Button-1>',lambda evt: ChangeRes("540X360"))
+    canvas.create_text(
+                       LARGEUR//2, 4.3*HAUTEUR//8,
+                       text="540X360", fill="white",
+                       activefill="yellow",
+                       font="Rockwell, 25",
+                       tags="Choix_Resolution_540X360"
+                       )
+    canvas.tag_bind("Choix_Resolution_360X240", '<Button-1>',lambda evt: ChangeRes("360X240"))
+    canvas.create_text(
+                       LARGEUR//2, 4.9*HAUTEUR//8,
+                       text="360X240", fill="white",
+                       activefill="yellow",
+                       font="Rockwell, 25",
+                       tags="Choix_Resolution_360X240"
+                       )
+
+
+def ChangeRes(res):
+    """change la resolution"""
+    global ValResolution, HAUTEURTemp, LARGEURTemp
+    HAUTEURTemp = ValResolution[res][1]
+    LARGEURTemp = ValResolution[res][0]
 
 
 def ValideFullScreen():
@@ -623,7 +680,7 @@ def valider_reso(evt):
                        activefill="white",
                        font="Rockwell, 26", tags='reso'
                        )
-    if NOMBRE_CASE != ValDefault["NOMBRE_CASE"] or p != ValDefault["p"] or n != ValDefault["n"] or T != ValDefault["T"] or K != ValDefault["K"] or fullscreen != ValDefault["fullscreen"]:
+    if NOMBRE_CASE != ValDefault["NOMBRE_CASE"] or p != ValDefault["p"] or n != ValDefault["n"] or T != ValDefault["T"] or K != ValDefault["K"] or fullscreen != ValDefault["fullscreen"] or HAUTEURTemp != ValDefault["HAUTEUR"]:
         default = canvas.create_text(
                                      LARGEUR//2, 7.2*HAUTEUR//9,
                                      text="Défault", fill="white",
@@ -668,7 +725,7 @@ def valider_taille(evt):
                        activefill="white",
                        font="Rockwell, 26", tags='reso'
                        )
-    if NOMBRE_CASE != ValDefault["NOMBRE_CASE"] or p != ValDefault["p"] or n != ValDefault["n"] or T != ValDefault["T"] or K != ValDefault["K"] or fullscreen != ValDefault["fullscreen"]:
+    if NOMBRE_CASE != ValDefault["NOMBRE_CASE"] or p != ValDefault["p"] or n != ValDefault["n"] or T != ValDefault["T"] or K != ValDefault["K"] or fullscreen != ValDefault["fullscreen"] or HAUTEURTemp != ValDefault["HAUTEUR"]:
         default = canvas.create_text(
                                      LARGEUR//2, 7.2*HAUTEUR//9,
                                      text="Défault", fill="white",
@@ -720,7 +777,7 @@ def valider_option(evt):
                        activefill="white",
                        font="Rockwell, 26", tags='reso'
                        )
-    if NOMBRE_CASE != ValDefault["NOMBRE_CASE"] or p != ValDefault["p"] or n != ValDefault["n"] or T != ValDefault["T"] or K != ValDefault["K"] or fullscreen != ValDefault["fullscreen"]:
+    if NOMBRE_CASE != ValDefault["NOMBRE_CASE"] or p != ValDefault["p"] or n != ValDefault["n"] or T != ValDefault["T"] or K != ValDefault["K"] or fullscreen != ValDefault["fullscreen"] or HAUTEURTemp != ValDefault["HAUTEUR"]:
         default = canvas.create_text(
                                      LARGEUR//2, 7.2*HAUTEUR//9,
                                      text="Défault", fill="white",
@@ -737,10 +794,10 @@ def valider_option(evt):
 
 def default(evt):
     """Remet les options par défault"""
-    global HAUTEUR, LARGEUR, NOMBRE_CASE, p, n, T, K, default, fullscreen
+    global HAUTEURTemp, LARGEURTemp, NOMBRE_CASE, p, n, T, K, default, fullscreen
     canvas.delete("default")
-    HAUTEUR = 600
-    LARGEUR = 800
+    HAUTEURTemp = 600
+    LARGEURTemp = 800
     p = 0.5
     n = 4
     T = 5
