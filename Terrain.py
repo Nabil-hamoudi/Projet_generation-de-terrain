@@ -36,7 +36,8 @@ K = 1
 ValDefault = {
               "p": p, "n": n, "T": T, "K": K,
               "NOMBRE_CASE": NOMBRE_CASE,
-              "HAUTEUR": HAUTEUR, "LARGEUR": LARGEUR
+              "HAUTEUR": HAUTEUR, "LARGEUR": LARGEUR,
+              "fullscreen": fullscreen
               }
 
 ########################
@@ -390,7 +391,7 @@ def Touchedirectionnel():
 
 def parametres(evt):
     """Ouvre la fenêtre des paramétres"""
-    global default, NOMBRE_CASE, p, n, T, K, HAUTEUR, LARGEUR
+    global default, NOMBRE_CASE, p, n, T, K, HAUTEUR, LARGEUR, fullscreen
     canvas.delete('all')
 
     canvas.create_text(
@@ -419,7 +420,7 @@ def parametres(evt):
                        text="Valider", fill="white", activefill="green",
                        font="Rockwell, 25", tags='menu'
                        )
-    if NOMBRE_CASE != ValDefault["NOMBRE_CASE"] or p != ValDefault["p"] or n != ValDefault["n"] or T != ValDefault["T"] or K != ValDefault["K"]:
+    if NOMBRE_CASE != ValDefault["NOMBRE_CASE"] or p != ValDefault["p"] or n != ValDefault["n"] or T != ValDefault["T"] or K != ValDefault["K"] or fullscreen != ValDefault["fullscreen"]:
         default = canvas.create_text(
                                      LARGEUR//2, 7.2*HAUTEUR//9,
                                      text="Défault", fill="white",
@@ -560,6 +561,7 @@ def scale4(evt):
 
 
 def resolution(evt):
+    global FullScreenButton, fullscreen
     canvas.delete('all')
     canvas.create_text(
                        LARGEUR//2, HAUTEUR//5,
@@ -570,14 +572,35 @@ def resolution(evt):
     canvas.create_text(
                        LARGEUR//2, 7.2*HAUTEUR//8,
                        text="Valider", fill="white",
-                       activefill="green", font="Rockwell, 25",
+                       activefill="green",
+                       font="Rockwell, 25",
                        tags='valider_3'
                        )
+
+    FullScreenButton = tk.Checkbutton(
+                                      fen, text="FullScreen",
+                                      font="Rockwell, 26",
+                                      selectcolor="Black", bg="black",
+                                      fg="white", command=ValideFullScreen
+                                      )
+    if fullscreen:
+        FullScreenButton.select()
+    FullScreenButton.place(x=300, y=400)
+
+
+def ValideFullScreen():
+    """Valide le FullScreen ou non"""
+    global fullscreen, FullScreenButton
+    if fullscreen:
+        fullscreen = False
+    else:
+        fullscreen = True
 
 
 def valider_reso(evt):
     """Valide la resolution selectionner"""
-    global default
+    global default, FullScreenButton, fullscreen
+    FullScreenButton.destroy()
     canvas.delete('all')
     canvas.create_text(
                        LARGEUR//2, HAUTEUR//5,
@@ -600,7 +623,7 @@ def valider_reso(evt):
                        activefill="white",
                        font="Rockwell, 26", tags='reso'
                        )
-    if NOMBRE_CASE != ValDefault["NOMBRE_CASE"] or p != ValDefault["p"] or n != ValDefault["n"] or T != ValDefault["T"] or K != ValDefault["K"]:
+    if NOMBRE_CASE != ValDefault["NOMBRE_CASE"] or p != ValDefault["p"] or n != ValDefault["n"] or T != ValDefault["T"] or K != ValDefault["K"] or fullscreen != ValDefault["fullscreen"]:
         default = canvas.create_text(
                                      LARGEUR//2, 7.2*HAUTEUR//9,
                                      text="Défault", fill="white",
@@ -618,7 +641,7 @@ def valider_reso(evt):
 def valider_taille(evt):
     """Valide les options de taille du jeu"""
     global taille, NOMBRE_CASE, HAUTEUR, default, ValDefault
-    global LARGEUR, RAPORT_CASE_C, RAPORT_CASE_R
+    global LARGEUR, RAPORT_CASE_C, RAPORT_CASE_R, fullscreen
     taille = cursor_taille.get()
     NOMBRE_CASE = taille
     canvas.delete('all')
@@ -645,7 +668,7 @@ def valider_taille(evt):
                        activefill="white",
                        font="Rockwell, 26", tags='reso'
                        )
-    if NOMBRE_CASE != ValDefault["NOMBRE_CASE"]:
+    if NOMBRE_CASE != ValDefault["NOMBRE_CASE"] or p != ValDefault["p"] or n != ValDefault["n"] or T != ValDefault["T"] or K != ValDefault["K"] or fullscreen != ValDefault["fullscreen"]:
         default = canvas.create_text(
                                      LARGEUR//2, 7.2*HAUTEUR//9,
                                      text="Défault", fill="white",
@@ -662,7 +685,7 @@ def valider_taille(evt):
 
 def valider_option(evt):
     """valide les paramétres p, n, T, k"""
-    global p, n, T, K, default, ValDefault
+    global p, n, T, K, default, ValDefault, fullscreen
     p = cursor_p.get()
     n = cursor_n.get()
     T = cursor_T.get()
@@ -693,10 +716,11 @@ def valider_option(evt):
                        )
     canvas.create_text(
                        LARGEUR//2, 2.9*HAUTEUR//4,
-                       text="Choix de résolution", fill="#3156E1", activefill="white",
+                       text="Choix de résolution", fill="#3156E1",
+                       activefill="white",
                        font="Rockwell, 26", tags='reso'
                        )
-    if NOMBRE_CASE != ValDefault["NOMBRE_CASE"] or p != ValDefault["p"] or n != ValDefault["n"] or T != ValDefault["T"] or K != ValDefault["K"]:
+    if NOMBRE_CASE != ValDefault["NOMBRE_CASE"] or p != ValDefault["p"] or n != ValDefault["n"] or T != ValDefault["T"] or K != ValDefault["K"] or fullscreen != ValDefault["fullscreen"]:
         default = canvas.create_text(
                                      LARGEUR//2, 7.2*HAUTEUR//9,
                                      text="Défault", fill="white",
@@ -713,7 +737,7 @@ def valider_option(evt):
 
 def default(evt):
     """Remet les options par défault"""
-    global HAUTEUR, LARGEUR, NOMBRE_CASE, p, n, T, K, default
+    global HAUTEUR, LARGEUR, NOMBRE_CASE, p, n, T, K, default, fullscreen
     canvas.delete("default")
     HAUTEUR = 600
     LARGEUR = 800
@@ -722,6 +746,7 @@ def default(evt):
     T = 5
     K = 1
     NOMBRE_CASE = 50
+    fullscreen = False
 
 
 def main_menu(evt=None):
