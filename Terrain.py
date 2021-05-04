@@ -51,7 +51,7 @@ ValResolution = {"1920X1080": [1920, 1080],
 ########################
 # Variables globales
 
-default = -1
+
 # Contient le widget default
 Chunk = [[], []]
 # [1](0(gauche)/1(droite))
@@ -437,7 +437,7 @@ def RetourneMenu(evt):
     canvas.tag_bind('option', '<Button-1>', option)
     canvas.tag_bind('reso', '<Button-1>', resolution)
     canvas.tag_bind('menu', '<Button-1>', main_menu)
-    canvas.tag_bind('default', '<Button-1>', default)
+    canvas.tag_bind('default', '<Button-1>', ValeurDefault)
     canvas.tag_bind('valider_1', '<Button-1>', valider_taille)
     canvas.tag_bind('valider_2', '<Button-1>', valider_option)
     canvas.tag_bind('valider_3', '<Button-1>', valider_reso)
@@ -445,7 +445,7 @@ def RetourneMenu(evt):
 
 def parametres(evt):
     """Ouvre la fenêtre des paramétres"""
-    global default, NOMBRE_CASE, p, n, T, K, HAUTEUR, LARGEUR, fullscreen
+    global NOMBRE_CASE, p, n, T, K, HAUTEUR, LARGEUR, fullscreen
     canvas.delete('all')
 
     canvas.create_text(
@@ -675,7 +675,7 @@ def resolution(evt):
                        tags="Choix_Resolution_720X480"
                        )
     canvas.tag_bind(
-                    "Choix_Resolution_540X360",'<Button-1>',
+                    "Choix_Resolution_540X360", '<Button-1>',
                     lambda evt: ChangeRes("540X360")
                     )
     canvas.create_text(
@@ -686,7 +686,7 @@ def resolution(evt):
                        tags="Choix_Resolution_540X360"
                        )
     canvas.tag_bind(
-                    "Choix_Resolution_360X240", '<Button-1>', 
+                    "Choix_Resolution_360X240", '<Button-1>',
                     lambda evt: ChangeRes("360X240")
                     )
     canvas.create_text(
@@ -716,7 +716,7 @@ def ValideFullScreen():
 
 def valider_reso(evt):
     """Valide la resolution selectionner"""
-    global default, FullScreenButton, fullscreen
+    global FullScreenButton, fullscreen
     FullScreenButton.destroy()
     canvas.delete('all')
     canvas.create_text(
@@ -757,7 +757,7 @@ def valider_reso(evt):
 
 def valider_taille(evt):
     """Valide les options de taille du jeu"""
-    global taille, NOMBRE_CASE, HAUTEUR, default, ValDefault
+    global taille, NOMBRE_CASE, HAUTEUR, ValDefault
     global LARGEUR, RAPORT_CASE_C, RAPORT_CASE_R, fullscreen
     taille = cursor_taille.get()
     NOMBRE_CASE = taille
@@ -802,7 +802,7 @@ def valider_taille(evt):
 
 def valider_option(evt):
     """valide les paramétres p, n, T, k"""
-    global p, n, T, K, default, ValDefault, fullscreen
+    global p, n, T, K, ValDefault, fullscreen
     p = cursor_p.get()
     n = cursor_n.get()
     T = cursor_T.get()
@@ -852,10 +852,10 @@ def valider_option(evt):
                        )
 
 
-def default(evt):
+def ValeurDefault(evt):
     """Remet les options par défault"""
     global HAUTEURTemp, LARGEURTemp, NOMBRE_CASE
-    global p, n, T, K, default, fullscreen
+    global p, n, T, K, fullscreen
     canvas.delete("default")
     HAUTEURTemp = 600
     LARGEURTemp = 800
@@ -914,7 +914,7 @@ canvas.tag_bind('taille', '<Button-1>', taille)
 canvas.tag_bind('option', '<Button-1>', option)
 canvas.tag_bind('reso', '<Button-1>', resolution)
 canvas.tag_bind('menu', '<Button-1>', main_menu)
-canvas.tag_bind('default', '<Button-1>', default)
+canvas.tag_bind('default', '<Button-1>', ValeurDefault)
 canvas.tag_bind('valider_1', '<Button-1>', valider_taille)
 canvas.tag_bind('valider_2', '<Button-1>', valider_option)
 canvas.tag_bind('valider_3', '<Button-1>', valider_reso)
