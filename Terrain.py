@@ -446,17 +446,25 @@ def RetourneMenu(evt):
 def parametres(evt):
     """Ouvre la fenêtre des paramétres"""
     global NOMBRE_CASE, p, n, T, K, HAUTEUR, LARGEUR, fullscreen
+    global Chunk
     canvas.delete('all')
 
     canvas.create_text(
                        LARGEUR//2, HAUTEUR//5,
                        text="Paramètres", fill="white", font=('system', '45')
                        )
-    canvas.create_text(
-                       LARGEUR//2, 1.7*HAUTEUR//4,
-                       text="Choix de la taille", fill="#3156E1",
-                       activefill="white", font='Rockwell, 30', tags='taille'
-                       )
+    if Chunk == [[], []]:
+        canvas.create_text(
+                           LARGEUR//2, 1.7*HAUTEUR//4,
+                           text="Choix de la taille", fill="#3156E1",
+                           activefill="white", font='Rockwell, 30', tags='taille'
+                           )
+    else:
+        canvas.create_text(
+                   LARGEUR//2, 1.7*HAUTEUR//4,
+                   text="Reset", fill="Red",
+                   activefill="white", font='Rockwell, 30'# , tags='reset'
+                   )
     canvas.create_text(
                        LARGEUR//2, 2.3*HAUTEUR//4,
                        text="Choix des options", fill="#3156E1",
@@ -474,7 +482,7 @@ def parametres(evt):
                        text="Valider", fill="white", activefill="green",
                        font="Rockwell, 25", tags='menu'
                        )
-    if NOMBRE_CASE != ValDefault["NOMBRE_CASE"] or p != ValDefault["p"] or n != ValDefault["n"] or T != ValDefault["T"] or K != ValDefault["K"] or fullscreen != ValDefault["fullscreen"] or HAUTEURTemp != ValDefault["HAUTEUR"]:
+    if (NOMBRE_CASE != ValDefault["NOMBRE_CASE"] and Chunk == [[], []]) or p != ValDefault["p"] or n != ValDefault["n"] or T != ValDefault["T"] or K != ValDefault["K"] or fullscreen != ValDefault["fullscreen"] or HAUTEURTemp != ValDefault["HAUTEUR"]:
         default = canvas.create_text(
                                      LARGEUR//2, 7.2*HAUTEUR//9,
                                      text="Défault", fill="white",
@@ -740,7 +748,7 @@ def valider_reso(evt):
                        activefill="white",
                        font="Rockwell, 26", tags='reso'
                        )
-    if NOMBRE_CASE != ValDefault["NOMBRE_CASE"] or p != ValDefault["p"] or n != ValDefault["n"] or T != ValDefault["T"] or K != ValDefault["K"] or fullscreen != ValDefault["fullscreen"] or HAUTEURTemp != ValDefault["HAUTEUR"]:
+    if (NOMBRE_CASE != ValDefault["NOMBRE_CASE"] and Chunk == [[], []]) or p != ValDefault["p"] or n != ValDefault["n"] or T != ValDefault["T"] or K != ValDefault["K"] or fullscreen != ValDefault["fullscreen"] or HAUTEURTemp != ValDefault["HAUTEUR"]:
         default = canvas.create_text(
                                      LARGEUR//2, 7.2*HAUTEUR//9,
                                      text="Défault", fill="white",
@@ -785,7 +793,7 @@ def valider_taille(evt):
                        activefill="white",
                        font="Rockwell, 26", tags='reso'
                        )
-    if NOMBRE_CASE != ValDefault["NOMBRE_CASE"] or p != ValDefault["p"] or n != ValDefault["n"] or T != ValDefault["T"] or K != ValDefault["K"] or fullscreen != ValDefault["fullscreen"] or HAUTEURTemp != ValDefault["HAUTEUR"]:
+    if (NOMBRE_CASE != ValDefault["NOMBRE_CASE"] and Chunk == [[], []]) or n != ValDefault["n"] or T != ValDefault["T"] or K != ValDefault["K"] or fullscreen != ValDefault["fullscreen"] or HAUTEURTemp != ValDefault["HAUTEUR"]:
         default = canvas.create_text(
                                      LARGEUR//2, 7.2*HAUTEUR//9,
                                      text="Défault", fill="white",
@@ -837,7 +845,7 @@ def valider_option(evt):
                        activefill="white",
                        font="Rockwell, 26", tags='reso'
                        )
-    if NOMBRE_CASE != ValDefault["NOMBRE_CASE"] or p != ValDefault["p"] or n != ValDefault["n"] or T != ValDefault["T"] or K != ValDefault["K"] or fullscreen != ValDefault["fullscreen"] or HAUTEURTemp != ValDefault["HAUTEUR"]:
+    if (NOMBRE_CASE != ValDefault["NOMBRE_CASE"] and Chunk == [[], []]) or p != ValDefault["p"] or n != ValDefault["n"] or T != ValDefault["T"] or K != ValDefault["K"] or fullscreen != ValDefault["fullscreen"] or HAUTEURTemp != ValDefault["HAUTEUR"]:
         default = canvas.create_text(
                                      LARGEUR//2, 7.2*HAUTEUR//9,
                                      text="Défault", fill="white",
@@ -855,7 +863,7 @@ def valider_option(evt):
 def ValeurDefault(evt):
     """Remet les options par défault"""
     global HAUTEURTemp, LARGEURTemp, NOMBRE_CASE
-    global p, n, T, K, fullscreen
+    global p, n, T, K, fullscreen, Chunk
     canvas.delete("default")
     HAUTEURTemp = 600
     LARGEURTemp = 800
@@ -863,7 +871,8 @@ def ValeurDefault(evt):
     n = 4
     T = 5
     K = 1
-    NOMBRE_CASE = 50
+    if Chunk == [[], []]:
+        NOMBRE_CASE = 50
     fullscreen = False
 
 
