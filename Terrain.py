@@ -16,6 +16,9 @@ import tkinter as tk
 import random
 import copy
 import tkinter.messagebox
+from tkinter import filedialog
+from tkinter import simpledialog
+
 
 ########################
 # Constantes
@@ -427,6 +430,10 @@ def RetourneMenu(evt):
     fen.attributes("-fullscreen", False)
     canvas.destroy()
     canvas = tk.Canvas(fen, width=LARGEUR, height=HAUTEUR, bg=COULEUR_FOND)
+    bouton_sauvegarder = tk.Button(fen, text="Sauvegarder", command=sauvegarder)
+    bouton_charger = tk.Button(fen, text="Sauvegarder", command=charger)
+    bouton_sauvegarder.grid(row=0, column=1)
+    bouton_charger.grid(row=0, column=2)
     canvas.grid()
     main_menu()
 
@@ -895,12 +902,9 @@ def main_menu(evt=None):
                        )
 
 
-from tkinter import filedialog
-from tkinter import simpledialog
-
 def sauvegarder():
     """Sauvegarde le terrain actuel et l'emplacement du personnage """
-    global R_perso, C_perso, perso, Chunk, deplacements, n, p, T, K
+    global R_perso, C_perso, perso, Chunk, deplacements, n, p, T, K, Decalage
     fic = filedialog.asksaveasfile(mode='w', title='Nommer votre fichier')
     if perso == True:
         fic.write("1\n")
@@ -925,6 +929,7 @@ def sauvegarder():
     fic.write(str(p))
     fic.write(str(T))
     fic.write(str(K))
+    fic.write(str(Decalage))
 
     fic.close()
 
@@ -933,7 +938,7 @@ def sauvegarder():
 def charger():
     """Charge le terrain précedemment sauvegardé. Si un personnage était présent
         lors de la sauvegarde """
-    global deplacements, Chunk, perso, personnage, screen, R_perso, C_perso, n, p, T, K
+    global deplacements, Chunk, perso, personnage, screen, R_perso, C_perso, n, p, T, K, Decalage
     for C in range(len(screen)):
         for R in range(len(screen[C])):
             canvas.delete(screen[C][R])
@@ -971,19 +976,17 @@ def charger():
     p = (fic.readline())
     T = (fic.readline())
     K = (fic.readline())
+    Decalage = (fic.readline())
     Colored()
     if Decalage < 0:
         Colored(0)
     elif Decalage > 0:
         Colored(3)
     if perso:
-        personnage = canvas.create_oval(C_perso*RAPORT_CASE_C+RAPORT_CASE_C/3, R_perso*RAPORT_CASE_R+RAPORT_CASE_R/3, C_perso*RAPORT_CASE_C+2*RAPORT_CASE_C/3, R_perso*RAPORT_CASE_R+2*RAPORT_CASE_R/3, fill="red")
+        perso = False
+        personnage(C_perso, R_perso)
     fic.close()
 
-
-
-bouton_sauvegarder = tk.Button(fen, text="Sauvegarder", command=sauvegarder)
-bouton_sauvegarder.grid(row=0, column=0)
 
 
 
