@@ -156,7 +156,7 @@ def CompteK(C, R):
     res = []
     for Ci in range(-K, K+1):
         for Ri in range(-K, K+1):
-            if C + Ci >= 0 and C + Ci <= C_max:
+            if C + Ci >= 0 and C + Ci <= C_max and (Ci, Ri) != (0, 0):
                 res.append([C + Ci, R + Ri])
     return res
 
