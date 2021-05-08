@@ -151,7 +151,6 @@ def CompteK(C, R):
     """recupere les coordonnées des voisins en fonction de K"""
     global K, NOMBRE_CASE
     C_max = NOMBRE_CASE - 1
-    compt = [C, R]
     res = []
     for Ci in range(-K, K+1):
         for Ri in range(-K, K+1):
