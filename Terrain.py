@@ -16,6 +16,9 @@ import tkinter as tk
 import random
 import copy
 import tkinter.messagebox
+from tkinter import filedialog
+from tkinter import simpledialog
+
 
 ########################
 # Constantes
@@ -427,6 +430,10 @@ def RetourneMenu(evt):
     fen.attributes("-fullscreen", False)
     canvas.destroy()
     canvas = tk.Canvas(fen, width=LARGEUR, height=HAUTEUR, bg=COULEUR_FOND)
+    bouton_sauvegarder = tk.Button(fen, text="Sauvegarder", command=sauvegarder)
+    bouton_charger = tk.Button(fen, text="Sauvegarder", command=charger)
+    bouton_sauvegarder.grid(row=0, column=1)
+    bouton_charger.grid(row=0, column=2)
     canvas.grid()
     main_menu()
 
@@ -904,6 +911,95 @@ def main_menu(evt=None):
                        )
 
 
+def sauvegarder():
+    """Sauvegarde le terrain actuel et l'emplacement du personnage """
+    global R_perso, C_perso, perso, Chunk, deplacements, n, p, T, K, Decalage
+    fic = filedialog.asksaveasfile(mode='w', title='Nommer votre fichier')
+    if perso == True:
+        fic.write("1\n")
+        fic.write(str(R_perso) + "\n" + str(C_perso) + "\n")
+    else:
+        fic.write("0\n")
+
+    fic.write(str(len(deplacements)) + "\n")
+    for i in range(len(deplacements)):
+        fic.write(deplacements[i] + "\n")
+
+    fic.write(str(len(Chunk)) + "\n")
+    for i in range(len(Chunk)):
+        fic.write(str(len(Chunk[i]))+ "\n")
+        for j in range(len(Chunk[i])):
+            fic.write(str(len(Chunk[i][j]))+ "\n")
+            for k in range(len(Chunk[i][j])):
+                fic.write(str(len(Chunk[i][j][k]))+ "\n")
+                for l in range(len(Chunk[i][j][k])):
+                    fic.write(str((Chunk[i][j][k][l]))+ "\n")
+    fic.write(str(n))
+    fic.write(str(p))
+    fic.write(str(T))
+    fic.write(str(K))
+    fic.write(str(Decalage))
+
+    fic.close()
+
+
+
+def charger():
+    """Charge le terrain précedemment sauvegardé. Si un personnage était présent
+        lors de la sauvegarde """
+    global deplacements, Chunk, perso, personnage, screen, R_perso, C_perso, n, p, T, K, Decalage
+    for C in range(len(screen)):
+        for R in range(len(screen[C])):
+            canvas.delete(screen[C][R])
+    if perso:
+        canvas.delete(personnage)
+    
+    fic = filedialog.askopenfile(title='Selectionner votre fichier')
+    ligne = fic.readline()
+    if ligne == "1\n":
+        perso = True
+        R_perso = int(fic.readline())
+        C_perso = int(fic.readline())
+    else:
+        perso = False
+    
+    taille_deplacements = int(fic.readline())
+    deplacements = []
+    for i in range(taille_deplacements):
+        deplacements.append(fic.readline().rstrip("\n"))  
+
+    Chunk = []
+    taille_Chunk = int(fic.readline())
+    for i in range(taille_Chunk):
+        Chunk.append([])
+        taille_Chunk_i = int(fic.readline())
+        for j in range(taille_Chunk_i):
+            Chunk[i].append([])
+            taille_Chunk_ij = int(fic.readline())
+            for k in range(taille_Chunk_ij):
+                Chunk[i][j].append([])
+                taille_Chunk_ijk = int(fic.readline())
+                for l in range(taille_Chunk_ijk):
+                    Chunk[i][j][k].append(int(fic.readline()))
+    n = (fic.readline())
+    p = (fic.readline())
+    T = (fic.readline())
+    K = (fic.readline())
+    Decalage = (fic.readline())
+    Colored()
+    if Decalage < 0:
+        Colored(0)
+    elif Decalage > 0:
+        Colored(3)
+    if perso:
+        perso = False
+        personnage(C_perso, R_perso)
+    fic.close()
+
+
+
+
+
 ############################
 # programme principal
 
@@ -927,5 +1023,6 @@ canvas.tag_bind('default', '<Button-1>', ValeurDefault)
 canvas.tag_bind('valider_1', '<Button-1>', valider_taille)
 canvas.tag_bind('valider_2', '<Button-1>', valider_option)
 canvas.tag_bind('valider_3', '<Button-1>', valider_reso)
+
 
 fen.mainloop()
