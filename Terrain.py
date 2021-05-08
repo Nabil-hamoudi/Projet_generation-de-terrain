@@ -14,7 +14,6 @@
 
 import tkinter as tk
 import random
-import copy
 import tkinter.messagebox
 from tkinter import filedialog
 from tkinter import simpledialog
