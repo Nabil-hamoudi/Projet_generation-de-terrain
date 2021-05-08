@@ -50,7 +50,6 @@ ValResolution = {"1920X1080": [1920, 1080],
                  "540X360": [540, 360],
                  "360X240": [360, 240]
                  }
-
 ########################
 # Variables globales
 
@@ -91,6 +90,7 @@ def quadrillage(LR=1):
     # 0 => gauche, 1 => Debut, 3 => Droite
     global Chunk, p
     LR = set([LR//2, LR % 2])
+    print(LR)
     for i in LR:
         Chunk[i].append(
                         [[-1 for i in range(NOMBRE_CASE)]for u in range(NOMBRE_CASE)]
@@ -132,15 +132,15 @@ def Comptage(C, R, i, LR):
         # R_temp <= R_max and R_temp >= 0:
         if n[1] >= NOMBRE_CASE:
             if LR == {0, 1} and i == 0:
-                FinalCount.append([i + 1, 0, n[0], n[1] - NOMBRE_CASE])
+                FinalCount.append([1, 0, n[0], n[1] - NOMBRE_CASE])
                 # [i, chunk, C, R]
-            elif LR != {0, 1}:
+            elif LR == {0}:
                 FinalCount.append([i, -1, n[0], n[1] - NOMBRE_CASE])
         elif n[1] < 0:
             if LR == {0, 1} and i == 1:
-                FinalCount.append([i - 1, 0, n[0], n[1]])
-            elif LR != {0, 1}:
-                FinalCount.append([i, -1, n[0], n[1]])
+                FinalCount.append([0, 0, n[0], n[1] + NOMBRE_CASE])
+            elif LR == {1}:
+                FinalCount.append([i, -1, n[0], n[1] + NOMBRE_CASE])
         else:
             FinalCount.append([i, 0, n[0], n[1]])
     Nb = 0
@@ -151,34 +151,15 @@ def Comptage(C, R, i, LR):
 
 def CompteK(C, R):
     """recupere les coordonnées des voisins en fonction de K"""
-    global K
-    compt = [[C, R]]
-    res = []
-    for i in range(K):
-        tempcount = []
-        for p in compt:
-            Coor = Count(p[0], p[1])
-            res.extend(Coor)
-            tempcount.extend(Coor)
-        compt = copy.deepcopy(tempcount)
-    RES = []
-    for i in res:
-        if i not in RES:
-            RES.append(i)
-    return RES
-
-
-def Count(C, R):
-    """Sort les coordonnées des voisins direct"""
-    global NOMBRE_CASE, Chunk
-    count = []
+    global K, NOMBRE_CASE
     C_max = NOMBRE_CASE - 1
-    for o in [x for x in range(9) if x != 4]:
-        C_temp = C - 1 + (o // 3)
-        R_temp = R - 1 + (o % 3)
-        if C_temp >= 0 and C_temp <= C_max:
-            count.append([C_temp, R_temp])
-    return count
+    compt = [C, R]
+    res = []
+    for Ci in range(-K, K+1):
+        for Ri in range(-K, K+1):
+            if C + Ci >= 0 and C + Ci <= C_max:
+                res.append([C + Ci, R + Ri])
+    return res
 
 
 ####################################
@@ -420,7 +401,7 @@ def Touchedirectionnel():
 
 def RetourneMenu(evt):
     """Fais revenir au menu"""
-    global LARGEUR, HAUTEUR, fen, canvas
+    global LARGEUR, HAUTEUR, canvas
     global ValDefault, fullscreen, COULEUR_FOND
     global RAPORT_CASE_C, RAPORT_CASE_R
     LARGEUR = ValDefault["LARGEUR"]
@@ -430,10 +411,6 @@ def RetourneMenu(evt):
     fen.attributes("-fullscreen", False)
     canvas.destroy()
     canvas = tk.Canvas(fen, width=LARGEUR, height=HAUTEUR, bg=COULEUR_FOND)
-    bouton_sauvegarder = tk.Button(fen, text="Sauvegarder", command=sauvegarder)
-    bouton_charger = tk.Button(fen, text="Sauvegarder", command=charger)
-    bouton_sauvegarder.grid(row=0, column=1)
-    bouton_charger.grid(row=0, column=2)
     canvas.grid()
     main_menu()
 
