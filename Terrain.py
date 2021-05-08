@@ -470,7 +470,7 @@ def parametres(evt):
         canvas.create_text(
                    LARGEUR//2, 1.7*HAUTEUR//4,
                    text="Reset", fill="Red",
-                   activefill="white", font='Rockwell, 30'# , tags='reset'
+                   activefill="white", font='Rockwell, 30'  # , tags='reset'
                    )
     canvas.create_text(
                        LARGEUR//2, 2.3*HAUTEUR//4,
@@ -490,12 +490,12 @@ def parametres(evt):
                        font="Rockwell, 25", tags='menu'
                        )
     if (NOMBRE_CASE != ValDefault["NOMBRE_CASE"] and Chunk == [[], []]) or p != ValDefault["p"] or n != ValDefault["n"] or T != ValDefault["T"] or K != ValDefault["K"] or fullscreen != ValDefault["fullscreen"] or HAUTEURTemp != ValDefault["HAUTEUR"]:
-        default = canvas.create_text(
-                                     LARGEUR//2, 7.2*HAUTEUR//9,
-                                     text="Défault", fill="white",
-                                     activefill="green",
-                                     font="Rockwell, 25", tags='default'
-                                     )
+        canvas.create_text(
+                           LARGEUR//2, 7.2*HAUTEUR//9,
+                           text="Défault", fill="white",
+                           activefill="green",
+                           font="Rockwell, 25", tags='default'
+                           )
 
 
 def taille(evt):
@@ -756,12 +756,12 @@ def valider_reso(evt):
                        font="Rockwell, 26", tags='reso'
                        )
     if (NOMBRE_CASE != ValDefault["NOMBRE_CASE"] and Chunk == [[], []]) or p != ValDefault["p"] or n != ValDefault["n"] or T != ValDefault["T"] or K != ValDefault["K"] or fullscreen != ValDefault["fullscreen"] or HAUTEURTemp != ValDefault["HAUTEUR"]:
-        default = canvas.create_text(
-                                     LARGEUR//2, 7.2*HAUTEUR//9,
-                                     text="Défault", fill="white",
-                                     activefill="green",
-                                     font="Rockwell, 25", tags='default'
-                                     )
+        canvas.create_text(
+                           LARGEUR//2, 7.2*HAUTEUR//9,
+                           text="Défault", fill="white",
+                           activefill="green",
+                           font="Rockwell, 25", tags='default'
+                           )
     canvas.create_text(
                        LARGEUR//2, 7.2*HAUTEUR//8,
                        text="Valider", fill="white",
@@ -801,12 +801,12 @@ def valider_taille(evt):
                        font="Rockwell, 26", tags='reso'
                        )
     if (NOMBRE_CASE != ValDefault["NOMBRE_CASE"] and Chunk == [[], []]) or n != ValDefault["n"] or T != ValDefault["T"] or K != ValDefault["K"] or fullscreen != ValDefault["fullscreen"] or HAUTEURTemp != ValDefault["HAUTEUR"]:
-        default = canvas.create_text(
-                                     LARGEUR//2, 7.2*HAUTEUR//9,
-                                     text="Défault", fill="white",
-                                     activefill="green",
-                                     font="Rockwell, 25", tags='default'
-                                     )
+        canvas.create_text(
+                           LARGEUR//2, 7.2*HAUTEUR//9,
+                           text="Défault", fill="white",
+                           activefill="green",
+                           font="Rockwell, 25", tags='default'
+                           )
     canvas.create_text(
                        LARGEUR//2, 7.2*HAUTEUR//8,
                        text="Valider", fill="white",
@@ -853,12 +853,12 @@ def valider_option(evt):
                        font="Rockwell, 26", tags='reso'
                        )
     if (NOMBRE_CASE != ValDefault["NOMBRE_CASE"] and Chunk == [[], []]) or p != ValDefault["p"] or n != ValDefault["n"] or T != ValDefault["T"] or K != ValDefault["K"] or fullscreen != ValDefault["fullscreen"] or HAUTEURTemp != ValDefault["HAUTEUR"]:
-        default = canvas.create_text(
-                                     LARGEUR//2, 7.2*HAUTEUR//9,
-                                     text="Défault", fill="white",
-                                     activefill="green",
-                                     font="Rockwell, 25", tags='default'
-                                     )
+        canvas.create_text(
+                           LARGEUR//2, 7.2*HAUTEUR//9,
+                           text="Défault", fill="white",
+                           activefill="green",
+                           font="Rockwell, 25", tags='default'
+                           )
     canvas.create_text(
                        LARGEUR//2, 7.2*HAUTEUR//8,
                        text="Valider", fill="white",
@@ -915,7 +915,7 @@ def sauvegarder():
     """Sauvegarde le terrain actuel et l'emplacement du personnage """
     global R_perso, C_perso, perso, Chunk, deplacements, n, p, T, K, Decalage
     fic = filedialog.asksaveasfile(mode='w', title='Nommer votre fichier')
-    if perso == True:
+    if perso:
         fic.write("1\n")
         fic.write(str(R_perso) + "\n" + str(C_perso) + "\n")
     else:
@@ -927,13 +927,13 @@ def sauvegarder():
 
     fic.write(str(len(Chunk)) + "\n")
     for i in range(len(Chunk)):
-        fic.write(str(len(Chunk[i]))+ "\n")
-        for j in range(len(Chunk[i])):
-            fic.write(str(len(Chunk[i][j]))+ "\n")
-            for k in range(len(Chunk[i][j])):
-                fic.write(str(len(Chunk[i][j][k]))+ "\n")
-                for l in range(len(Chunk[i][j][k])):
-                    fic.write(str((Chunk[i][j][k][l]))+ "\n")
+        fic.write(str(len(Chunk[i])) + "\n")
+        for P in range(len(Chunk[i])):
+            fic.write(str(len(Chunk[i][P])) + "\n")
+            for C in range(len(Chunk[i][P])):
+                fic.write(str(len(Chunk[i][P][C])) + "\n")
+                for R in range(len(Chunk[i][P][C])):
+                    fic.write(str((Chunk[i][P][C][R])) + "\n")
     fic.write(str(n))
     fic.write(str(p))
     fic.write(str(T))
@@ -943,17 +943,17 @@ def sauvegarder():
     fic.close()
 
 
-
 def charger():
     """Charge le terrain précedemment sauvegardé. Si un personnage était présent
         lors de la sauvegarde """
-    global deplacements, Chunk, perso, personnage, screen, R_perso, C_perso, n, p, T, K, Decalage
+    global deplacements, Chunk, perso, personnage
+    global screen, R_perso, C_perso, n, p, T, K, Decalage
     for C in range(len(screen)):
         for R in range(len(screen[C])):
             canvas.delete(screen[C][R])
     if perso:
         canvas.delete(personnage)
-    
+
     fic = filedialog.askopenfile(title='Selectionner votre fichier')
     ligne = fic.readline()
     if ligne == "1\n":
@@ -962,25 +962,25 @@ def charger():
         C_perso = int(fic.readline())
     else:
         perso = False
-    
+
     taille_deplacements = int(fic.readline())
     deplacements = []
     for i in range(taille_deplacements):
-        deplacements.append(fic.readline().rstrip("\n"))  
+        deplacements.append(fic.readline().rstrip("\n"))
 
     Chunk = []
     taille_Chunk = int(fic.readline())
     for i in range(taille_Chunk):
         Chunk.append([])
         taille_Chunk_i = int(fic.readline())
-        for j in range(taille_Chunk_i):
+        for P in range(taille_Chunk_i):
             Chunk[i].append([])
-            taille_Chunk_ij = int(fic.readline())
-            for k in range(taille_Chunk_ij):
-                Chunk[i][j].append([])
-                taille_Chunk_ijk = int(fic.readline())
-                for l in range(taille_Chunk_ijk):
-                    Chunk[i][j][k].append(int(fic.readline()))
+            taille_Chunk_iP = int(fic.readline())
+            for C in range(taille_Chunk_iP):
+                Chunk[i][P].append([])
+                taille_Chunk_iPC = int(fic.readline())
+                for R in range(taille_Chunk_iPC):
+                    Chunk[i][P][C].append(int(fic.readline()))
     n = (fic.readline())
     p = (fic.readline())
     T = (fic.readline())
@@ -995,9 +995,6 @@ def charger():
         perso = False
         personnage(C_perso, R_perso)
     fic.close()
-
-
-
 
 
 ############################
