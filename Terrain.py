@@ -90,7 +90,6 @@ def quadrillage(LR=1):
     # 0 => gauche, 1 => Debut, 3 => Droite
     global Chunk, p
     LR = set([LR//2, LR % 2])
-    print(LR)
     for i in LR:
         Chunk[i].append(
                         [[-1 for i in range(NOMBRE_CASE)]for u in range(NOMBRE_CASE)]
