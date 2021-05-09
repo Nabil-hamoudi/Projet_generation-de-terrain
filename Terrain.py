@@ -735,6 +735,19 @@ def valider_reso(evt):
                        activefill="white",
                        font="Rockwell, 26", tags='reso'
                        )
+    if Chunk == [[], []]:
+        canvas.create_text(
+                           LARGEUR//2, 1.7*HAUTEUR//4,
+                           text="Choix de la taille", fill="#3156E1",
+                           activefill="white", font='Rockwell, 30',
+                           tags='taille'
+                           )
+    else:
+        canvas.create_text(
+                   LARGEUR//2, 1.7*HAUTEUR//4,
+                   text="Réinitialiser", fill="Red",
+                   activefill="white", font='Rockwell, 30', tags='reset'
+                   )
     if (NOMBRE_CASE != ValDefault["NOMBRE_CASE"] and Chunk == [[], []]) or p != ValDefault["p"] or n != ValDefault["n"] or T != ValDefault["T"] or K != ValDefault["K"] or fullscreen != ValDefault["fullscreen"] or HAUTEURTemp != ValDefault["HAUTEUR"]:
         canvas.create_text(
                            LARGEUR//2, 7.2*HAUTEUR//9,
@@ -832,6 +845,19 @@ def valider_option(evt):
                        activefill="white",
                        font="Rockwell, 26", tags='reso'
                        )
+    if Chunk == [[], []]:
+        canvas.create_text(
+                           LARGEUR//2, 1.7*HAUTEUR//4,
+                           text="Choix de la taille", fill="#3156E1",
+                           activefill="white", font='Rockwell, 30',
+                           tags='taille'
+                           )
+    else:
+        canvas.create_text(
+                   LARGEUR//2, 1.7*HAUTEUR//4,
+                   text="Réinitialiser", fill="Red",
+                   activefill="white", font='Rockwell, 30', tags='reset'
+                   )
     if (NOMBRE_CASE != ValDefault["NOMBRE_CASE"] and Chunk == [[], []]) or p != ValDefault["p"] or n != ValDefault["n"] or T != ValDefault["T"] or K != ValDefault["K"] or fullscreen != ValDefault["fullscreen"] or HAUTEURTemp != ValDefault["HAUTEUR"]:
         canvas.create_text(
                            LARGEUR//2, 7.2*HAUTEUR//9,
@@ -1033,6 +1059,6 @@ canvas.tag_bind('default', '<Button-1>', ValeurDefault)
 canvas.tag_bind('valider_1', '<Button-1>', valider_taille)
 canvas.tag_bind('valider_2', '<Button-1>', valider_option)
 canvas.tag_bind('valider_3', '<Button-1>', valider_reso)
-
+canvas.bind_all("<Escape>", RetourneMenu)
 
 fen.mainloop()
