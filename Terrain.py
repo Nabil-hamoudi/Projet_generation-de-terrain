@@ -415,8 +415,8 @@ def RetourneMenu(evt):
 
     canvas.tag_bind('jouer', '<Button-1>', jouer)
     canvas.tag_bind('para', '<Button-1>', parametres)
-    canvas.tag_bind('sauver','<Button-1>', sauvegarder)
-    canvas.tag_bind('charger','<Button-1>', charger)
+    canvas.tag_bind('sauver', '<Button-1>', sauvegarder)
+    canvas.tag_bind('charger', '<Button-1>', charger)
     canvas.tag_bind('quitter', '<Button-1>', lambda evt: fen.quit())
     canvas.tag_bind('taille', '<Button-1>', taille)
     canvas.tag_bind('option', '<Button-1>', option)
@@ -443,7 +443,8 @@ def parametres(evt):
         canvas.create_text(
                            LARGEUR//2, 1.7*HAUTEUR//4,
                            text="Choix de la taille", fill="#3156E1",
-                           activefill="white", font='Rockwell, 30', tags='taille'
+                           activefill="white", font='Rockwell, 30',
+                           tags='taille'
                            )
     else:
         canvas.create_text(
