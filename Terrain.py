@@ -349,6 +349,10 @@ def annule_deplacement(event):
 ########################
 # création des menus/paramétre
 
+def Recommencer(evt):
+    """Reset le terrain et les paramétres"""
+    pass
+
 
 def jouer(evt):
     """Lance le jeu lorsque l'on appuie sur jouer"""
@@ -374,10 +378,8 @@ def jouer(evt):
     elif Decalage > 0:
         Colored(0)
     if perso:
-        C = C_perso
-        R = R_perso
         perso = False
-        personnage(C, R)
+        personnage(C_perso, R_perso)
 
 
 def Touchedirectionnel():
@@ -413,6 +415,8 @@ def RetourneMenu(evt):
 
     canvas.tag_bind('jouer', '<Button-1>', jouer)
     canvas.tag_bind('para', '<Button-1>', parametres)
+    canvas.tag_bind('sauver','<Button-1>', sauvegarder)
+    canvas.tag_bind('charger','<Button-1>', charger)
     canvas.tag_bind('quitter', '<Button-1>', lambda evt: fen.quit())
     canvas.tag_bind('taille', '<Button-1>', taille)
     canvas.tag_bind('option', '<Button-1>', option)
@@ -422,6 +426,7 @@ def RetourneMenu(evt):
     canvas.tag_bind('valider_1', '<Button-1>', valider_taille)
     canvas.tag_bind('valider_2', '<Button-1>', valider_option)
     canvas.tag_bind('valider_3', '<Button-1>', valider_reso)
+    canvas.tag_bind('reset', '<Button-1>', Recommencer)
 
 
 def parametres(evt):
@@ -443,8 +448,8 @@ def parametres(evt):
     else:
         canvas.create_text(
                    LARGEUR//2, 1.7*HAUTEUR//4,
-                   text="Reset", fill="Red",
-                   activefill="white", font='Rockwell, 30'  # , tags='reset'
+                   text="Réinitialiser", fill="Red",
+                   activefill="white", font='Rockwell, 30', tags='reset'
                    )
     canvas.create_text(
                        LARGEUR//2, 2.3*HAUTEUR//4,
@@ -865,27 +870,58 @@ def main_menu(evt=None):
                        text="MINECERAFT", fill="white",
                        font=('system', '40'), tags='sebastien'
                        )
-    canvas.create_text(
+    if Chunk == [[], []]:
+        canvas.create_text(
                        LARGEUR//2, 2*HAUTEUR//5,
                        text="Jouer", fill="green",
                        activefill="white", font="Rockwell, 30",
                        tags='jouer'
                        )
+        canvas.create_text(
+                           LARGEUR//2, 3.7*HAUTEUR//5,
+                           text="Charger", fill="white",
+                           activefill="#3156E1", font="Rockwell, 25",
+                           tags='charger'
+                           )
+    else:
+        canvas.create_text(
+                       LARGEUR//2, 2*HAUTEUR//5,
+                       text="Reprendre", fill="green",
+                       activefill="white", font="Rockwell, 30",
+                       tags='jouer'
+                       )
+        canvas.create_text(
+                           0.8*LARGEUR//2, 3.7*HAUTEUR//5,
+                           text="Sauver ", fill="white",
+                           activefill="#3156E1", font="Rockwell, 25",
+                           tags='sauver'
+                           )
+        canvas.create_text(
+                           1.02*LARGEUR//2, 3.7*HAUTEUR//5,
+                           text="ou  ", fill="white",
+                           font="Rockwell, 25"
+                           )
+        canvas.create_text(
+                           1.23*LARGEUR//2, 3.7*HAUTEUR//5,
+                           text="Charger", fill="white",
+                           activefill="#3156E1", font="Rockwell, 25",
+                           tags='charger'
+                           )
     canvas.create_text(
-                       LARGEUR//2, 3*HAUTEUR//5,
+                       LARGEUR//2, 2.9*HAUTEUR//5,
                        text="Paramètres", fill="white",
                        activefill="#3156E1", font="Rockwell, 25",
                        tags='para'
                        )
     canvas.create_text(
-                       LARGEUR//2, 4*HAUTEUR//5,
+                       LARGEUR//2, 5.4*HAUTEUR//6,
                        text="Quitter", fill="red",
                        activefill="white", font="Rockwell, 30",
                        tags='quitter'
                        )
 
 
-def sauvegarder():
+def sauvegarder(evt):
     """Sauvegarde le terrain actuel et l'emplacement du personnage """
     global R_perso, C_perso, perso, Chunk, deplacements, n, p, T, K, Decalage
     fic = filedialog.asksaveasfile(mode='w', title='Nommer votre fichier')
@@ -917,7 +953,7 @@ def sauvegarder():
     fic.close()
 
 
-def charger():
+def charger(evt):
     """Charge le terrain précedemment sauvegardé. Si un personnage était présent
         lors de la sauvegarde """
     global deplacements, Chunk, perso, personnage
@@ -985,6 +1021,8 @@ main_menu()
 
 canvas.tag_bind('jouer', '<Button-1>', jouer)
 canvas.tag_bind('para', '<Button-1>', parametres)
+canvas.tag_bind('sauver', '<Button-1>', sauvegarder)
+canvas.tag_bind('charger', '<Button-1>', charger)
 canvas.tag_bind('quitter', '<Button-1>', lambda evt: fen.quit())
 canvas.tag_bind('taille', '<Button-1>', taille)
 canvas.tag_bind('option', '<Button-1>', option)
