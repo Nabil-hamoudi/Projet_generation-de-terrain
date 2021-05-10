@@ -409,6 +409,7 @@ def AntiTouchedirectionnel():
     canvas.unbind_all("<Control-KeyPress-z>")
     canvas.unbind_all("<Escape>")
 
+
 def RetourneMenu(evt):
     """Fais revenir au menu"""
     global LARGEUR, HAUTEUR, canvas
