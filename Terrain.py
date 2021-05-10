@@ -398,11 +398,23 @@ def Touchedirectionnel():
     canvas.bind_all("<Escape>", RetourneMenu)
 
 
+def AntiTouchedirectionnel():
+    """Unbind les diférentes touches directionel pour le jeu
+    et la touche echap pour revenir au menu"""
+    canvas.unbind('<Button-1>')
+    canvas.unbind_all("<Up>")
+    canvas.unbind_all("<Down>")
+    canvas.unbind_all("<Left>")
+    canvas.unbind_all("<Right>")
+    canvas.unbind_all("<Control-KeyPress-z>")
+    canvas.unbind_all("<Escape>")
+
 def RetourneMenu(evt):
     """Fais revenir au menu"""
     global LARGEUR, HAUTEUR, canvas
     global ValDefault, fullscreen, COULEUR_FOND
     global RAPORT_CASE_C, RAPORT_CASE_R
+    AntiTouchedirectionnel()
     LARGEUR = ValDefault["LARGEUR"]
     HAUTEUR = ValDefault["HAUTEUR"]
     RAPORT_CASE_R = HAUTEUR / NOMBRE_CASE
@@ -719,11 +731,6 @@ def valider_reso(evt):
                        text="Paramètres", fill="white", font=('system', '45')
                        )
     canvas.create_text(
-                       LARGEUR//2, 1.7*HAUTEUR//4,
-                       text="Choix de la taille", fill="#3156E1",
-                       activefill="white", font='Rockwell, 30', tags='taille'
-                       )
-    canvas.create_text(
                        LARGEUR//2, 2.3*HAUTEUR//4,
                        text="Choix des options", fill="#3156E1",
                        activefill="white", font="Rockwell, 28", tags='option'
@@ -827,11 +834,6 @@ def valider_option(evt):
     canvas.create_text(
                        LARGEUR//2, HAUTEUR//5,
                        text="Paramètres", fill="white", font=('system', '45')
-                       )
-    canvas.create_text(
-                       LARGEUR//2, 1.7*HAUTEUR//4,
-                       text="Choix de la taille", fill="#3156E1",
-                       activefill="white", font='Rockwell, 30', tags='taille'
                        )
     canvas.create_text(
                        LARGEUR//2, 2.3*HAUTEUR//4,
@@ -1059,6 +1061,5 @@ canvas.tag_bind('default', '<Button-1>', ValeurDefault)
 canvas.tag_bind('valider_1', '<Button-1>', valider_taille)
 canvas.tag_bind('valider_2', '<Button-1>', valider_option)
 canvas.tag_bind('valider_3', '<Button-1>', valider_reso)
-canvas.bind_all("<Escape>", RetourneMenu)
 
 fen.mainloop()
