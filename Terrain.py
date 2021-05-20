@@ -361,7 +361,7 @@ def Recommencer(evt):
     R_perso = -1
     deplacements = []
     Decalage = 0
-    main_menu()
+    RetourneMenu()
 
 
 def jouer(evt):
@@ -420,7 +420,7 @@ def AntiTouchedirectionnel():
     canvas.unbind_all("<Escape>")
 
 
-def RetourneMenu(evt):
+def RetourneMenu(evt=None):
     """Fais revenir au menu"""
     global LARGEUR, HAUTEUR, canvas
     global ValDefault, fullscreen, COULEUR_FOND
@@ -984,11 +984,11 @@ def sauvegarder(evt):
                 fic.write(str(len(Chunk[i][P][C])) + "\n")
                 for R in range(len(Chunk[i][P][C])):
                     fic.write(str((Chunk[i][P][C][R])) + "\n")
-    fic.write(str(n))
-    fic.write(str(p))
-    fic.write(str(T))
-    fic.write(str(K))
-    fic.write(str(Decalage))
+    fic.write(str(n) + " ")
+    fic.write(str(p) + " ")
+    fic.write(str(T) + " ")
+    fic.write(str(K) + " ")
+    fic.write(str(Decalage) + " ")
 
     fic.close()
 
