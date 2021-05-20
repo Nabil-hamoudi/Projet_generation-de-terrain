@@ -350,8 +350,18 @@ def annule_deplacement(event):
 # création des menus/paramétre
 
 def Recommencer(evt):
-    """Reset le terrain et les paramétres"""
-    pass
+    """Reset le terrain"""
+    global Chunk, perso, deplacements, Decalage
+    global personn, perso, C_perso, R_perso, NOMBRE_CASE
+    Chunk = [[], []]
+    NOMBRE_CASE = 50
+    personn = -1
+    perso = False
+    C_perso = -1
+    R_perso = -1
+    deplacements = []
+    Decalage = 0
+    main_menu()
 
 
 def jouer(evt):
