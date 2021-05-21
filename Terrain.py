@@ -435,7 +435,12 @@ def RetourneMenu(evt=None):
     canvas = tk.Canvas(fen, width=LARGEUR, height=HAUTEUR, bg=COULEUR_FOND)
     canvas.grid()
     main_menu()
+    TagBind()
 
+
+def TagBind():
+    """regroupe tout les tag_bind"""
+    global canvas
     canvas.tag_bind('jouer', '<Button-1>', jouer)
     canvas.tag_bind('para', '<Button-1>', parametres)
     canvas.tag_bind('sauver', '<Button-1>', sauvegarder)
@@ -452,7 +457,7 @@ def RetourneMenu(evt=None):
     canvas.tag_bind('reset', '<Button-1>', Recommencer)
 
 
-def parametres(evt):
+def parametres(evt=None):
     """Ouvre la fenêtre des paramétres"""
     global NOMBRE_CASE, p, n, T, K, HAUTEUR, LARGEUR, fullscreen
     global Chunk
@@ -501,7 +506,7 @@ def parametres(evt):
                            )
 
 
-def taille(evt):
+def taille(evt=None):
     """Ouvre la fenêtre de modification de la taille en nombre de case"""
     global cursor_taille, NOMBRE_CASE
     canvas.delete('all')
@@ -533,7 +538,7 @@ def taille(evt):
                        )
 
 
-def option(evt):
+def option(evt=None):
     """Ouvre la fenêtre des options
     dans laquelle on peut changer T, n, p et K"""
     global p, n, T, K
@@ -720,49 +725,7 @@ def valider_reso(evt):
     """Valide la resolution selectionner"""
     global FullScreenButton, fullscreen
     FullScreenButton.destroy()
-    canvas.delete('all')
-    canvas.create_text(
-                       LARGEUR//2, HAUTEUR//5,
-                       text="Paramètres", fill="white", font=('system', '45')
-                       )
-    canvas.create_text(
-                       LARGEUR//2, 2.3*HAUTEUR//4,
-                       text="Choix des options", fill="#3156E1",
-                       activefill="white", font="Rockwell, 28", tags='option'
-
-                       )
-    canvas.create_text(
-                       LARGEUR//2, 2.9*HAUTEUR//4,
-                       text="Choix de résolution", fill="#3156E1",
-                       activefill="white",
-                       font="Rockwell, 26", tags='reso'
-                       )
-    if Chunk == [[], []]:
-        canvas.create_text(
-                           LARGEUR//2, 1.7*HAUTEUR//4,
-                           text="Choix de la taille", fill="#3156E1",
-                           activefill="white", font='Rockwell, 30',
-                           tags='taille'
-                           )
-    else:
-        canvas.create_text(
-                   LARGEUR//2, 1.7*HAUTEUR//4,
-                   text="Réinitialiser", fill="Red",
-                   activefill="white", font='Rockwell, 30', tags='reset'
-                   )
-    if (NOMBRE_CASE != ValDefault["NOMBRE_CASE"] and Chunk == [[], []]) or p != ValDefault["p"] or n != ValDefault["n"] or T != ValDefault["T"] or K != ValDefault["K"] or fullscreen != ValDefault["fullscreen"] or HAUTEURTemp != ValDefault["HAUTEUR"]:
-        canvas.create_text(
-                           LARGEUR//2, 7.2*HAUTEUR//9,
-                           text="Défault", fill="white",
-                           activefill="green",
-                           font="Rockwell, 25", tags='default'
-                           )
-    canvas.create_text(
-                       LARGEUR//2, 7.2*HAUTEUR//8,
-                       text="Valider", fill="white",
-                       activefill="green", font="Rockwell, 25",
-                       tags='menu'
-                       )
+    parametres()
 
 
 def valider_taille(evt):
@@ -771,43 +734,9 @@ def valider_taille(evt):
     global LARGEUR, RAPORT_CASE_C, RAPORT_CASE_R, fullscreen
     taille = cursor_taille.get()
     NOMBRE_CASE = taille
-    canvas.delete('all')
     cursor_taille.destroy()
     cursor_taille.destroy()
-    canvas.create_text(
-                       LARGEUR//2, HAUTEUR//5,
-                       text="Paramètres", fill="white", font=('system', '45')
-                       )
-    canvas.create_text(
-                       LARGEUR//2, 1.7*HAUTEUR//4,
-                       text="Choix de la taille", fill="#3156E1",
-                       activefill="white", font='Rockwell, 30', tags='taille'
-                       )
-    canvas.create_text(
-                       LARGEUR//2, 2.3*HAUTEUR//4,
-                       text="Choix des options", fill="#3156E1",
-                       activefill="white", font="Rockwell, 28", tags='option'
-
-                       )
-    canvas.create_text(
-                       LARGEUR//2, 2.9*HAUTEUR//4,
-                       text="Choix de résolution", fill="#3156E1",
-                       activefill="white",
-                       font="Rockwell, 26", tags='reso'
-                       )
-    if (NOMBRE_CASE != ValDefault["NOMBRE_CASE"] and Chunk == [[], []]) or n != ValDefault["n"] or T != ValDefault["T"] or K != ValDefault["K"] or fullscreen != ValDefault["fullscreen"] or HAUTEURTemp != ValDefault["HAUTEUR"]:
-        canvas.create_text(
-                           LARGEUR//2, 7.2*HAUTEUR//9,
-                           text="Défault", fill="white",
-                           activefill="green",
-                           font="Rockwell, 25", tags='default'
-                           )
-    canvas.create_text(
-                       LARGEUR//2, 7.2*HAUTEUR//8,
-                       text="Valider", fill="white",
-                       activefill="green", font="Rockwell, 25",
-                       tags='menu'
-                       )
+    parametres()
 
 
 def valider_option(evt):
@@ -817,7 +746,6 @@ def valider_option(evt):
     n = cursor_n.get()
     T = cursor_T.get()
     K = cursor_k.get()
-    canvas.delete('all')
     cursor_p.destroy()
     cursor_n.destroy()
     cursor_T.destroy()
@@ -826,48 +754,7 @@ def valider_option(evt):
     label_n.destroy()
     label_T.destroy()
     label_k.destroy()
-    canvas.create_text(
-                       LARGEUR//2, HAUTEUR//5,
-                       text="Paramètres", fill="white", font=('system', '45')
-                       )
-    canvas.create_text(
-                       LARGEUR//2, 2.3*HAUTEUR//4,
-                       text="Choix des options", fill="#3156E1",
-                       activefill="white", font="Rockwell, 28", tags='option'
-
-                       )
-    canvas.create_text(
-                       LARGEUR//2, 2.9*HAUTEUR//4,
-                       text="Choix de résolution", fill="#3156E1",
-                       activefill="white",
-                       font="Rockwell, 26", tags='reso'
-                       )
-    if Chunk == [[], []]:
-        canvas.create_text(
-                           LARGEUR//2, 1.7*HAUTEUR//4,
-                           text="Choix de la taille", fill="#3156E1",
-                           activefill="white", font='Rockwell, 30',
-                           tags='taille'
-                           )
-    else:
-        canvas.create_text(
-                   LARGEUR//2, 1.7*HAUTEUR//4,
-                   text="Réinitialiser", fill="Red",
-                   activefill="white", font='Rockwell, 30', tags='reset'
-                   )
-    if (NOMBRE_CASE != ValDefault["NOMBRE_CASE"] and Chunk == [[], []]) or p != ValDefault["p"] or n != ValDefault["n"] or T != ValDefault["T"] or K != ValDefault["K"] or fullscreen != ValDefault["fullscreen"] or HAUTEURTemp != ValDefault["HAUTEUR"]:
-        canvas.create_text(
-                           LARGEUR//2, 7.2*HAUTEUR//9,
-                           text="Défault", fill="white",
-                           activefill="green",
-                           font="Rockwell, 25", tags='default'
-                           )
-    canvas.create_text(
-                       LARGEUR//2, 7.2*HAUTEUR//8,
-                       text="Valider", fill="white",
-                       activefill="green", font="Rockwell, 25",
-                       tags='menu'
-                       )
+    parametres()
 
 
 def ValeurDefault(evt):
@@ -1043,18 +930,6 @@ canvas = tk.Canvas(fen, width=LARGEUR, height=HAUTEUR, bg=COULEUR_FOND)
 canvas.grid()
 main_menu()
 
-canvas.tag_bind('jouer', '<Button-1>', jouer)
-canvas.tag_bind('para', '<Button-1>', parametres)
-canvas.tag_bind('sauver', '<Button-1>', sauvegarder)
-canvas.tag_bind('charger', '<Button-1>', charger)
-canvas.tag_bind('quitter', '<Button-1>', lambda evt: fen.quit())
-canvas.tag_bind('taille', '<Button-1>', taille)
-canvas.tag_bind('option', '<Button-1>', option)
-canvas.tag_bind('reso', '<Button-1>', resolution)
-canvas.tag_bind('menu', '<Button-1>', main_menu)
-canvas.tag_bind('default', '<Button-1>', ValeurDefault)
-canvas.tag_bind('valider_1', '<Button-1>', valider_taille)
-canvas.tag_bind('valider_2', '<Button-1>', valider_option)
-canvas.tag_bind('valider_3', '<Button-1>', valider_reso)
+TagBind()
 
 fen.mainloop()
