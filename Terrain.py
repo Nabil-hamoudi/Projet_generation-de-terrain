@@ -536,9 +536,9 @@ def taille(evt):
 def option(evt):
     """Ouvre la fenêtre des options
     dans laquelle on peut changer T, n, p et K"""
-    global cursor_p, cursor_n, cursor_T
-    global cursor_k, label_p, label_n, label_T, label_k
     global p, n, T, K
+    global cursor_p, cursor_n, cursor_T, cursor_k
+    global label_p, label_n, label_T, label_k
     canvas.delete('all')
     canvas.create_text(
                        LARGEUR//2, HAUTEUR//6,
@@ -546,64 +546,63 @@ def option(evt):
                        fill="white", font=('system', '45')
                        )
 
-    cursor_p = tk.Scale(
-                        canvas, from_=0, to=1,
-                        resolution=0.1, tickinterval=1,
-                        length=250, bg=COULEUR_FOND, fg="white"
-                        )
-    cursor_p.set(p)
-    cursor_p.place(x=150, y=200)
-    cursor_p.bind('<B1-Motion>', scale)
     label_p = tk.Label(
-                       canvas, text="p = " + str(cursor_p.get()),
+                       canvas, text="p = " + str(p),
                        font="system", bg=COULEUR_FOND, fg="white"
                        )
     label_p.place(x=158, y=480)
-
-    cursor_n = tk.Scale(
-                        canvas, from_=0, to=10,
-                        tickinterval=10, length=250,
-                        bg=COULEUR_FOND, fg="white"
+    cursor_p = tk.Scale(
+                        canvas, from_=0, to=1,
+                        resolution=0.1, tickinterval=1,
+                        length=250, bg=COULEUR_FOND, fg="white",
+                        command=lambda evt: ScaleAffiche("p = ", label_p, cursor_p)
                         )
-    cursor_n.set(n)
-    cursor_n.place(x=300, y=200)
-    cursor_n.bind('<B1-Motion>', scale2)
+    cursor_p.set(p)
+    cursor_p.place(x=150, y=200)
+
     label_n = tk.Label(
-                       canvas, text="n = " + str(cursor_n.get()),
+                       canvas, text="n = " + str(n),
                        font="system", bg=COULEUR_FOND, fg="white"
                        )
     label_n.place(x=308, y=480)
-
-    cursor_T = tk.Scale(
-                        canvas, from_=0, to=100,
-                        tickinterval=100, length=250,
-                        bg=COULEUR_FOND, fg="white"
+    cursor_n = tk.Scale(
+                        canvas, from_=0, to=10,
+                        tickinterval=10, length=250,
+                        bg=COULEUR_FOND, fg="white",
+                        command=lambda evt: ScaleAffiche("n = ", label_n, cursor_n)
                         )
-    cursor_T.set(T)
-    cursor_T.place(x=450, y=200)
-    cursor_T.bind('<B1-Motion>', scale3)
+    cursor_n.set(n)
+    cursor_n.place(x=300, y=200)
+
     label_T = tk.Label(
                        canvas,
-                       text="T = " + str(cursor_T.get()),
+                       text="T = " + str(T),
                        font="system", bg=COULEUR_FOND, fg="white"
                        )
     label_T.place(x=458, y=480)
+    cursor_T = tk.Scale(
+                        canvas, from_=0, to=100,
+                        tickinterval=100, length=250,
+                        bg=COULEUR_FOND, fg="white",
+                        command=lambda evt: ScaleAffiche("T = ", label_T, cursor_T)
+                        )
+    cursor_T.set(T)
+    cursor_T.place(x=450, y=200)
 
     cursor_k = tk.Scale(
                         canvas, from_=0, to=5,
                         tickinterval=5, length=250,
-                        bg=COULEUR_FOND, fg="white"
+                        bg=COULEUR_FOND, fg="white",
+                        command=lambda evt: ScaleAffiche("K = ", label_k, cursor_k)
                         )
     cursor_k.set(K)
     cursor_k.place(x=600, y=200)
-    cursor_k.bind('<B1-Motion>', scale4)
     label_k = tk.Label(
                        canvas,
-                       text="K = " + str(cursor_k.get()),
+                       text="K = " + str(K),
                        font="system", bg=COULEUR_FOND, fg="white"
                        )
     label_k.place(x=608, y=480)
-
     canvas.create_text(
                        LARGEUR//2, 7.2*HAUTEUR//8,
                        text="Valider", fill="white",
@@ -612,24 +611,9 @@ def option(evt):
                        )
 
 
-def scale(evt):
-    """affiche p ="""
-    label_p.config(text="p = " + str(cursor_p.get()))
-
-
-def scale2(evt):
-    """affiche n ="""
-    label_n.config(text="n = " + str(cursor_n.get()))
-
-
-def scale3(evt):
-    """affiche T ="""
-    label_T.config(text="T = " + str(cursor_T.get()))
-
-
-def scale4(evt):
-    """affiche K ="""
-    label_k.config(text="K = " + str(cursor_k.get()))
+def ScaleAffiche(txt, label, cursor):
+    """change la valeur du label du scale"""
+    label.config(text=txt + str(cursor.get()))
 
 
 def resolution(evt):
