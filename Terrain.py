@@ -560,7 +560,10 @@ def option(evt=None):
                         canvas, from_=0, to=1,
                         resolution=0.1, tickinterval=1,
                         length=250, bg=COULEUR_FOND, fg="white",
-                        command=lambda evt: ScaleAffiche("p = ", label_p, cursor_p)
+                        command=lambda evt: ScaleAffiche(
+                                                         "p = ", label_p,
+                                                         cursor_p
+                                                         )
                         )
     cursor_p.set(p)
     cursor_p.place(x=150, y=200)
@@ -574,7 +577,10 @@ def option(evt=None):
                         canvas, from_=0, to=10,
                         tickinterval=10, length=250,
                         bg=COULEUR_FOND, fg="white",
-                        command=lambda evt: ScaleAffiche("n = ", label_n, cursor_n)
+                        command=lambda evt: ScaleAffiche(
+                                                         "n = ", label_n,
+                                                         cursor_n
+                                                         )
                         )
     cursor_n.set(n)
     cursor_n.place(x=300, y=200)
@@ -589,7 +595,10 @@ def option(evt=None):
                         canvas, from_=0, to=100,
                         tickinterval=100, length=250,
                         bg=COULEUR_FOND, fg="white",
-                        command=lambda evt: ScaleAffiche("T = ", label_T, cursor_T)
+                        command=lambda evt: ScaleAffiche(
+                                                         "T = ", label_T,
+                                                         cursor_T
+                                                         )
                         )
     cursor_T.set(T)
     cursor_T.place(x=450, y=200)
@@ -598,7 +607,10 @@ def option(evt=None):
                         canvas, from_=0, to=5,
                         tickinterval=5, length=250,
                         bg=COULEUR_FOND, fg="white",
-                        command=lambda evt: ScaleAffiche("K = ", label_k, cursor_k)
+                        command=lambda evt: ScaleAffiche(
+                                                         "K = ", label_k,
+                                                         cursor_k
+                                                         )
                         )
     cursor_k.set(K)
     cursor_k.place(x=600, y=200)
