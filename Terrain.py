@@ -16,7 +16,6 @@ import tkinter as tk
 import random
 import tkinter.messagebox
 from tkinter import filedialog
-from tkinter import simpledialog
 
 
 ########################
@@ -185,25 +184,21 @@ def etat_terrain(C, R):
         while R < 0:
             P += 1
             R += NOMBRE_CASE
-        while True:
-            try:
-                etat = Chunk[0][P][C][R]
-                break
-            except IndexError:
-                quadrillage(0)
-                etat = Chunk[0][P][C][R]
+        try:
+            etat = Chunk[0][P][C][R]
+        except IndexError:
+            quadrillage(0)
+            etat = Chunk[0][P][C][R]
     else:
         R -= NOMBRE_CASE//2
         while R >= NOMBRE_CASE:
             P += 1
             R -= NOMBRE_CASE
-        while True:
-            try:
-                etat = Chunk[1][P][C][R]
-                break
-            except IndexError:
-                quadrillage(3)
-                etat = Chunk[1][P][C][R]
+        try:
+            etat = Chunk[1][P][C][R]
+        except IndexError:
+            quadrillage(3)
+            etat = Chunk[1][P][C][R]
     return etat
 
 
@@ -349,10 +344,11 @@ def annule_deplacement(event):
 ########################
 # création des menus/paramétre
 
-def Recommencer(evt):
+def RecommencerPart2():
     """Reset le terrain"""
     global Chunk, perso, deplacements, Decalage
     global personn, perso, C_perso, R_perso, NOMBRE_CASE
+    fermefen()
     Chunk = [[], []]
     NOMBRE_CASE = 50
     personn = -1
@@ -364,7 +360,54 @@ def Recommencer(evt):
     RetourneMenu()
 
 
-def jouer(evt):
+def Recommencer(evt=None):
+    global fe
+    fe = tk.Tk()
+    fe.wm_deiconify()
+    fe.title("WARNING")
+    tk.Canvas(
+              fe, width=50,
+              height=50, bg='black'
+              )
+
+    label = tk.Label(
+                     fe, fg='black',
+                     text="Etes-vous sûr de vouloir recommencer ?",
+                     font="Rockwell, 15"
+                     )
+    label.grid(
+               row=1, column=0,
+               columnspan=3
+               )
+    bouton1 = tk.Button(
+                        fe, text="oui recommencer",
+                        background="green",
+                        command=RecommencerPart2,
+                        font="Rockwell, 15"
+                        )
+    bouton1.grid(
+                 row=3,
+                 column=0
+                 )
+    bouton2 = tk.Button(
+                        fe, text="non",
+                        background="red",
+                        command=fermefen,
+                        font="Rockwell, 15"
+                        )
+    bouton2.grid(
+                 row=3,
+                 column=2
+                 )
+    fe.mainloop()
+
+
+def fermefen():
+    global fe
+    fe.destroy()
+
+
+def jouer(evt=None):
     """Lance le jeu lorsque l'on appuie sur jouer"""
     global canvas, fen, RAPORT_CASE_C, RAPORT_CASE_R
     global screen, HAUTEUR, LARGEUR, fullscreen, Decale
@@ -499,10 +542,10 @@ def parametres(evt=None):
                        )
     if (NOMBRE_CASE != ValDefault["NOMBRE_CASE"] and Chunk == [[], []]) or p != ValDefault["p"] or n != ValDefault["n"] or T != ValDefault["T"] or K != ValDefault["K"] or fullscreen != ValDefault["fullscreen"] or HAUTEURTemp != ValDefault["HAUTEUR"]:
         canvas.create_text(
-                           LARGEUR//2, 7.2*HAUTEUR//9,
-                           text="Défault", fill="white",
+                           LARGEUR//1.07, 7.8*HAUTEUR//8,
+                           text="Défaut", fill="white",
                            activefill="green",
-                           font="Rockwell, 25", tags='default'
+                           font="Rockwell, 20", tags='default'
                            )
 
 
@@ -867,11 +910,11 @@ def sauvegarder(evt):
                 fic.write(str(len(Chunk[i][P][C])) + "\n")
                 for R in range(len(Chunk[i][P][C])):
                     fic.write(str((Chunk[i][P][C][R])) + "\n")
-    fic.write(str(n) + " ")
-    fic.write(str(p) + " ")
-    fic.write(str(T) + " ")
-    fic.write(str(K) + " ")
-    fic.write(str(Decalage) + " ")
+    fic.write(str(n) + "\n")
+    fic.write(str(p) + "\n")
+    fic.write(str(T) + "\n")
+    fic.write(str(K) + "\n")
+    fic.write(str(Decalage) + "\n")
 
     fic.close()
 
@@ -881,21 +924,17 @@ def charger(evt):
         lors de la sauvegarde """
     global deplacements, Chunk, perso, personnage
     global screen, R_perso, C_perso, n, p, T, K, Decalage
-    for C in range(len(screen)):
-        for R in range(len(screen[C])):
-            canvas.delete(screen[C][R])
-    if perso:
-        canvas.delete(personnage)
-
     fic = filedialog.askopenfile(title='Selectionner votre fichier')
-    ligne = fic.readline()
+    try:
+        ligne = fic.readline()
+    except AttributeError:
+        return None
     if ligne == "1\n":
         perso = True
         R_perso = int(fic.readline())
         C_perso = int(fic.readline())
     else:
         perso = False
-
     taille_deplacements = int(fic.readline())
     deplacements = []
     for i in range(taille_deplacements):
@@ -914,19 +953,12 @@ def charger(evt):
                 taille_Chunk_iPC = int(fic.readline())
                 for R in range(taille_Chunk_iPC):
                     Chunk[i][P][C].append(int(fic.readline()))
-    n = (fic.readline())
-    p = (fic.readline())
-    T = (fic.readline())
-    K = (fic.readline())
-    Decalage = (fic.readline())
-    Colored()
-    if Decalage < 0:
-        Colored(0)
-    elif Decalage > 0:
-        Colored(3)
-    if perso:
-        perso = False
-        personnage(C_perso, R_perso)
+    n = int(fic.readline())
+    p = float(fic.readline())
+    T = int(fic.readline())
+    K = int(fic.readline())
+    Decalage = int(fic.readline())
+    jouer()
     fic.close()
 
 
