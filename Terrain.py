@@ -855,7 +855,7 @@ def sauvegarder(evt):
     (si présent) ainsi que les déplacements effectués"""
     global R_perso, C_perso, perso, Chunk, deplacements, n, p, T, K, Decalage
     fic = filedialog.asksaveasfile(mode='w', title='Nommer votre fichier')
-    if fic == None:
+    if fic is None:
         return None
     if perso:
         fic.write("1\n")
