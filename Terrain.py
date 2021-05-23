@@ -370,13 +370,6 @@ def Recommencer(evt=None):
         RecommencerPart2()
 
 
-def Annulation():
-    """annule le reset"""
-    global fe
-    fe.destroy()
-    TagBind()
-
-
 def jouer(evt=None):
     """Lance le jeu lorsque l'on appuie sur jouer"""
     global canvas, fen, RAPORT_CASE_C, RAPORT_CASE_R
@@ -858,7 +851,8 @@ def main_menu(evt=None):
 
 
 def sauvegarder(evt):
-    """Sauvegarde le terrain actuel, l'emplacement du personnage (si présent) ainsi que les déplacements effectués"""
+    """Sauvegarde le terrain actuel, l'emplacement du personnage
+    (si présent) ainsi que les déplacements effectués"""
     global R_perso, C_perso, perso, Chunk, deplacements, n, p, T, K, Decalage
     fic = filedialog.asksaveasfile(mode='w', title='Nommer votre fichier')
     if perso:
@@ -890,8 +884,9 @@ def sauvegarder(evt):
 
 
 def charger(evt):
-    """Charge le terrain précedemment sauvegardé ainsi que le personnage si un personnage était présent
-        lors de la sauvegarde """
+    """Charge le terrain précedemment sauvegardé ainsi que le
+    personnage si un personnage était présent
+    lors de la sauvegarde """
     global deplacements, Chunk, perso, personnage
     global screen, R_perso, C_perso, n, p, T, K, Decalage
     fic = filedialog.askopenfile(title='Selectionner votre fichier')
