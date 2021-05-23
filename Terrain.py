@@ -936,6 +936,7 @@ fen = tk.Tk()
 
 fen.title("Génération de terrain de jeu")
 fen.config(bg=COULEUR_FOND)
+fen.resizable(width=False, height=False)
 
 canvas = tk.Canvas(fen, width=LARGEUR, height=HAUTEUR, bg=COULEUR_FOND)
 canvas.grid()
