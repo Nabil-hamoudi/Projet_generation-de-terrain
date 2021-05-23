@@ -348,9 +348,7 @@ def RecommencerPart2():
     """Reset le terrain"""
     global Chunk, perso, deplacements, Decalage
     global personn, perso, C_perso, R_perso, NOMBRE_CASE
-    fermefen()
     Chunk = [[], []]
-    NOMBRE_CASE = 50
     personn = -1
     perso = False
     C_perso = -1
@@ -361,51 +359,21 @@ def RecommencerPart2():
 
 
 def Recommencer(evt=None):
-    """Affiche un fenetre pour demander si reccomencer ou non"""
-    global fe
-    fe = tk.Tk()
-    fe.wm_deiconify()
-    fe.title("WARNING")
-    tk.Canvas(
-              fe, width=50,
-              height=50, bg='black'
-              )
-
-    label = tk.Label(
-                     fe, fg='black',
-                     text="Etes-vous sûr de vouloir recommencer ?",
-                     font="Rockwell, 15"
-                     )
-    label.grid(
-               row=1, column=0,
-               columnspan=3
-               )
-    bouton1 = tk.Button(
-                        fe, text="oui recommencer",
-                        background="green",
-                        command=RecommencerPart2,
-                        font="Rockwell, 15"
-                        )
-    bouton1.grid(
-                 row=3,
-                 column=0
-                 )
-    bouton2 = tk.Button(
-                        fe, text="non",
-                        background="red",
-                        command=fermefen,
-                        font="Rockwell, 15"
-                        )
-    bouton2.grid(
-                 row=3,
-                 column=2
-                 )
-    fe.mainloop()
+    """Affiche un fenetre pour demander si recommencer ou non"""
+    Rep = tk.messagebox.askyesno(
+                                 title="Attention !",
+                                 message="Etes vous sur de recommencer?",
+                                 default="no", icon="warning"
+                                 )
+    if Rep:
+        RecommencerPart2()
 
 
-def fermefen():
+def Annulation():
+    """annule le reset"""
     global fe
     fe.destroy()
+    TagBind()
 
 
 def jouer(evt=None):
@@ -499,10 +467,6 @@ def TagBind():
     canvas.tag_bind('valider_2', '<Button-1>', valider_option)
     canvas.tag_bind('valider_3', '<Button-1>', valider_reso)
     canvas.tag_bind('reset', '<Button-1>', Recommencer)
-
-
-def TagUnbind():
-    """Unbind tout les tags du canvas"""
 
 
 def parametres(evt=None):
