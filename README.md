@@ -2,15 +2,20 @@
 
 Fonctionnement du jeu :
 
-Dans le menu principal, il est possible de choisir la valeur des paramètres p, n, T et k. Par défaut, ceux-ci seront 0.5, 4, 5 et 1 respectivement. 
+  En lançant le jeu, la page d’accueil d’ouvre et vous propose plusieurs choix.
 
-Pour commencer, cliquez sur « jouer » avec un clic gauche de souris. Une fenêtre avec un terrain généré aléatoirement apparait alors. Pour placer votre personnage (point rouge sur la fenêtre), il suffit de faire un clic gauche sur la case de votre choix. Vous pouvez également recliquez sur votre personnage pour le faire disparaître.
-Il est impossible de placer le personnage sur une case d’eau, un message d’erreur apparaîtra et vous serez alors invité à placer votre personnage sur une case de terre.
+  En effet, dans le menu principal, il est possible de choisir la valeur des paramètres p, n, T et k. Par défaut, ceux-ci seront 0.5, 4, 5 et 1 respectivement. Vous pouvez également choisir la résolution d’écran. 
 
-Pour déplacez votre personnage, il faut utiliser les flèches ↑, ↓, →, ← de votre clavier pour le déplacer vers le haut, le bas, la droite ou la gauche respectivement. Il est toujours impossible de déplacer le personnage sur une case d’eau. 
-Vous pouvez annuler les déplacements récents de votre personnage en appuyant sur ctrl + Z ou en sélectionnant « Annuler déplacement » en haut de votre écran.
+  Pour commencer, cliquez sur « jouer » avec un clic gauche de souris.  Une fenêtre avec un terrain généré aléatoirement apparait alors. Pour placer votre personnage (point rouge sur la fenêtre), il suffit de faire un clic gauche sur la case de votre choix. Vous pouvez également recliquez sur votre personnage pour le faire disparaître.
+Il est impossible de placer le personnage sur une case d’eau, un message d’erreur apparaîtra et vous serez alors invité à placer votre personnage sur une case de terre. 
 
-Pour recommencer, vous pouvez sélectionner « Recommencer » en haut de votre écran. Un nouveau terrain se génèrera et si un personnage était présent, il disparaîtra.
+  Pour déplacez votre personnage, il faut utiliser les flèches ↑, ↓, →, ← de votre clavier pour le déplacer vers le haut, le bas, la droite ou la gauche respectivement. Il est toujours impossible de déplacer le personnage sur une case d’eau. Lorsque le personnage se rend sur les bords gauche ou droite de l’écran, le terrain se décalera, il est ainsi infini.
+Vous pouvez annuler les déplacements récents de votre personnage en appuyant sur ctrl + Z.
 
-Vous pouvez également choisir de sauvegarder votre terrain et l’emplacement de votre personnage en sélectionnant « Sauvegarder » toujours en haut de votre écran. Il vous sera alors possible de le recharger ultérieurement pour reprendre votre partie là où elle s’est arrêtée. 
+  Vous pouvez accéder au menu principal à tout instant en appuyant sur la touche « échap » de votre clavier. 
+  
+  Vous pouvez alors changer les paramètres, sauvegarder votre terrain actuel et l’emplacement du personnage s’il y en a un. Il vous sera alors possible de le recharger ultérieurement pour reprendre votre partie là où elle s’est arrêtée. Il vous faut appuyer sur « Charger » dans le menu principal. Vous pouvez alors retrouver le terrain le personnage qui avaient été enregistré et vous pouvez également faire ctrl+Z pour refaire les déplacements inverses qu’avait effectué votre personnage.
+  
+Pour recommencer, vous pouvez sélectionner « Recommencer ». Un nouveau terrain se génèrera et si un personnage était présent, il disparaîtra.  
+
 
