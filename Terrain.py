@@ -361,6 +361,7 @@ def RecommencerPart2():
 
 
 def Recommencer(evt=None):
+    """Affiche un fenetre pour demander si reccomencer ou non"""
     global fe
     fe = tk.Tk()
     fe.wm_deiconify()
@@ -498,6 +499,10 @@ def TagBind():
     canvas.tag_bind('valider_2', '<Button-1>', valider_option)
     canvas.tag_bind('valider_3', '<Button-1>', valider_reso)
     canvas.tag_bind('reset', '<Button-1>', Recommencer)
+
+
+def TagUnbind():
+    """Unbind tout les tags du canvas"""
 
 
 def parametres(evt=None):
