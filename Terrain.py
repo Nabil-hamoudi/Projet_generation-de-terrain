@@ -153,7 +153,7 @@ def CompteK(C, R):
     res = []
     for Ci in range(-K, K+1):
         for Ri in range(-K, K+1):
-            if C + Ci >= 0 and C + Ci <= C_max and (Ci, Ri) != (0, 0):
+            if C + Ci >= 0 and C + Ci <= C_max:
                 res.append([C + Ci, R + Ri])
     return res
 
@@ -356,7 +356,7 @@ def RecommencerPart2():
     R_perso = -1
     deplacements = []
     Decalage = 0
-    RetourneMenu()
+    main_menu()
 
 
 def Recommencer(evt=None):
@@ -748,10 +748,10 @@ def valider_reso(evt):
 
 def valider_taille(evt):
     """Valide les options de taille du jeu"""
-    global taille, NOMBRE_CASE, HAUTEUR, ValDefault
+    global CaseTaille, NOMBRE_CASE, HAUTEUR, ValDefault
     global LARGEUR, RAPORT_CASE_C, RAPORT_CASE_R, fullscreen
-    taille = cursor_taille.get()
-    NOMBRE_CASE = taille
+    CaseTaille = cursor_taille.get()
+    NOMBRE_CASE = CaseTaille
     cursor_taille.destroy()
     cursor_taille.destroy()
     parametres()
