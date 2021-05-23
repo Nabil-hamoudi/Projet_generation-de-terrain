@@ -855,8 +855,10 @@ def sauvegarder(evt):
     (si présent) ainsi que les déplacements effectués"""
     global R_perso, C_perso, perso, Chunk, deplacements, n, p, T, K, Decalage
     fic = filedialog.asksaveasfile(mode='w', title='Nommer votre fichier')
+
     if fic is None:
         return None
+
     if perso:
         fic.write("1\n")
         fic.write(str(R_perso) + "\n" + str(C_perso) + "\n")
@@ -892,10 +894,12 @@ def charger(evt):
     global deplacements, Chunk, perso, personnage
     global screen, R_perso, C_perso, n, p, T, K, Decalage
     fic = filedialog.askopenfile(title='Selectionner votre fichier')
+
     try:
         ligne = fic.readline()
     except AttributeError:
         return None
+
     if ligne == "1\n":
         perso = True
         R_perso = int(fic.readline())
