@@ -2,7 +2,7 @@
 
 Fonctionnement du jeu :
 
-  En lançant le jeu, la page d’accueil d’ouvre et vous propose plusieurs choix.
+  En lançant le jeu, la page d’accueil s’ouvre et vous propose plusieurs choix.
 
   En effet, dans le menu principal, il est possible de choisir la valeur des paramètres p, n, T et k. Pour cela, il faut cliquer (clic gauche de la souris) sur "Paramètres" et avec la souris vous pouvez changer la valeur des paramètres grâce aux échelles. Par défaut, ceux-ci seront 0.5, 4, 5 et 1 respectivement. 
   Vous pouvez également choisir la résolution d’écran dans les paramètres, ou choisir le "FullScreen". Cliquez sur "retour", toujours avec un clic gauche de  la souris, pour revenir au menu principal. 
