@@ -83,7 +83,7 @@ tailleBlocage = 10
 
 
 def quadrillage(LR=1):
-    """Génére un terrain de base, un terrain a droite ou un terrain a gauche"""
+    """Génère un terrain de base, un terrain à droite ou un terrain à gauche"""
     # LR = 0,1 ou 3
     # 0 => gauche, 1 => Debut, 3 => Droite
     global Chunk, p
@@ -104,7 +104,7 @@ def quadrillage(LR=1):
 
 
 def Correction(LR):
-    """Modifie les Case selon leur voisin"""
+    """Modifie les cases selon leurs voisins"""
     global n, T, Chunk, NOMBRE_CASE
     for _ in range(n):
         for i in LR:
@@ -121,7 +121,7 @@ def Correction(LR):
 
 
 def Comptage(C, R, i, LR):
-    """Compte les valeurs des voisin (0 pour terre 1 pour eau)"""
+    """Compte les valeurs des voisins (0 pour terre 1 pour eau)"""
     global NOMBRE_CASE, Chunk
     FinalCount = []
     count = CompteK(C, R)
@@ -147,7 +147,7 @@ def Comptage(C, R, i, LR):
 
 
 def CompteK(C, R):
-    """recupere les coordonnées des voisins en fonction de K"""
+    """Récupère les coordonnées des voisins en fonction de K"""
     global K, NOMBRE_CASE
     C_max = NOMBRE_CASE - 1
     res = []
@@ -162,7 +162,7 @@ def CompteK(C, R):
 # Déplacement du personage et création du terrain
 
 def Decale(LR):
-    """Decale la map sur la gauche ou la droite"""
+    """Décale le terrain sur la gauche ou la droite"""
     global Decalage, NOMBRE_CASE, tailleD
     global tailleG, tailleBlocage, C_perso, R_perso
     if LR == 0:
@@ -204,7 +204,7 @@ def etat_terrain(C, R):
 
 def Colored(LR=1):
     """Crée les cases vertes (terre) et bleues (eau)
-    ou modifie les case existante"""
+    ou modifie les cases existantes"""
     global screen, RAPORT_CASE_C, RAPORT_CASE_R
     global NOMBRE_CASE, COULEUR
     if LR == 1:
@@ -232,7 +232,8 @@ def Colored(LR=1):
 
 def personnage(C, R):
     """Place le personnage sur la case cliquée
-    et le retire si on clique sur la case dans laquelle il est déjà"""
+    et le retire si on clique sur la case dans laquelle il est déjà,
+    envoie un message d'erreur si le personnage est placé sur une case d'eau"""
     global personn, perso, C_perso, R_perso, deplacements
     if not perso:
         C_perso = C
@@ -318,7 +319,7 @@ def deplacement_droite(event):
 
 
 def annule_deplacement(event):
-    """Annule le dernier déplacement effectué si on appuie sur Ctrl-z"""
+    """Annule le dernier déplacement effectué si on appuie sur Ctrl+z"""
     global deplacements, Decalage
     if len(deplacements) > 0:
         if deplacements[len(deplacements)-1] == "h":
@@ -345,7 +346,7 @@ def annule_deplacement(event):
 # création des menus/paramétre
 
 def RecommencerPart2():
-    """Reset le terrain"""
+    """Réinitialise le terrain"""
     global Chunk, perso, deplacements, Decalage
     global personn, perso, C_perso, R_perso, NOMBRE_CASE
     Chunk = [[], []]
@@ -405,8 +406,8 @@ def jouer(evt=None):
 
 
 def Touchedirectionnel():
-    """Bind les diférentes touches directionel pour le jeu
-    et la touche echap pour revenir au menu"""
+    """Bind les diférentes touches directionelles pour le jeu
+    et la touche échap pour revenir au menu principal"""
     global RAPORT_CASE_C, RAPORT_CASE_R
     canvas.bind(
                 '<Button-1>',
@@ -421,8 +422,8 @@ def Touchedirectionnel():
 
 
 def AntiTouchedirectionnel():
-    """Unbind les diférentes touches directionel pour le jeu
-    et la touche echap pour revenir au menu"""
+    """Unbind les diférentes touches directionelles pour le jeu
+    et la touche échap pour revenir au menu principal"""
     canvas.unbind('<Button-1>')
     canvas.unbind_all("<Up>")
     canvas.unbind_all("<Down>")
@@ -433,7 +434,7 @@ def AntiTouchedirectionnel():
 
 
 def RetourneMenu(evt=None):
-    """Fais revenir au menu"""
+    """Permet de revenir au menu principal"""
     global LARGEUR, HAUTEUR, canvas
     global ValDefault, fullscreen, COULEUR_FOND
     global RAPORT_CASE_C, RAPORT_CASE_R
@@ -451,7 +452,7 @@ def RetourneMenu(evt=None):
 
 
 def TagBind():
-    """regroupe tout les tag_bind"""
+    """Regroupe tous les tag_bind"""
     global canvas
     canvas.tag_bind('jouer', '<Button-1>', jouer)
     canvas.tag_bind('para', '<Button-1>', parametres)
@@ -470,7 +471,7 @@ def TagBind():
 
 
 def parametres(evt=None):
-    """Ouvre la fenêtre des paramétres"""
+    """Ouvre la fenêtre des paramètres"""
     global NOMBRE_CASE, p, n, T, K, HAUTEUR, LARGEUR, fullscreen
     global Chunk
     canvas.delete('all')
@@ -519,7 +520,7 @@ def parametres(evt=None):
 
 
 def taille(evt=None):
-    """Ouvre la fenêtre de modification de la taille en nombre de case"""
+    """Ouvre la fenêtre de modification de la taille en nombre de cases"""
     global cursor_taille, NOMBRE_CASE
     canvas.delete('all')
     canvas.create_text(
@@ -641,7 +642,7 @@ def option(evt=None):
 
 
 def ScaleAffiche(txt, label, cursor):
-    """change la valeur du label du scale"""
+    """Change la valeur du label du scale"""
     label.config(text=txt + str(cursor.get()))
 
 
@@ -730,7 +731,7 @@ def resolution(evt):
 
 
 def ChangeRes(res):
-    """change la resolution"""
+    """change la résolution"""
     global ValResolution, HAUTEURTemp, LARGEURTemp
     HAUTEURTemp = ValResolution[res][1]
     LARGEURTemp = ValResolution[res][0]
@@ -746,7 +747,7 @@ def ValideFullScreen():
 
 
 def valider_reso(evt):
-    """Valide la resolution selectionner"""
+    """Valide la résolution sélectionnée"""
     global FullScreenButton, fullscreen
     FullScreenButton.destroy()
     parametres()
@@ -764,7 +765,7 @@ def valider_taille(evt):
 
 
 def valider_option(evt):
-    """valide les paramétres p, n, T, k"""
+    """Valide les paramètres p, n, T, k"""
     global p, n, T, K, ValDefault, fullscreen
     p = cursor_p.get()
     n = cursor_n.get()
@@ -782,7 +783,7 @@ def valider_option(evt):
 
 
 def ValeurDefault(evt):
-    """Remet les options par défault"""
+    """Remet les valeurs par défaut"""
     global HAUTEURTemp, LARGEURTemp, NOMBRE_CASE
     global p, n, T, K, fullscreen, Chunk
     canvas.delete("default")
@@ -798,7 +799,7 @@ def ValeurDefault(evt):
 
 
 def main_menu(evt=None):
-    """place les objets du menu"""
+    """Place les objets du menu"""
     canvas.delete('all')
     canvas.create_text(
                        LARGEUR//2, HAUTEUR//5,
@@ -857,7 +858,7 @@ def main_menu(evt=None):
 
 
 def sauvegarder(evt):
-    """Sauvegarde le terrain actuel et l'emplacement du personnage """
+    """Sauvegarde le terrain actuel, l'emplacement du personnage (si présent) ainsi que les déplacements effectués"""
     global R_perso, C_perso, perso, Chunk, deplacements, n, p, T, K, Decalage
     fic = filedialog.asksaveasfile(mode='w', title='Nommer votre fichier')
     if perso:
@@ -889,7 +890,7 @@ def sauvegarder(evt):
 
 
 def charger(evt):
-    """Charge le terrain précedemment sauvegardé. Si un personnage était présent
+    """Charge le terrain précedemment sauvegardé ainsi que le personnage si un personnage était présent
         lors de la sauvegarde """
     global deplacements, Chunk, perso, personnage
     global screen, R_perso, C_perso, n, p, T, K, Decalage
