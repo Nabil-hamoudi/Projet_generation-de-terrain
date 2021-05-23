@@ -379,7 +379,7 @@ def jouer(evt=None):
     canvas.destroy()
     HAUTEUR = HAUTEURTemp
     LARGEUR = LARGEURTemp
-    canvas = tk.Canvas(fen, width=LARGEUR, height=HAUTEUR, bg=COULEUR_FOND)
+    canvas = tk.Canvas(fen, width=LARGEUR, height=HAUTEUR, bg=COULEUR_FOND, highlightthickness=0)
     canvas.grid()
     fen.attributes("-fullscreen", fullscreen)
     RAPORT_CASE_R = HAUTEUR / NOMBRE_CASE
