@@ -4,14 +4,16 @@ Fonctionnement du jeu :
 
   En lançant le jeu, la page d’accueil d’ouvre et vous propose plusieurs choix.
 
-  En effet, dans le menu principal, il est possible de choisir la valeur des paramètres p, n, T et k. Par défaut, ceux-ci seront 0.5, 4, 5 et 1 respectivement. Vous pouvez également choisir la résolution d’écran. 
-  Vous pouvez également rétablir les paramètres par défaut en appuyant sur "Défaut" dans le menu principal.
+  En effet, dans le menu principal, il est possible de choisir la valeur des paramètres p, n, T et k. Pour cela, il faut cliquer (clic gauche de la souris) sur "Paramètres" et avec la souris vous pouvez changer la valeur des paramètres grâce aux échelles. Par défaut, ceux-ci seront 0.5, 4, 5 et 1 respectivement. 
+  Vous pouvez également choisir la résolution d’écran dans les paramètres, ou choisir le "FullScreen".
+  
+  Vous pouvez rétablir les paramètres par défaut en appuyant sur "Défaut" dans le menu principal.
+  Cliquez sur "retour", toujours avec un clic gauche de  la souris, pour revenir au menu principal. 
 
-  Pour commencer, cliquez sur « jouer » avec un clic gauche de souris.  Une fenêtre avec un terrain généré aléatoirement apparait alors. Pour placer votre personnage (point rouge sur la fenêtre), il suffit de faire un clic gauche sur la case de votre choix. Vous pouvez également recliquez sur votre personnage pour le faire disparaître.
+  Pour commencer, cliquez sur « jouer » avec un clic gauche de souris. Une fenêtre avec un terrain généré aléatoirement apparait alors. Pour placer votre personnage (point rouge sur la fenêtre), il suffit de faire un clic gauche à l'endroit de votre choix. Vous pouvez également recliquez sur votre personnage pour le faire disparaître.
 Il est impossible de placer le personnage sur une case d’eau, un message d’erreur apparaîtra et vous serez alors invité à placer votre personnage sur une case de terre. 
 
-  Pour déplacez votre personnage, il faut utiliser les flèches ↑, ↓, →, ← de votre clavier pour le déplacer vers le haut, le bas, la droite ou la gauche respectivement. Il est toujours impossible de déplacer le personnage sur une case d’eau. Lorsque le personnage se rend sur les bords gauche ou droite de l’écran, le terrain se décalera, il est ainsi infini.
-Vous pouvez annuler les déplacements récents de votre personnage en appuyant sur ctrl + Z.
+  Pour déplacez votre personnage, il faut utiliser les flèches ↑, ↓, →, ← de votre clavier pour le déplacer vers le haut, le bas, la droite ou la gauche respectivement. Il est toujours impossible de déplacer le personnage sur une case d’eau. Lorsque le personnage se rend sur les bords gauche ou droite de l’écran, le terrain se déplacera, il est ainsi infini. Vous pouvez annuler les déplacements récents de votre personnage en appuyant sur "ctrl + Z".
 
   Vous pouvez accéder au menu principal à tout instant en appuyant sur la touche « échap » de votre clavier. 
   
