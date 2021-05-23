@@ -505,9 +505,9 @@ def parametres(evt=None):
                        )
     if (NOMBRE_CASE != ValDefault["NOMBRE_CASE"] and Chunk == [[], []]) or p != ValDefault["p"] or n != ValDefault["n"] or T != ValDefault["T"] or K != ValDefault["K"] or fullscreen != ValDefault["fullscreen"] or HAUTEURTemp != ValDefault["HAUTEUR"]:
         canvas.create_text(
-                           LARGEUR//2, 7.8*HAUTEUR//8,
-                           text="Défaut", fill="Red",
-                           activefill="white",
+                           LARGEUR//13, 7.7*HAUTEUR//8,
+                           text="Défaut", fill="#3156E1",
+                           activefill="red",
                            font="Rockwell, 25", tags='default'
                            )
 
