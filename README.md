@@ -5,6 +5,7 @@ Fonctionnement du jeu :
   En lançant le jeu, la page d’accueil d’ouvre et vous propose plusieurs choix.
 
   En effet, dans le menu principal, il est possible de choisir la valeur des paramètres p, n, T et k. Par défaut, ceux-ci seront 0.5, 4, 5 et 1 respectivement. Vous pouvez également choisir la résolution d’écran. 
+  Vous pouvez également rétablir les paramètres par défaut en appuyant sur "Défaut" dans le menu principal.
 
   Pour commencer, cliquez sur « jouer » avec un clic gauche de souris.  Une fenêtre avec un terrain généré aléatoirement apparait alors. Pour placer votre personnage (point rouge sur la fenêtre), il suffit de faire un clic gauche sur la case de votre choix. Vous pouvez également recliquez sur votre personnage pour le faire disparaître.
 Il est impossible de placer le personnage sur une case d’eau, un message d’erreur apparaîtra et vous serez alors invité à placer votre personnage sur une case de terre. 
