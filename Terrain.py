@@ -52,7 +52,7 @@ ValResolution = {"1920X1080": [1920, 1080],
 # Variables globales
 
 
-# Contient le widget default
+
 Chunk = [[], []]
 # [1](0(gauche)/1(droite))
 # [2](0->(nombre de chunk))
