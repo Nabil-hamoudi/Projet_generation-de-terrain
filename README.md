@@ -18,7 +18,7 @@ Au lancement du jeu vous pouvez observer 4 choix :
 
 ![Menu](menu.png)
 
-1) Jouer permet tout simplement de lancer le jeu (si vous n'avez changeé aucun paramètre alors le jeu se lancera avec les paramètres par défaut).
+1) Jouer permet tout simplement de lancer le jeu (si vous n'avez changé aucun paramètre alors le jeu se lancera avec les paramètres par défaut).
 
 2) Paramètres, quant à lui, emmène vers une autre fenêtre dans laquelle vous pourrez changer les différentes options du jeu.
 
@@ -51,7 +51,7 @@ Vous pouvez ici choisir 5 paramètres p, n, T, k **(voir explications des param�
 
 ## Défaut
 
-Lorsque qu'un changement est effectué dans les paramètres alors un nouveau bouton défaut apparaîtra, remettant toutes les valeurs par défaut.
+Lorsque qu'un changement est effectué dans les paramètres un nouveau bouton défaut apparaît, vous permettant de rétablir toutes les valeurs par défaut.
 
 ![defaut](default.png)
 
@@ -61,7 +61,7 @@ Cette option permet de choisir la taille de la fenêtre du jeu et vous permet, s
 
 ![resolution](résolution.png)
 
-Pour cela, il suffit de cliquer sur la taille voulue en pixel (note : les tailles sont en LARGEURxHAUTEUR et la valeur par défaut est 800x600 sans PleinEcran) et de cocher ou non **FullScreen**. Pour revenir au paramètres, il suffit de cliquer sur **Valider**.
+Pour cela, il suffit de cliquer sur la taille souhaitée en pixels (note : les tailles sont en LARGEURxHAUTEUR et la valeur par défaut est 800x600 sans PleinEcran) et de cocher ou non **FullScreen**. Pour revenir au paramètres, il suffit de cliquer sur **Valider**.
 
 # Début du jeu
 
@@ -69,7 +69,8 @@ Une fois avoir changé les paramètres comme vous le souhaitiez, vous pouvez app
 
 ![jeu](jeu.png)
 
-C'est ici que votre aventure commence. Vous placez le personnage d'un **clic gauche** de la souris sur les cases de terre, vous le déplacez grâce aux **flèches directionnelles** et si vous souhaitez retirer le personnage, il suffit de faire un clic sur celui-ci.
+C'est ici que votre aventure commence. Vous placez le personnage (qui apparaîtra comme un cercle rouge sur le terrain) d'un **clic gauche** de la souris sur les cases de terre, vous le déplacez grâce aux **flèches directionnelles** et si vous souhaitez retirer le personnage, il suffit de faire un clic sur celui-ci.
+Si vous placez le personnage sur une case d'eau, un message d'erreur apparaîtra et vous invitera à placer le personnage sur une case de terre. 
 
 Pour revenir en arrière dans vos mouvements, vous pouvez effectuer un **CTRL-Z**.
 
